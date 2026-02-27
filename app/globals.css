@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: #09090b;
+  --color-foreground: #f4f4f5;
+  --color-muted: #71717a;
+  --color-border: #27272a;
+  --color-surface: #18181b;
+  --color-surface-hover: #1f1f23;
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Subtle crosshatch grid texture */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size:
+    48px 48px,
+    48px 48px,
+    24px 24px;
+  background-position:
+    0 0,
+    0 0,
+    12px 12px;
+}
+
+/* Callout animations */
+@keyframes callout-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes callout-line-draw {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.callout-animate {
+  opacity: 0;
+  animation: callout-fade-in 0.4s ease-out forwards;
+}
+
+.callout-line-animate {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: callout-line-draw 0.4s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .callout-animate,
+  .callout-line-animate {
+    animation: none;
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Tab underline transition */
+.tab-underline {
+  transition: left 0.2s ease, width 0.2s ease;
+}
+
+/* Metric button transitions */
+.metric-btn {
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* Glyph pulse on change */
+@keyframes glyph-pulse {
+  0% { filter: brightness(1); }
+  50% { filter: brightness(1.3); }
+  100% { filter: brightness(1); }
+}
+
+.glyph-pulse {
+  animation: glyph-pulse 0.3s ease-out;
+}
+
+/* Code block styling */
+pre code {
+  font-family: var(--font-mono), ui-monospace, monospace;
+}
+
+/* Sticky builder bar shadow */
+.builder-sticky {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* Hide scrollbar for snap-scroll containers */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+  border-radius: 3px;
+}
