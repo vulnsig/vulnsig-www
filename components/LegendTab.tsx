@@ -60,10 +60,10 @@ export function LegendTab() {
         metric="AV — Attack Vector"
         description="Attack Vector describes how the vulnerability is exploited. Network (AV:N) means the attacker can exploit it remotely over the internet — the star has 8 points. Adjacent (AV:A) requires local network access (6 points). Local (AV:L) needs OS-level access (4 points). Physical (AV:P) means they need to physically touch the device (3 points)."
         examples={[
-          { label: "AV:N — 8pts", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:L/SI:N/SA:N", score: 9.3 },
-          { label: "AV:A — 6pts", vector: "CVSS:4.0/AV:A/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:L/SA:N", score: 9.3 },
-          { label: "AV:L — 4pts", vector: "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:L", score: 9.3 },
-          { label: "AV:P — 3pts", vector: "CVSS:4.0/AV:P/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:L/SI:L/SA:N", score: 9.3 },
+          { label: "AV:N — 8pts", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N", score: 9.3 },
+          { label: "AV:A — 6pts", vector: "CVSS:4.0/AV:A/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N", score: 9.3 },
+          { label: "AV:L — 4pts", vector: "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N", score: 9.3 },
+          { label: "AV:P — 3pts", vector: "CVSS:4.0/AV:P/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N", score: 9.3 },
         ]}
       />
 
@@ -72,8 +72,8 @@ export function LegendTab() {
         metric="AC — Attack Complexity"
         description="Attack Complexity reflects conditions beyond the attacker's control that must exist to exploit the vulnerability. Low (AC:L) produces sharp star points — exploitation is straightforward. High (AC:H) produces blunt, rounded points — the attacker needs specific conditions to align."
         examples={[
-          { label: "AC:L — Sharp", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:L/SA:N", score: 9.3 },
-          { label: "AC:H — Blunt", vector: "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:L", score: 9.3 },
+          { label: "AC:L — Sharp", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N", score: 9.3 },
+          { label: "AC:H — Blunt", vector: "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N", score: 9.3 },
         ]}
       />
 
@@ -82,9 +82,9 @@ export function LegendTab() {
         metric="PR — Privileges Required"
         description="Privileges Required describes the level of access an attacker needs before exploitation. None (PR:N) shows a thin outline — no authentication needed. Low (PR:L) shows a medium stroke. High (PR:H) shows a thick outline — the attacker needs significant privileges."
         examples={[
-          { label: "PR:N — Thin", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:L/SI:L/SA:N", score: 9.3 },
-          { label: "PR:L — Medium", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:L/SA:N", score: 9.3 },
-          { label: "PR:H — Thick", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:L", score: 9.3 },
+          { label: "PR:N — Thin", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N", score: 9.3 },
+          { label: "PR:L — Medium", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N", score: 9.3 },
+          { label: "PR:H — Thick", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N", score: 9.3 },
         ]}
       />
 
@@ -93,9 +93,9 @@ export function LegendTab() {
         metric="VC/VI/VA — CIA Impact"
         description="The ring around the star is divided into three sectors representing Confidentiality, Integrity, and Availability impact. High impact lights a sector brightly, Low dims it, and None leaves it dark. You can see at a glance which aspects of the system are affected."
         examples={[
-          { label: "All High", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:L/SI:N/SA:N", score: 9.3 },
-          { label: "C only", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:L/SA:N", score: 9.3 },
-          { label: "A only", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:L", score: 9.3 },
+          { label: "All High", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N", score: 9.3 },
+          { label: "C only", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N", score: 9.3 },
+          { label: "A only", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N", score: 9.3 },
           { label: "All None", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:N/SC:H/SI:H/SA:H", score: 9.3 },
         ]}
       />
@@ -105,7 +105,7 @@ export function LegendTab() {
         metric="SC/SI/SA — Subsequent System Impact"
         description="When a vulnerability impacts downstream systems (not just the vulnerable component), the ring shows a split band. This indicates blast radius — the vulnerability's effects propagate beyond the original target."
         examples={[
-          { label: "No downstream", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N", score: 9.3 },
+          { label: "No downstream", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N", score: 9.3 },
           { label: "Full downstream", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H", score: 10.0 },
         ]}
       />
@@ -115,8 +115,8 @@ export function LegendTab() {
         metric="AT — Attack Requirements"
         description="Attack Requirements captures prerequisites that must exist in the vulnerable system's environment. When preconditions are needed (AT:P), the ring is segmented with visible cuts. When none are needed (AT:N), the ring is smooth and continuous."
         examples={[
-          { label: "AT:N — Solid", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:L/SC:N/SI:N/SA:N", score: 9.3 },
-          { label: "AT:P — Segmented", vector: "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:L/SI:N/SA:N", score: 9.3 },
+          { label: "AT:N — Solid", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N", score: 9.3 },
+          { label: "AT:P — Segmented", vector: "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N", score: 9.3 },
         ]}
       />
 
@@ -125,9 +125,9 @@ export function LegendTab() {
         metric="UI — User Interaction"
         description="User Interaction describes whether someone other than the attacker must participate. None (UI:N) produces spikes — the vulnerability fires autonomously. Passive (UI:P) shows bumps — the user encounters the exploit during normal use. Active (UI:A) produces a smooth edge — the user must deliberately take action."
         examples={[
-          { label: "UI:N — Spikes", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:L/VA:H/SC:N/SI:N/SA:N", score: 9.3 },
-          { label: "UI:P — Bumps", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:L", score: 9.3 },
-          { label: "UI:A — Smooth", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:A/VC:H/VI:H/VA:H/SC:L/SI:N/SA:N", score: 9.3 },
+          { label: "UI:N — Spikes", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N", score: 9.3 },
+          { label: "UI:P — Bumps", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N", score: 9.3 },
+          { label: "UI:A — Smooth", vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N", score: 9.3 },
         ]}
       />
 
