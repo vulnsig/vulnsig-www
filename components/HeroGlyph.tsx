@@ -2,8 +2,21 @@
 
 import { VulnSig } from "vulnsig-react";
 import type { Vulnerability, Callout } from "@/data/vulnerabilities";
+import { MetricTag, metricColor } from "./MetricTag";
 
 const LETTERS = ["A", "B", "C", "D", "E", "F"];
+
+const FEATURE_METRICS: Record<string, string[]> = {
+  "star-points": ["AV"],
+  "star-shape": ["AC"],
+  "star-outline": ["PR"],
+  "spikes": ["UI"],
+  "smooth-edge": ["UI"],
+  "ring-brightness": ["VC", "VI", "VA"],
+  "split-band": ["SC", "SI", "SA"],
+  "segmentation": ["AT"],
+  "color": ["Score"],
+};
 
 // Position a letter marker near the relevant feature on the glyph
 function getMarkerPosition(anchor: Callout["anchor"], glyphSize: number) {
@@ -35,7 +48,7 @@ export function HeroGlyph({ vuln }: { vuln: Vulnerability }) {
   const callouts = vuln.callouts ?? [];
 
   return (
-    <div className="flex items-center gap-8 max-w-2xl w-full px-4">
+    <div className="flex items-center gap-0 max-w-2xl w-full px-4">
       {/* Left: glyph with letter markers */}
       <div className="flex-none relative" style={{ width: svgSize, height: svgSize }}>
         <div
@@ -106,12 +119,15 @@ export function HeroGlyph({ vuln }: { vuln: Vulnerability }) {
             return (
               <li
                 key={callout.feature}
-                className="flex gap-2.5 items-start callout-animate"
+                className="flex gap-2.5 items-center callout-animate"
                 style={{ animationDelay: delay }}
               >
-                <span className="flex-none w-5 h-5 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-[10px] font-mono font-semibold text-zinc-400 mt-0.5">
+                <span className="flex-none w-5 h-5 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-[10px] font-mono font-semibold text-zinc-400">
                   {LETTERS[i]}
                 </span>
+                {(FEATURE_METRICS[callout.feature] || []).map((k) => (
+                  <MetricTag key={k} label={k} color={metricColor(k)} />
+                ))}
                 <span className="text-sm text-zinc-400 leading-relaxed">
                   {callout.label}
                 </span>

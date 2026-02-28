@@ -22,11 +22,11 @@ export const VULNERABILITIES: Vulnerability[] = [
     description:
       "Remote code execution in Apache Log4j. A network attacker with no privileges and no user interaction can fully compromise confidentiality, integrity, and availability — and the damage spreads to downstream systems.",
     callouts: [
-      { feature: "star-points", label: "8 points → Network attack", anchor: "center" },
-      { feature: "star-shape", label: "Sharp → Low complexity", anchor: "left" },
-      { feature: "ring-brightness", label: "All bright → Full CIA impact", anchor: "right" },
-      { feature: "spikes", label: "Spikes → No user interaction", anchor: "top-right" },
-      { feature: "split-band", label: "Split → Downstream impact", anchor: "bottom-left" },
+      { feature: "star-points", label: "8 points: Network attack", anchor: "center" },
+      { feature: "star-shape", label: "Sharp: Low complexity", anchor: "left" },
+      { feature: "ring-brightness", label: "All bright: Full CIA impact", anchor: "right" },
+      { feature: "spikes", label: "Spikes: No user interaction", anchor: "top-right" },
+      { feature: "split-band", label: "Split: Downstream impact", anchor: "bottom-left" },
     ],
   },
   {
@@ -37,10 +37,10 @@ export const VULNERABILITIES: Vulnerability[] = [
     description:
       "Information disclosure in OpenSSL. Only confidentiality is impacted — the glyph shows a single bright sector while the rest remain dark, demonstrating CIA independence.",
     callouts: [
-      { feature: "ring-brightness", label: "One sector lit → Confidentiality only", anchor: "right" },
-      { feature: "star-outline", label: "Thin outline → No privileges needed", anchor: "left" },
-      { feature: "spikes", label: "Spikes → No user interaction", anchor: "top-right" },
-      { feature: "color", label: "Orange-red → High severity", anchor: "bottom" },
+      { feature: "ring-brightness", label: "One sector lit: Confidentiality only", anchor: "right" },
+      { feature: "star-outline", label: "Thin outline: No privileges needed", anchor: "left" },
+      { feature: "spikes", label: "Spikes: No user interaction", anchor: "top-right" },
+      { feature: "color", label: "Orange-red: High severity", anchor: "bottom" },
     ],
   },
   {
@@ -51,11 +51,11 @@ export const VULNERABILITIES: Vulnerability[] = [
     description:
       "Speculative execution side-channel. Local access, high complexity, requires preconditions — the segmented ring and blunt star show the most visual features in one glyph.",
     callouts: [
-      { feature: "star-points", label: "4 points → Local access", anchor: "center" },
-      { feature: "star-shape", label: "Blunt → High complexity", anchor: "inner-left" },
-      { feature: "segmentation", label: "Segmented → Preconditions needed", anchor: "right" },
-      { feature: "split-band", label: "Split → Downstream systems affected", anchor: "bottom-left" },
-      { feature: "star-outline", label: "Medium stroke → Low privileges", anchor: "left" },
+      { feature: "star-points", label: "4 points: Local access", anchor: "center" },
+      { feature: "star-shape", label: "Blunt: High complexity", anchor: "inner-left" },
+      { feature: "segmentation", label: "Segmented: Preconditions needed", anchor: "right" },
+      { feature: "split-band", label: "Split: Downstream systems affected", anchor: "bottom-left" },
+      { feature: "star-outline", label: "Medium stroke: Low privileges", anchor: "left" },
     ],
   },
   {
@@ -66,10 +66,10 @@ export const VULNERABILITIES: Vulnerability[] = [
     description:
       "Generic phishing vector requiring active user interaction. The clean perimeter with no spikes shows the calm state — contrast with Log4Shell's aggressive profile.",
     callouts: [
-      { feature: "smooth-edge", label: "Smooth → User action required", anchor: "top-right" },
-      { feature: "ring-brightness", label: "Dim sectors → Low impact", anchor: "right" },
-      { feature: "color", label: "Yellow → Medium severity", anchor: "bottom" },
-      { feature: "star-points", label: "8 points → Network vector", anchor: "center" },
+      { feature: "smooth-edge", label: "Smooth: User action required", anchor: "top-right" },
+      { feature: "ring-brightness", label: "Dim sectors: Low impact", anchor: "right" },
+      { feature: "color", label: "Yellow: Medium severity", anchor: "bottom" },
+      { feature: "star-points", label: "8 points: Network vector", anchor: "center" },
     ],
   },
   {
