@@ -1,5 +1,7 @@
 "use client";
 
+import { MetricTag, metricColor } from "./MetricTag";
+
 interface MetricDef {
   key: string;
   name: string;
@@ -69,7 +71,7 @@ export function MetricPicker({
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
+    <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 p-6">
       {METRIC_GROUPS.map((group) => (
         <div key={group.title}>
           <h3 className="text-xs font-mono text-zinc-500 uppercase tracking-wider mb-3">
@@ -78,9 +80,9 @@ export function MetricPicker({
           <div className="space-y-3">
             {group.metrics.map((metric) => (
               <div key={metric.key}>
-                <label className="text-xs text-zinc-400 mb-1 block">
-                  <span className="font-mono text-zinc-300">{metric.key}</span>{" "}
-                  {metric.name}
+                <label className="text-xs text-zinc-400 mb-1 flex items-center gap-1.5">
+                  <MetricTag label={metric.key} color={metricColor(metric.key)} />
+                  <span>{metric.name}</span>
                 </label>
                 <div className="flex rounded overflow-hidden border border-zinc-700">
                   {metric.values.map((val, i) => {
@@ -89,9 +91,9 @@ export function MetricPicker({
                       <button
                         key={val}
                         onClick={() => handleChange(metric.key, val)}
-                        className={`metric-btn flex-1 py-1.5 text-xs font-mono text-center border-r border-zinc-700 last:border-r-0 cursor-pointer ${
+                        className={`metric-btn flex-1 py-1 text-xs font-mono text-center border-r border-zinc-700 last:border-r-0 cursor-pointer ${
                           isActive
-                            ? "bg-zinc-600 text-zinc-100"
+                            ? "bg-zinc-700 text-zinc-100"
                             : "bg-zinc-800/50 text-zinc-500 hover:bg-zinc-700/50 hover:text-zinc-300"
                         }`}
                         title={metric.labels[i]}
