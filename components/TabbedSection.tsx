@@ -55,14 +55,19 @@ export function TabbedSection() {
             {TABS.map((tab) => (
               <button
                 key={tab.id}
-                ref={(el) => { tabRefs.current[tab.id] = el; }}
+                ref={(el) => {
+                  tabRefs.current[tab.id] = el;
+                }}
                 role="tab"
                 aria-selected={activeTab === tab.id}
                 aria-controls={`panel-${tab.id}`}
                 tabIndex={activeTab === tab.id ? 0 : -1}
                 onClick={() => {
                   setActiveTab(tab.id);
-                  tabBarRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  tabBarRef.current?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  });
                 }}
                 className={`px-5 py-3 text-sm font-mono transition-colors cursor-pointer ${
                   activeTab === tab.id

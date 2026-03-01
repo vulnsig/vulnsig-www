@@ -18,7 +18,8 @@ export function HeroSection() {
             CVSS is more than a number
           </h1>
           <p className="text-lg sm:text-xl text-zinc-400 max-w-2xl mx-auto">
-            VulnSig translate CVSS vectors into a compact visual glyph, encoding every CVSS metric into a specific visual characteristic.
+            VulnSig translate CVSS vectors into a compact visual glyph, encoding
+            every CVSS metric into a specific visual characteristic.
           </p>
         </div>
 

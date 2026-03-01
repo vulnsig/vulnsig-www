@@ -29,16 +29,16 @@ The `vulnsig-react` component accepts at minimum:
 ```tsx
 <VulnSig
   vector="CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H"
-  size={120}         // pixel size
-  score={10.0}       // optional override, auto-calculated if omitted
+  size={120} // pixel size
+  score={10.0} // optional override, auto-calculated if omitted
 />
 ```
 
 The core `vulnsig` library exports at minimum:
 
 ```ts
-import { renderGlyph, scoreToHue } from 'vulnsig';
-const svgString = renderGlyph({ vector: '...', size: 120 });
+import { renderGlyph, scoreToHue } from "vulnsig";
+const svgString = renderGlyph({ vector: "...", size: 120 });
 const { hue, sat } = scoreToHue(9.3);
 ```
 
@@ -66,7 +66,7 @@ vulnsig.io
 
 ### Purpose
 
-First impression. The visitor sees famous vulnerability glyphs at large size with animated callout annotations that teach the visual language inline. No "what is this?" paragraph needed — the callouts *are* the explanation.
+First impression. The visitor sees famous vulnerability glyphs at large size with animated callout annotations that teach the visual language inline. No "what is this?" paragraph needed — the callouts _are_ the explanation.
 
 ### Layout
 
@@ -80,12 +80,12 @@ Each hero glyph is a famous vulnerability chosen to showcase different visual fe
 
 **Suggested hero set (choose 3–4):**
 
-| Vulnerability | Score | Why it's a good hero |
-|---|---|---|
-| Log4Shell (CVE-2021-44228) | 10.0 | Everything maxed — split ring, spikes, all sectors bright. Shows the "worst case" glyph. |
-| Heartbleed (CVE-2014-0160) | 8.7 | Only one sector lit — visually distinctive, great for showing CIA independence. |
-| Spectre (CVE-2017-5715) | 5.6 | Segmented ring, blunt star, split band — shows the most visual features in one glyph. |
-| Phishing Link (example) | 5.1 | Clean perimeter (UI:A) — shows the calm, no-spikes state. Contrast with Log4Shell. |
+| Vulnerability              | Score | Why it's a good hero                                                                     |
+| -------------------------- | ----- | ---------------------------------------------------------------------------------------- |
+| Log4Shell (CVE-2021-44228) | 10.0  | Everything maxed — split ring, spikes, all sectors bright. Shows the "worst case" glyph. |
+| Heartbleed (CVE-2014-0160) | 8.7   | Only one sector lit — visually distinctive, great for showing CIA independence.          |
+| Spectre (CVE-2017-5715)    | 5.6   | Segmented ring, blunt star, split band — shows the most visual features in one glyph.    |
+| Phishing Link (example)    | 5.1   | Clean perimeter (UI:A) — shows the calm, no-spikes state. Contrast with Log4Shell.       |
 
 **Callout content per glyph (4–5 callouts each):**
 
@@ -101,7 +101,7 @@ Callouts should point to specific visual features and explain what metric they e
 - "Smooth edge → User action required" (pointing at clean perimeter)
 - "Thin outline → No privileges needed" (pointing at star stroke)
 
-Each hero glyph should emphasize *different* features in its callouts. Don't repeat the same callout across all glyphs.
+Each hero glyph should emphasize _different_ features in its callouts. Don't repeat the same callout across all glyphs.
 
 ### Callout Animation
 
@@ -148,6 +148,7 @@ This bar becomes `position: sticky` at the top of the viewport once the user scr
 When expanded, the builder reveals a metric picker panel below the compact bar. This panel contains controls for all 11 CVSS 4.0 base metrics:
 
 **Exploitability metrics:**
+
 - AV: Attack Vector — segmented button: N / A / L / P
 - AC: Attack Complexity — toggle: L / H
 - AT: Attack Requirements — toggle: N / P
@@ -155,11 +156,13 @@ When expanded, the builder reveals a metric picker panel below the compact bar. 
 - UI: User Interaction — segmented button: N / P / A
 
 **Vulnerable system impact:**
+
 - VC: Confidentiality — segmented button: H / L / N
 - VI: Integrity — segmented button: H / L / N
 - VA: Availability — segmented button: H / L / N
 
 **Subsequent system impact:**
+
 - SC: Confidentiality — segmented button: H / L / N
 - SI: Integrity — segmented button: H / L / N
 - SA: Availability — segmented button: H / L / N
@@ -191,6 +194,7 @@ Three tabs below the builder bar. The tabs should feel like part of the same pag
 A showcase of famous vulnerabilities rendered as glyphs with explanatory context.
 
 **Card layout:** Grid of cards, each containing:
+
 - Glyph (rendered at 96–120px)
 - Vulnerability name and CVE ID
 - CVSS 4.0 Base Score (colored badge)
@@ -200,24 +204,24 @@ A showcase of famous vulnerabilities rendered as glyphs with explanatory context
 
 **Vulnerability set (16 vectors):**
 
-| Name | CVE | Score | Vector |
-|---|---|---|---|
-| Log4Shell | CVE-2021-44228 | 10.0 | AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H |
-| Heartbleed | CVE-2014-0160 | 8.7 | AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:L/SI:N/SA:N |
-| Spectre | CVE-2017-5715 | 5.6 | AV:L/AC:H/AT:P/PR:L/UI:N/VC:H/VI:N/VA:N/SC:H/SI:N/SA:N |
-| EternalBlue | CVE-2017-0144 | 9.3 | AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N |
-| Dirty COW | CVE-2016-5195 | 7.3 | AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N |
-| BlueKeep | CVE-2019-0708 | 9.3 | AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:L/SI:L/SA:L |
-| Phishing Link | — | 5.1 | AV:N/AC:L/AT:N/PR:N/UI:A/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N |
-| USB Physical | — | 7.3 | AV:P/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N |
-| Rowhammer | CVE-2015-0565 | 5.9 | AV:L/AC:H/AT:P/PR:L/UI:N/VC:H/VI:H/VA:N/SC:H/SI:H/SA:N |
-| KRACK | CVE-2017-13077 | 5.6 | AV:A/AC:H/AT:P/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N |
-| Shellshock | CVE-2014-6271 | 9.2 | AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H |
-| POODLE | CVE-2014-3566 | 2.3 | AV:N/AC:H/AT:P/PR:N/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N |
-| Meltdown | CVE-2017-5754 | 5.6 | AV:L/AC:H/AT:P/PR:L/UI:N/VC:H/VI:N/VA:N/SC:H/SI:N/SA:N |
-| Sudo Baron Samedit | CVE-2021-3156 | 8.4 | AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N |
-| DDoS Amplification | — | 8.7 | AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:H |
-| XSS Stored | — | 5.1 | AV:N/AC:L/AT:N/PR:L/UI:P/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N |
+| Name               | CVE            | Score | Vector                                                 |
+| ------------------ | -------------- | ----- | ------------------------------------------------------ |
+| Log4Shell          | CVE-2021-44228 | 10.0  | AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H |
+| Heartbleed         | CVE-2014-0160  | 8.7   | AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:L/SI:N/SA:N |
+| Spectre            | CVE-2017-5715  | 5.6   | AV:L/AC:H/AT:P/PR:L/UI:N/VC:H/VI:N/VA:N/SC:H/SI:N/SA:N |
+| EternalBlue        | CVE-2017-0144  | 9.3   | AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N |
+| Dirty COW          | CVE-2016-5195  | 7.3   | AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:N/SC:N/SI:N/SA:N |
+| BlueKeep           | CVE-2019-0708  | 9.3   | AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:L/SI:L/SA:L |
+| Phishing Link      | —              | 5.1   | AV:N/AC:L/AT:N/PR:N/UI:A/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N |
+| USB Physical       | —              | 7.3   | AV:P/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N |
+| Rowhammer          | CVE-2015-0565  | 5.9   | AV:L/AC:H/AT:P/PR:L/UI:N/VC:H/VI:H/VA:N/SC:H/SI:H/SA:N |
+| KRACK              | CVE-2017-13077 | 5.6   | AV:A/AC:H/AT:P/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N |
+| Shellshock         | CVE-2014-6271  | 9.2   | AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H |
+| POODLE             | CVE-2014-3566  | 2.3   | AV:N/AC:H/AT:P/PR:N/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N |
+| Meltdown           | CVE-2017-5754  | 5.6   | AV:L/AC:H/AT:P/PR:L/UI:N/VC:H/VI:N/VA:N/SC:H/SI:N/SA:N |
+| Sudo Baron Samedit | CVE-2021-3156  | 8.4   | AV:L/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N |
+| DDoS Amplification | —              | 8.7   | AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:H |
+| XSS Stored         | —              | 5.1   | AV:N/AC:L/AT:N/PR:L/UI:P/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N |
 
 **Sorting/filtering:** Allow sorting by score (ascending/descending) and optionally filtering by visual feature (has spikes, has split band, is segmented, etc.).
 
@@ -264,6 +268,7 @@ pip install vulnsig            # Python — SVG string output
 Each with a minimal usage example (3–5 lines).
 
 **Links:**
+
 - GitHub: github.com/vulnsig/vulnsig-ts
 - GitHub: github.com/vulnsig/vulnsig-py
 - GitHub: github.com/vulnsig/vulnsig-react
@@ -275,11 +280,11 @@ Each with a minimal usage example (3–5 lines).
 
 Endpoint: `GET https://vulnsig.io/api/v1/svg`
 
-| Parameter | Type | Required | Default | Description |
-|---|---|---|---|---|
-| `vector` | string | yes | — | CVSS 4.0 vector string |
-| `size` | number | no | 120 | Rendered width/height in pixels |
-| `score` | number | no | auto | Override the auto-calculated score |
+| Parameter | Type   | Required | Default | Description                        |
+| --------- | ------ | -------- | ------- | ---------------------------------- |
+| `vector`  | string | yes      | —       | CVSS 4.0 vector string             |
+| `size`    | number | no       | 120     | Rendered width/height in pixels    |
+| `score`   | number | no       | auto    | Override the auto-calculated score |
 
 Response: `Content-Type: image/svg+xml`
 
@@ -287,7 +292,9 @@ Response: `Content-Type: image/svg+xml`
 
 ```html
 <!-- Embed as image -->
-<img src="https://vulnsig.io/api/v1/svg?vector=CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H" />
+<img
+  src="https://vulnsig.io/api/v1/svg?vector=CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H"
+/>
 
 <!-- In markdown -->
 ![Log4Shell](https://vulnsig.io/api/v1/svg?vector=CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H&size=64)
@@ -368,15 +375,36 @@ export const VULNERABILITIES = [
     cve: "CVE-2021-44228",
     score: 10.0,
     vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H",
-    description: "Remote code execution in Apache Log4j. A network attacker with no privileges and no user interaction can fully compromise confidentiality, integrity, and availability — and the damage spreads to downstream systems.",
+    description:
+      "Remote code execution in Apache Log4j. A network attacker with no privileges and no user interaction can fully compromise confidentiality, integrity, and availability — and the damage spreads to downstream systems.",
     // Hero callouts (only for hero glyphs, null for others)
     callouts: [
-      { feature: "star-points", label: "8 points → Network attack", anchor: "top" },
-      { feature: "star-shape", label: "Sharp → Low complexity", anchor: "inner-left" },
-      { feature: "ring-brightness", label: "All bright → Full CIA impact", anchor: "right" },
-      { feature: "spikes", label: "Spikes → No user interaction", anchor: "top-right" },
-      { feature: "split-band", label: "Split → Downstream impact", anchor: "bottom-left" },
-    ]
+      {
+        feature: "star-points",
+        label: "8 points → Network attack",
+        anchor: "top",
+      },
+      {
+        feature: "star-shape",
+        label: "Sharp → Low complexity",
+        anchor: "inner-left",
+      },
+      {
+        feature: "ring-brightness",
+        label: "All bright → Full CIA impact",
+        anchor: "right",
+      },
+      {
+        feature: "spikes",
+        label: "Spikes → No user interaction",
+        anchor: "top-right",
+      },
+      {
+        feature: "split-band",
+        label: "Split → Downstream impact",
+        anchor: "bottom-left",
+      },
+    ],
   },
   // ... remaining 15 vulnerabilities
 ];

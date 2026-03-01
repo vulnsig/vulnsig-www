@@ -3,9 +3,7 @@
 function CodeBlock({ label, code }: { label?: string; code: string }) {
   return (
     <div className="mb-4">
-      {label && (
-        <p className="text-xs font-mono text-zinc-500 mb-1">{label}</p>
-      )}
+      {label && <p className="text-xs font-mono text-zinc-500 mb-1">{label}</p>}
       <pre className="bg-zinc-900 border border-zinc-800 rounded-lg p-4 overflow-x-auto">
         <code className="text-sm font-mono text-zinc-300">{code}</code>
       </pre>
@@ -13,7 +11,13 @@ function CodeBlock({ label, code }: { label?: string; code: string }) {
   );
 }
 
-function ExternalLink({ href, children }: { href: string; children: React.ReactNode }) {
+function ExternalLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) {
   return (
     <a
       href={href}
@@ -86,19 +90,47 @@ svg = render_glyph(
         <h3 className="text-lg font-semibold mb-4">Links</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
           <div className="space-y-2">
-            <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider">GitHub</p>
+            <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider">
+              GitHub
+            </p>
             <ul className="space-y-1">
-              <li><ExternalLink href="https://github.com/vulnsig/vulnsig-ts">vulnsig/vulnsig-ts</ExternalLink></li>
-              <li><ExternalLink href="https://github.com/vulnsig/vulnsig-react">vulnsig/vulnsig-react</ExternalLink></li>
-              <li><ExternalLink href="https://github.com/vulnsig/vulnsig-py">vulnsig/vulnsig-py</ExternalLink></li>
+              <li>
+                <ExternalLink href="https://github.com/vulnsig/vulnsig-ts">
+                  vulnsig/vulnsig-ts
+                </ExternalLink>
+              </li>
+              <li>
+                <ExternalLink href="https://github.com/vulnsig/vulnsig-react">
+                  vulnsig/vulnsig-react
+                </ExternalLink>
+              </li>
+              <li>
+                <ExternalLink href="https://github.com/vulnsig/vulnsig-py">
+                  vulnsig/vulnsig-py
+                </ExternalLink>
+              </li>
             </ul>
           </div>
           <div className="space-y-2">
-            <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider">Package Registries</p>
+            <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider">
+              Package Registries
+            </p>
             <ul className="space-y-1">
-              <li><ExternalLink href="https://www.npmjs.com/package/vulnsig">npm: vulnsig</ExternalLink></li>
-              <li><ExternalLink href="https://www.npmjs.com/package/vulnsig-react">npm: vulnsig-react</ExternalLink></li>
-              <li><ExternalLink href="https://pypi.org/project/vulnsig">PyPI: vulnsig</ExternalLink></li>
+              <li>
+                <ExternalLink href="https://www.npmjs.com/package/vulnsig">
+                  npm: vulnsig
+                </ExternalLink>
+              </li>
+              <li>
+                <ExternalLink href="https://www.npmjs.com/package/vulnsig-react">
+                  npm: vulnsig-react
+                </ExternalLink>
+              </li>
+              <li>
+                <ExternalLink href="https://pypi.org/project/vulnsig">
+                  PyPI: vulnsig
+                </ExternalLink>
+              </li>
             </ul>
           </div>
         </div>
@@ -108,7 +140,8 @@ svg = render_glyph(
       <div>
         <h3 className="text-lg font-semibold mb-4">REST API</h3>
         <p className="text-sm text-zinc-400 mb-4">
-          Generate SVG glyphs via HTTP. Same vector, same output — responses are cached aggressively.
+          Generate SVG glyphs via HTTP. Same vector, same output — responses are
+          cached aggressively.
         </p>
 
         <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-4 mb-4">
@@ -139,13 +172,17 @@ svg = render_glyph(
                 <td className="py-2 pr-4 font-mono text-xs">size</td>
                 <td className="py-2 pr-4 text-zinc-400">number</td>
                 <td className="py-2 pr-4 text-zinc-400">no</td>
-                <td className="py-2 text-zinc-400">Rendered size in pixels (default: 120)</td>
+                <td className="py-2 text-zinc-400">
+                  Rendered size in pixels (default: 120)
+                </td>
               </tr>
               <tr>
                 <td className="py-2 pr-4 font-mono text-xs">score</td>
                 <td className="py-2 pr-4 text-zinc-400">number</td>
                 <td className="py-2 pr-4 text-zinc-400">no</td>
-                <td className="py-2 text-zinc-400">Override auto-calculated score (0-10)</td>
+                <td className="py-2 text-zinc-400">
+                  Override auto-calculated score (0-10)
+                </td>
               </tr>
             </tbody>
           </table>
@@ -167,7 +204,9 @@ svg = render_glyph(
         />
 
         <div className="mt-4">
-          <p className="text-xs font-mono text-zinc-500 mb-2">Error response (400)</p>
+          <p className="text-xs font-mono text-zinc-500 mb-2">
+            Error response (400)
+          </p>
           <pre className="bg-zinc-900 border border-zinc-800 rounded-lg p-4 overflow-x-auto">
             <code className="text-sm font-mono text-zinc-300">{`{ "error": "Invalid CVSS vector", "detail": "..." }`}</code>
           </pre>

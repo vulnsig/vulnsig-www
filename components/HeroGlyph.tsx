@@ -8,7 +8,18 @@ import type { Vulnerability } from "@/data/vulnerabilities";
 interface Callout {
   feature: string;
   label: string;
-  anchor: "center" | "top" | "top-right" | "right" | "bottom-right" | "bottom" | "bottom-left" | "left" | "top-left" | "inner-left" | "inner-right";
+  anchor:
+    | "center"
+    | "top"
+    | "top-right"
+    | "right"
+    | "bottom-right"
+    | "bottom"
+    | "bottom-left"
+    | "left"
+    | "top-left"
+    | "inner-left"
+    | "inner-right";
 }
 import { MetricTag, metricColor } from "./MetricTag";
 
@@ -54,34 +65,66 @@ const UI_LABELS: Record<string, string> = {
   A: "Smooth edge: Active interaction",
 };
 
-const CIA_NAMES: Record<string, string> = { C: "Confidentiality", I: "Integrity", A: "Availability" };
+const CIA_NAMES: Record<string, string> = {
+  C: "Confidentiality",
+  I: "Integrity",
+  A: "Availability",
+};
 const LEVEL_NAMES: Record<string, string> = { H: "high", L: "low" };
 
-function formatImpact(pairs: [string, string][], metricPrefix = ""): { label: string; metrics: string[] } {
+function formatImpact(
+  pairs: [string, string][],
+  metricPrefix = "",
+): { label: string; metrics: string[] } {
   const active = pairs.filter(([, v]) => v !== "N");
   const metrics = active.map(([k]) => metricPrefix + k);
   const allSame = active.every(([, v]) => v === active[0][1]);
   if (active.length === pairs.length && allSame) {
-    return { label: `All sectors ${LEVEL_NAMES[active[0][1]]}: Full CIA impact`, metrics };
+    return {
+      label: `All sectors ${LEVEL_NAMES[active[0][1]]}: Full CIA impact`,
+      metrics,
+    };
   }
   if (active.length === pairs.length) {
-    const desc = active.map(([k, v]) => `${CIA_NAMES[k]} ${LEVEL_NAMES[v]}`).join(", ");
+    const desc = active
+      .map(([k, v]) => `${CIA_NAMES[k]} ${LEVEL_NAMES[v]}`)
+      .join(", ");
     return { label: desc, metrics };
   }
-  if (active.length === 0) return { label: "All sectors dark: No CIA impact", metrics: [] };
-  const desc = active.map(([k, v]) => `${CIA_NAMES[k]} ${LEVEL_NAMES[v]}`).join(", ");
+  if (active.length === 0)
+    return { label: "All sectors dark: No CIA impact", metrics: [] };
+  const desc = active
+    .map(([k, v]) => `${CIA_NAMES[k]} ${LEVEL_NAMES[v]}`)
+    .join(", ");
   return { label: desc, metrics };
 }
 
-function ciaCallout(m: Record<string, string>): { label: string; metrics: string[] } | null {
+function ciaCallout(
+  m: Record<string, string>,
+): { label: string; metrics: string[] } | null {
   // CVSS 4.0: VC/VI/VA + SC/SI/SA
   if (m.VC != null) {
-    const vuln = formatImpact([["C", m.VC], ["I", m.VI], ["A", m.VA]], "V");
-    const sub = formatImpact([["C", m.SC], ["I", m.SI], ["A", m.SA]], "S");
+    const vuln = formatImpact(
+      [
+        ["C", m.VC],
+        ["I", m.VI],
+        ["A", m.VA],
+      ],
+      "V",
+    );
+    const sub = formatImpact(
+      [
+        ["C", m.SC],
+        ["I", m.SI],
+        ["A", m.SA],
+      ],
+      "S",
+    );
     const parts: string[] = [];
     if (vuln.metrics.length > 0) parts.push(`Vulnerable: ${vuln.label}`);
     if (sub.metrics.length > 0) parts.push(`Subsequent: ${sub.label}`);
-    if (parts.length === 0) return { label: "All sectors dark: No CIA impact", metrics: [] };
+    if (parts.length === 0)
+      return { label: "All sectors dark: No CIA impact", metrics: [] };
     return {
       label: parts.join(" · "),
       metrics: [...vuln.metrics, ...sub.metrics],
@@ -89,7 +132,11 @@ function ciaCallout(m: Record<string, string>): { label: string; metrics: string
   }
   // CVSS 3.x: C/I/A
   if (m.C != null) {
-    return formatImpact([["C", m.C], ["I", m.I], ["A", m.A]]);
+    return formatImpact([
+      ["C", m.C],
+      ["I", m.I],
+      ["A", m.A],
+    ]);
   }
   return null;
 }
@@ -99,13 +146,25 @@ function autoCallouts(vector: string): Callout[] {
   const out: AutoCallout[] = [];
 
   if (m.AV && AV_LABELS[m.AV]) {
-    out.push({ feature: "star-points", label: AV_LABELS[m.AV], anchor: "center" });
+    out.push({
+      feature: "star-points",
+      label: AV_LABELS[m.AV],
+      anchor: "center",
+    });
   }
   if (m.AC && AC_LABELS[m.AC]) {
-    out.push({ feature: "star-shape", label: AC_LABELS[m.AC], anchor: m.AC === "L" ? "inner-right" : "inner-left" });
+    out.push({
+      feature: "star-shape",
+      label: AC_LABELS[m.AC],
+      anchor: m.AC === "L" ? "inner-right" : "inner-left",
+    });
   }
   if (m.PR && PR_LABELS[m.PR]) {
-    out.push({ feature: "star-outline", label: PR_LABELS[m.PR], anchor: "left" });
+    out.push({
+      feature: "star-outline",
+      label: PR_LABELS[m.PR],
+      anchor: "left",
+    });
   }
   if (m.UI && UI_LABELS[m.UI]) {
     const feature = m.UI === "N" ? "spikes" : "smooth-edge";
@@ -113,7 +172,12 @@ function autoCallouts(vector: string): Callout[] {
   }
   const cia = ciaCallout(m);
   if (cia) {
-    out.push({ feature: "ring-brightness", label: cia.label, anchor: "right", metrics: cia.metrics });
+    out.push({
+      feature: "ring-brightness",
+      label: cia.label,
+      anchor: "right",
+      metrics: cia.metrics,
+    });
   }
 
   return out;
@@ -123,12 +187,12 @@ const FEATURE_METRICS: Record<string, string[]> = {
   "star-points": ["AV"],
   "star-shape": ["AC"],
   "star-outline": ["PR"],
-  "spikes": ["UI"],
+  spikes: ["UI"],
   "smooth-edge": ["UI"],
   "ring-brightness": ["C", "I", "A"],
   "split-band": ["S"],
-  "segmentation": ["AT"],
-  "color": ["Score"],
+  segmentation: ["AT"],
+  color: ["Score"],
 };
 
 // Position a letter marker near the relevant feature on the glyph
@@ -137,17 +201,17 @@ function getMarkerPosition(anchor: Callout["anchor"], glyphSize: number) {
   const offset = r * 0.72; // distance from center for markers
 
   const positions: Record<Callout["anchor"], { x: number; y: number }> = {
-    center:         { x: 0,             y: 0 },
-    top:            { x: 0,             y: -offset },
-    "top-right":    { x: offset * 1.0,  y: -offset * 1.0 },
-    right:          { x: offset,        y: 0 },
-    "bottom-right": { x: offset * 0.7,  y: offset * 0.7 },
-    bottom:         { x: 0,             y: offset },
-    "bottom-left":  { x: -offset * 0.7, y: offset * 0.7 },
-    left:           { x: -offset,       y: 0 },
-    "top-left":     { x: -offset * 0.7, y: -offset * 0.7 },
-    "inner-left":   { x: -offset * 0.4, y: offset * 0.15 },
-    "inner-right":  { x: offset * 0.4,  y: offset * 0.15 },
+    center: { x: 0, y: 0 },
+    top: { x: 0, y: -offset },
+    "top-right": { x: offset * 1.0, y: -offset * 1.0 },
+    right: { x: offset, y: 0 },
+    "bottom-right": { x: offset * 0.7, y: offset * 0.7 },
+    bottom: { x: 0, y: offset },
+    "bottom-left": { x: -offset * 0.7, y: offset * 0.7 },
+    left: { x: -offset, y: 0 },
+    "top-left": { x: -offset * 0.7, y: -offset * 0.7 },
+    "inner-left": { x: -offset * 0.4, y: offset * 0.15 },
+    "inner-right": { x: offset * 0.4, y: offset * 0.15 },
   };
 
   return positions[anchor];
@@ -158,17 +222,30 @@ export function HeroGlyph({ vuln }: { vuln: Vulnerability }) {
   const svgSize = glyphSize + 40; // padding for markers
   const cx = svgSize / 2;
   const cy = svgSize / 2;
-  const callouts: AutoCallout[] = useMemo(() => autoCallouts(vuln.vector), [vuln.vector]);
+  const callouts: AutoCallout[] = useMemo(
+    () => autoCallouts(vuln.vector),
+    [vuln.vector],
+  );
 
   return (
     <div className="flex items-center gap-0 max-w-2xl w-full px-4">
       {/* Left: glyph with letter markers */}
-      <div className="flex-none relative" style={{ width: svgSize, height: svgSize }}>
+      <div
+        className="flex-none relative"
+        style={{ width: svgSize, height: svgSize }}
+      >
         <div
           className="absolute"
-          style={{ left: (svgSize - glyphSize) / 2, top: (svgSize - glyphSize) / 2 }}
+          style={{
+            left: (svgSize - glyphSize) / 2,
+            top: (svgSize - glyphSize) / 2,
+          }}
         >
-          <VulnSig vector={vuln.vector} size={glyphSize} score={calculateScore(vuln.vector)} />
+          <VulnSig
+            vector={vuln.vector}
+            size={glyphSize}
+            score={calculateScore(vuln.vector)}
+          />
         </div>
 
         {/* Letter markers overlaid on glyph */}
@@ -239,7 +316,11 @@ export function HeroGlyph({ vuln }: { vuln: Vulnerability }) {
                   {LETTERS[i]}
                 </span>
                 <span className="inline-flex flex-wrap gap-1">
-                  {(callout.metrics ?? FEATURE_METRICS[callout.feature] ?? []).map((k) => (
+                  {(
+                    callout.metrics ??
+                    FEATURE_METRICS[callout.feature] ??
+                    []
+                  ).map((k) => (
                     <MetricTag key={k} label={k} color={metricColor(k)} />
                   ))}
                 </span>
