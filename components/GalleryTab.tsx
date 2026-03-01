@@ -10,12 +10,12 @@ type SortMode = "score-desc" | "score-asc" | "name";
 export function GalleryTab() {
   const [sort, setSort] = useState<SortMode>("score-desc");
 
-  // Deduplicate by vector string (Phishing Link appears twice in data)
+  // Deduplicate by name (different CVEs can share the same vector)
   const unique = useMemo(() => {
     const seen = new Set<string>();
     return VULNERABILITIES.filter((v) => {
-      if (seen.has(v.vector)) return false;
-      seen.add(v.vector);
+      if (seen.has(v.name)) return false;
+      seen.add(v.name);
       return true;
     });
   }, []);
@@ -54,7 +54,7 @@ export function GalleryTab() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {sorted.map((vuln) => (
-          <GalleryCard key={vuln.vector} vuln={vuln} />
+          <GalleryCard key={vuln.cve ?? vuln.name} vuln={vuln} />
         ))}
       </div>
     </div>

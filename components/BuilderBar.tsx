@@ -53,7 +53,7 @@ export function BuilderBar() {
       >
         {/* Collapsed bar */}
         <div className="max-w-6xl mx-auto flex items-center gap-4 px-4 py-2">
-          <VulnSig vector={vector} size={80} score={score} />
+          <VulnSig vector={vector} size={60} score={score} />
 
           <input
             type="text"

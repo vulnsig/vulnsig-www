@@ -7,7 +7,7 @@ import { useBuilder } from "./BuilderContext";
 export function HeroSection() {
   const { vector, heroRef } = useBuilder();
   const match = VULNERABILITIES.find((v) => v.vector === vector);
-  const vuln = match ?? { name: "", cve: null, vector, description: "", callouts: null };
+  const vuln = match ?? { name: "", cve: null, vector, description: "" };
 
   return (
     <section className="w-full py-4 px-4">
