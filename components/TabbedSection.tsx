@@ -17,6 +17,7 @@ export function TabbedSection() {
   const [activeTab, setActiveTab] = useState<TabId>("gallery");
   const [underline, setUnderline] = useState({ left: 0, width: 0 });
   const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const tabBarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = tabRefs.current[activeTab];
@@ -45,6 +46,7 @@ export function TabbedSection() {
       <div className="max-w-6xl mx-auto">
         {/* Tab bar */}
         <div
+          ref={tabBarRef}
           className="relative border-b border-zinc-800 mb-8"
           role="tablist"
           onKeyDown={handleKeyDown}
@@ -53,12 +55,20 @@ export function TabbedSection() {
             {TABS.map((tab) => (
               <button
                 key={tab.id}
-                ref={(el) => { tabRefs.current[tab.id] = el; }}
+                ref={(el) => {
+                  tabRefs.current[tab.id] = el;
+                }}
                 role="tab"
                 aria-selected={activeTab === tab.id}
                 aria-controls={`panel-${tab.id}`}
                 tabIndex={activeTab === tab.id ? 0 : -1}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => {
+                  setActiveTab(tab.id);
+                  tabBarRef.current?.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                  });
+                }}
                 className={`px-5 py-3 text-sm font-mono transition-colors cursor-pointer ${
                   activeTab === tab.id
                     ? "text-zinc-100"

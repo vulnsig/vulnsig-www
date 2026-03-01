@@ -10,12 +10,12 @@ type SortMode = "score-desc" | "score-asc" | "name";
 export function GalleryTab() {
   const [sort, setSort] = useState<SortMode>("score-desc");
 
-  // Deduplicate by vector string (Phishing Link appears twice in data)
+  // Deduplicate by name (different CVEs can share the same vector)
   const unique = useMemo(() => {
     const seen = new Set<string>();
     return VULNERABILITIES.filter((v) => {
-      if (seen.has(v.vector)) return false;
-      seen.add(v.vector);
+      if (seen.has(v.name)) return false;
+      seen.add(v.name);
       return true;
     });
   }, []);
@@ -24,9 +24,13 @@ export function GalleryTab() {
     const items = [...unique];
     switch (sort) {
       case "score-desc":
-        return items.sort((a, b) => calculateScore(b.vector) - calculateScore(a.vector));
+        return items.sort(
+          (a, b) => calculateScore(b.vector) - calculateScore(a.vector),
+        );
       case "score-asc":
-        return items.sort((a, b) => calculateScore(a.vector) - calculateScore(b.vector));
+        return items.sort(
+          (a, b) => calculateScore(a.vector) - calculateScore(b.vector),
+        );
       case "name":
         return items.sort((a, b) => a.name.localeCompare(b.name));
     }
@@ -35,9 +39,7 @@ export function GalleryTab() {
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <p className="text-sm text-zinc-400">
-          {sorted.length} vulnerabilities
-        </p>
+        <p className="text-sm text-zinc-400">{sorted.length} vulnerabilities</p>
         <div className="flex items-center gap-2">
           <span className="text-xs text-zinc-500">Sort:</span>
           <select
@@ -54,7 +56,7 @@ export function GalleryTab() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {sorted.map((vuln) => (
-          <GalleryCard key={vuln.vector} vuln={vuln} />
+          <GalleryCard key={vuln.cve ?? vuln.name} vuln={vuln} />
         ))}
       </div>
     </div>
