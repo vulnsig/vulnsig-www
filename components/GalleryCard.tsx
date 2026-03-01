@@ -11,7 +11,7 @@ export function GalleryCard({ vuln }: { vuln: Vulnerability }) {
   const score = calculateScore(vuln.vector);
 
   return (
-    <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-4 flex flex-col items-center gap-2 hover:border-zinc-700 transition-colors">
+    <div className="bg-zinc-900 border border-zinc-800 rounded-lg px-2 pt-2 pb-4 flex flex-col items-center gap-2 hover:border-zinc-700 transition-colors">
       <div aria-label={`${vuln.name} vulnerability glyph, score ${score}`}>
         <VulnSig vector={vuln.vector} size={100} score={score} />
       </div>

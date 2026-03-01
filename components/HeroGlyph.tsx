@@ -13,8 +13,8 @@ const FEATURE_METRICS: Record<string, string[]> = {
   "star-outline": ["PR"],
   "spikes": ["UI"],
   "smooth-edge": ["UI"],
-  "ring-brightness": ["V*"],
-  "split-band": ["S*"],
+  "ring-brightness": ["C", "I", "A"],
+  "split-band": ["S"],
   "segmentation": ["AT"],
   "color": ["Score"],
 };

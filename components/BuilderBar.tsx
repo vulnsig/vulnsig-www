@@ -28,7 +28,8 @@ export function BuilderBar() {
     const parts = val.split("/");
     if (
       (val.startsWith("CVSS:4.0/") && parts.length >= 12) ||
-      (val.startsWith("CVSS:3.1/") && parts.length >= 9)
+      (val.startsWith("CVSS:3.1/") && parts.length >= 9) ||
+      (val.startsWith("CVSS:3.0/") && parts.length >= 9)
     ) {
       setVector(val);
     }
@@ -73,7 +74,10 @@ export function BuilderBar() {
             aria-expanded={expanded}
             aria-label={expanded ? "Collapse builder" : "Expand builder"}
           >
-            {expanded ? "Collapse" : "Build"}
+            <span className="inline-grid [&>*]:col-start-1 [&>*]:row-start-1">
+              <span className="invisible">Collapse</span>
+              <span className="text-center">{expanded ? "Collapse" : "Build"}</span>
+            </span>
             <svg
               className={`w-3 h-3 transition-transform ${expanded ? "rotate-180" : ""}`}
               fill="none"

@@ -184,7 +184,7 @@ export function LegendTab() {
               </tr>
               <tr>
                 <td className="py-2 pr-4">Color hue</td>
-                <td className="py-2 pr-4"><MetricTag label="Score" /></td>
+                <td className="py-2 pr-4"><MetricTag label="Score" color={metricColor("Score")} /></td>
                 <td className="py-2 text-zinc-400">Red=critical → green=low</td>
               </tr>
             </tbody>

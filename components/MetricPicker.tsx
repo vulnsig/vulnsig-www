@@ -83,7 +83,7 @@ export function MetricPicker({
   vector: string;
   onChange: (vector: string) => void;
 }) {
-  const is31 = vector.startsWith("CVSS:3.1/");
+  const is31 = vector.startsWith("CVSS:3.1/") || vector.startsWith("CVSS:3.0/");
   const groups = is31 ? METRIC_GROUPS_31 : METRIC_GROUPS_40;
   const metrics = parseVectorMetrics(vector);
 
