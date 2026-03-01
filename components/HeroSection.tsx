@@ -44,7 +44,7 @@ export function HeroSection() {
       <div className="max-w-6xl mx-auto">
         {/* Headline */}
         <div className="text-center">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
+          <h1 className="text-4xl sm:text-4xl lg:text-6xl font-bold tracking-tight mb-2">
             CVSS is more than a number
           </h1>
           <p className="text-lg sm:text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">

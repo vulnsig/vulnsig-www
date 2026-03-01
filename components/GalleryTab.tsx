@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { VULNERABILITIES } from "@/data/vulnerabilities";
 import { GalleryCard } from "./GalleryCard";
+import { calculateScore } from "vulnsig";
 
 type SortMode = "score-desc" | "score-asc" | "name";
 
@@ -23,9 +24,9 @@ export function GalleryTab() {
     const items = [...unique];
     switch (sort) {
       case "score-desc":
-        return items.sort((a, b) => b.score - a.score);
+        return items.sort((a, b) => calculateScore(b.vector) - calculateScore(a.vector));
       case "score-asc":
-        return items.sort((a, b) => a.score - b.score);
+        return items.sort((a, b) => calculateScore(a.vector) - calculateScore(b.vector));
       case "name":
         return items.sort((a, b) => a.name.localeCompare(b.name));
     }

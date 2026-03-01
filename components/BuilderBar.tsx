@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { VulnSig } from "vulnsig-react";
 import { ScoreBadge } from "./ScoreBadge";
 import { MetricPicker } from "./MetricPicker";
@@ -10,15 +10,15 @@ import { calculateScore } from "vulnsig";
 export function BuilderBar() {
   const { vector, setVector, expanded, setExpanded, builderRef } = useBuilder();
   const [inputValue, setInputValue] = useState(vector);
-  const [score, setScore] = useState(10.0);
+  const vectorRef = useRef(vector);
+  const score = calculateScore(vector);
+
+  // Keep ref in sync so blur handler always sees latest vector
+  vectorRef.current = vector;
+
   // Sync input when vector changes externally (e.g., from gallery)
   useEffect(() => {
     setInputValue(vector);
-  }, [vector]);
-
-  // Recalculate score when vector changes
-  useEffect(() => {
-    setScore(calculateScore(vector));
   }, [vector]);
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -31,8 +31,8 @@ export function BuilderBar() {
   }
 
   function handleInputBlur() {
-    // Reset to current vector if input is invalid
-    setInputValue(vector);
+    // Reset to current vector if input is invalid — use ref for latest value
+    setInputValue(vectorRef.current);
   }
 
   function handleInputKeyDown(e: React.KeyboardEvent) {

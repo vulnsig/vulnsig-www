@@ -50,12 +50,6 @@ function parseVectorMetrics(vector: string): Record<string, string> {
   return metrics;
 }
 
-function buildVector(metrics: Record<string, string>): string {
-  const order = ["AV", "AC", "AT", "PR", "UI", "VC", "VI", "VA", "SC", "SI", "SA"];
-  const parts = order.map((k) => `${k}:${metrics[k] || "N"}`);
-  return `CVSS:4.0/${parts.join("/")}`;
-}
-
 export function MetricPicker({
   vector,
   onChange,
@@ -66,8 +60,12 @@ export function MetricPicker({
   const metrics = parseVectorMetrics(vector);
 
   function handleChange(key: string, value: string) {
-    const updated = { ...metrics, [key]: value };
-    onChange(buildVector(updated));
+    // Replace the single metric in-place to avoid parse/rebuild mixing vectors
+    const newVector = vector.replace(
+      new RegExp(`${key}:[^/]+`),
+      `${key}:${value}`
+    );
+    onChange(newVector);
   }
 
   return (

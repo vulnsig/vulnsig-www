@@ -1,6 +1,7 @@
 "use client";
 
 import { VulnSig } from "vulnsig-react";
+import { calculateScore } from "vulnsig";
 import type { Vulnerability, Callout } from "@/data/vulnerabilities";
 import { MetricTag, metricColor } from "./MetricTag";
 
@@ -12,8 +13,8 @@ const FEATURE_METRICS: Record<string, string[]> = {
   "star-outline": ["PR"],
   "spikes": ["UI"],
   "smooth-edge": ["UI"],
-  "ring-brightness": ["VC", "VI", "VA"],
-  "split-band": ["SC", "SI", "SA"],
+  "ring-brightness": ["V*"],
+  "split-band": ["S*"],
   "segmentation": ["AT"],
   "color": ["Score"],
 };
@@ -55,7 +56,7 @@ export function HeroGlyph({ vuln }: { vuln: Vulnerability }) {
           className="absolute"
           style={{ left: (svgSize - glyphSize) / 2, top: (svgSize - glyphSize) / 2 }}
         >
-          <VulnSig vector={vuln.vector} size={glyphSize} score={vuln.score} />
+          <VulnSig vector={vuln.vector} size={glyphSize} score={calculateScore(vuln.vector)} />
         </div>
 
         {/* Letter markers overlaid on glyph */}
