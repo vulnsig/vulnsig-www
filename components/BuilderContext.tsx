@@ -8,6 +8,7 @@ import {
   useRef,
   type ReactNode,
 } from "react";
+import { VULNERABILITIES } from "@/data/vulnerabilities";
 
 interface BuilderContextValue {
   vector: string;
@@ -23,7 +24,9 @@ const BuilderContext = createContext<BuilderContextValue | null>(null);
 
 export function BuilderProvider({ children }: { children: ReactNode }) {
   const [vector, setVector] = useState(
-    "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+    () =>
+      VULNERABILITIES[Math.floor(Math.random() * VULNERABILITIES.length)]
+        .vector,
   );
   const [expanded, setExpanded] = useState(false);
   const builderRef = useRef<HTMLDivElement | null>(null);
