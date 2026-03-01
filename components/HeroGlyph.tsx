@@ -42,7 +42,7 @@ function getMarkerPosition(anchor: Callout["anchor"], glyphSize: number) {
 }
 
 export function HeroGlyph({ vuln }: { vuln: Vulnerability }) {
-  const glyphSize = 220;
+  const glyphSize = 200;
   const svgSize = glyphSize + 40; // padding for markers
   const cx = svgSize / 2;
   const cy = svgSize / 2;
@@ -108,10 +108,10 @@ export function HeroGlyph({ vuln }: { vuln: Vulnerability }) {
 
       {/* Right: callout legend */}
       <div className="flex-1 min-w-0">
-        <div className="mb-3">
+        <div className="mb-4">
           <p className="font-semibold text-sm text-zinc-200">{vuln.name}</p>
           {vuln.cve && (
-            <p className="font-mono text-xs text-zinc-600">{vuln.cve}</p>
+            <p className="font-mono text-xs text-zinc-500">{vuln.cve}</p>
           )}
         </div>
         <ul className="space-y-2">
@@ -120,7 +120,7 @@ export function HeroGlyph({ vuln }: { vuln: Vulnerability }) {
             return (
               <li
                 key={callout.feature}
-                className="flex gap-2.5 items-center callout-animate"
+                className="flex gap-2 items-center callout-animate"
                 style={{ animationDelay: delay }}
               >
                 <span className="flex-none w-5 h-5 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-[10px] font-mono font-semibold text-zinc-400">

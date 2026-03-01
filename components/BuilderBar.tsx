@@ -52,8 +52,8 @@ export function BuilderBar() {
         className="sticky top-0 z-50 bg-zinc-900/95 backdrop-blur border-y border-zinc-800 builder-sticky"
       >
         {/* Collapsed bar */}
-        <div className="max-w-6xl mx-auto flex items-center gap-4 px-4 py-3">
-          <VulnSig vector={vector} size={100} score={score} />
+        <div className="max-w-6xl mx-auto flex items-center gap-4 px-4 py-2">
+          <VulnSig vector={vector} size={80} score={score} />
 
           <input
             type="text"
