@@ -11,23 +11,23 @@ export function GalleryCard({ vuln }: { vuln: Vulnerability }) {
   const score = calculateScore(vuln.vector);
 
   return (
-    <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-5 flex flex-col items-center gap-3 hover:border-zinc-700 transition-colors">
+    <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-4 flex flex-col items-center gap-2 hover:border-zinc-700 transition-colors">
       <div aria-label={`${vuln.name} vulnerability glyph, score ${score}`}>
         <VulnSig vector={vuln.vector} size={100} score={score} />
       </div>
 
       <div className="text-center w-full">
-        <div className="flex items-center justify-center gap-2 mb-1">
+        <div className="flex items-center justify-center gap-2 mb-2">
           <h3 className="font-semibold text-sm">{vuln.name}</h3>
           <ScoreBadge score={score} size="sm" />
         </div>
         {vuln.cve && (
           <p className="font-mono text-xs text-zinc-500 mb-2">{vuln.cve}</p>
         )}
-        <p className="text-xs text-zinc-400 leading-relaxed mb-3 line-clamp-3">
+        <p className="text-sm text-zinc-400 leading-relaxed mb-2 line-clamp-3">
           {vuln.description}
         </p>
-        <p className="font-mono text-[10px] text-zinc-600 mb-3 break-all">
+        <p className="font-mono text-xs text-zinc-600 mb-4 break-all">
           {vuln.vector}
         </p>
         <button

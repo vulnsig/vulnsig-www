@@ -34,7 +34,7 @@ export function GalleryTab() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-4">
         <p className="text-sm text-zinc-400">
           {sorted.length} vulnerabilities
         </p>

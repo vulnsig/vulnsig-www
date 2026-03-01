@@ -25,7 +25,11 @@ export function BuilderBar() {
     const val = e.target.value;
     setInputValue(val);
     // Only update vector if it looks valid
-    if (val.startsWith("CVSS:4.0/") && val.split("/").length >= 12) {
+    const parts = val.split("/");
+    if (
+      (val.startsWith("CVSS:4.0/") && parts.length >= 12) ||
+      (val.startsWith("CVSS:3.1/") && parts.length >= 9)
+    ) {
       setVector(val);
     }
   }
