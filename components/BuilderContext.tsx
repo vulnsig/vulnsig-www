@@ -18,6 +18,9 @@ interface BuilderContextValue {
   loadVector: (v: string) => void;
   builderRef: React.RefObject<HTMLDivElement | null>;
   heroRef: React.RefObject<HTMLDivElement | null>;
+  activeTab: string;
+  setActiveTab: (t: string) => void;
+  navigateToPackageSection: (sectionId: string) => void;
 }
 
 const BuilderContext = createContext<BuilderContextValue | null>(null);
@@ -29,8 +32,20 @@ export function BuilderProvider({ children }: { children: ReactNode }) {
         .vector,
   );
   const [expanded, setExpanded] = useState(false);
+  const [activeTab, setActiveTab] = useState("gallery");
   const builderRef = useRef<HTMLDivElement | null>(null);
   const heroRef = useRef<HTMLDivElement | null>(null);
+
+  const navigateToPackageSection = useCallback((sectionId: string) => {
+    setActiveTab("packages");
+    setTimeout(() => {
+      const el = document.getElementById(sectionId);
+      if (el) {
+        const y = el.getBoundingClientRect().top + window.scrollY - 80;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }
+    }, 50);
+  }, []);
 
   const loadVector = useCallback((v: string) => {
     setVector(v);
@@ -55,6 +70,9 @@ export function BuilderProvider({ children }: { children: ReactNode }) {
         loadVector,
         builderRef,
         heroRef,
+        activeTab,
+        setActiveTab,
+        navigateToPackageSection,
       }}
     >
       {children}

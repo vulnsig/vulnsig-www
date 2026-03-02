@@ -8,15 +8,18 @@ import "prismjs/components/prism-tsx";
 import "prismjs/components/prism-markup";
 import "prismjs/components/prism-markdown";
 import { useMemo } from "react";
+import { useBuilder } from "./BuilderContext";
+import { calculateScore } from "vulnsig";
 
 const LANG_MAP: Record<string, string> = {
-  "TypeScript — Core library": "tsx",
+  "TypeScript (Core library)": "tsx",
   React: "tsx",
   Python: "python",
   "TypeScript / JavaScript": "bash",
   "HTML embed": "markup",
   Markdown: "markdown",
   curl: "bash",
+  bash: "bash",
 };
 
 function CodeBlock({ label, code }: { label?: string; code: string }) {
@@ -64,114 +67,88 @@ function ExternalLink({
 }
 
 export function PackagesTab() {
+  const { vector } = useBuilder();
+  const score = calculateScore(vector);
+  const encodedVector = encodeURIComponent(vector);
+
   return (
-    <div className="space-y-12">
-      {/* Install */}
+    <div className="space-y-16">
+      {/* TypeScript & React */}
       <div>
-        <h3 className="text-lg font-semibold mb-4">Install</h3>
-        <CodeBlock
-          label="TypeScript / JavaScript"
-          code={`npm install vulnsig           # Core — SVG string output
+        <h3 id="pkg-typescript" className="text-lg font-semibold mb-6">TypeScript &amp; React</h3>
+        <div className="space-y-6">
+          <div>
+            <h4 className="text-sm font-mono text-zinc-500 uppercase tracking-wider mb-3">Install</h4>
+            <CodeBlock
+              code={`npm install vulnsig           # Core — SVG string output
 npm install vulnsig-react     # React component`}
-        />
-        <CodeBlock
-          label="Python"
-          code={`pip install vulnsig            # SVG string output`}
-        />
-      </div>
-
-      {/* Usage examples */}
-      <div>
-        <h3 className="text-lg font-semibold mb-4">Usage</h3>
-
-        <CodeBlock
-          label="TypeScript — Core library"
-          code={`import { renderGlyph } from 'vulnsig';
+            />
+            <div className="flex gap-3 text-sm">
+              <ExternalLink href="https://www.npmjs.com/package/vulnsig">npm: vulnsig</ExternalLink>
+              <span className="text-zinc-700">·</span>
+              <ExternalLink href="https://www.npmjs.com/package/vulnsig-react">npm: vulnsig-react</ExternalLink>
+              <span className="text-zinc-700">·</span>
+              <ExternalLink href="https://github.com/vulnsig/vulnsig-ts">GitHub</ExternalLink>
+            </div>
+          </div>
+          <div>
+            <h4 className="text-sm font-mono text-zinc-500 uppercase tracking-wider mb-3">Usage</h4>
+            <CodeBlock
+              label="TypeScript (Core library)"
+              code={`import { renderGlyph } from 'vulnsig';
 
 const svg = renderGlyph({
-  vector: 'CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H',
+  vector: '${vector}',
   size: 120,
 });
 // svg is an SVG string you can embed or save`}
-        />
-
-        <CodeBlock
-          label="React"
-          code={`import { VulnSig } from 'vulnsig-react';
+            />
+            <CodeBlock
+              label="React"
+              code={`import { VulnSig } from 'vulnsig-react';
 
 <VulnSig
-  vector="CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H"
+  vector="${vector}"
   size={120}
-  score={10.0}  // optional — auto-calculated if omitted
+  score={${score}}  // optional; auto-calculated if omitted
 />`}
-        />
+            />
+          </div>
+        </div>
+      </div>
 
-        <CodeBlock
-          label="Python"
-          code={`from vulnsig import render_glyph
+      {/* Python */}
+      <div>
+        <h3 id="pkg-python" className="text-lg font-semibold mb-6">Python</h3>
+        <div className="space-y-6">
+          <div>
+            <h4 className="text-sm font-mono text-zinc-500 uppercase tracking-wider mb-3">Install</h4>
+            <CodeBlock code={`pip install vulnsig`} />
+            <div className="flex gap-3 text-sm">
+              <ExternalLink href="https://pypi.org/project/vulnsig">PyPI: vulnsig</ExternalLink>
+              <span className="text-zinc-700">·</span>
+              <ExternalLink href="https://github.com/vulnsig/vulnsig-py">GitHub</ExternalLink>
+            </div>
+          </div>
+          <div>
+            <h4 className="text-sm font-mono text-zinc-500 uppercase tracking-wider mb-3">Usage</h4>
+            <CodeBlock
+              label="Python"
+              code={`from vulnsig import render_glyph
 
 svg = render_glyph(
-    vector="CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H",
+    vector="${vector}",
     size=120,
 )
 # svg is an SVG string`}
-        />
-      </div>
-
-      {/* Links */}
-      <div>
-        <h3 className="text-lg font-semibold mb-4">Links</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-          <div className="space-y-2">
-            <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider">
-              GitHub
-            </p>
-            <ul className="space-y-1">
-              <li>
-                <ExternalLink href="https://github.com/vulnsig/vulnsig-ts">
-                  vulnsig/vulnsig-ts
-                </ExternalLink>
-              </li>
-              <li>
-                <ExternalLink href="https://github.com/vulnsig/vulnsig-react">
-                  vulnsig/vulnsig-react
-                </ExternalLink>
-              </li>
-              <li>
-                <ExternalLink href="https://github.com/vulnsig/vulnsig-py">
-                  vulnsig/vulnsig-py
-                </ExternalLink>
-              </li>
-            </ul>
-          </div>
-          <div className="space-y-2">
-            <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider">
-              Package Registries
-            </p>
-            <ul className="space-y-1">
-              <li>
-                <ExternalLink href="https://www.npmjs.com/package/vulnsig">
-                  npm: vulnsig
-                </ExternalLink>
-              </li>
-              <li>
-                <ExternalLink href="https://www.npmjs.com/package/vulnsig-react">
-                  npm: vulnsig-react
-                </ExternalLink>
-              </li>
-              <li>
-                <ExternalLink href="https://pypi.org/project/vulnsig">
-                  PyPI: vulnsig
-                </ExternalLink>
-              </li>
-            </ul>
+            />
           </div>
         </div>
       </div>
 
       {/* REST API */}
       <div>
-        <h3 className="text-lg font-semibold mb-4">REST API</h3>
+        <h3 id="pkg-rest-api" className="text-lg font-semibold mb-6">REST API</h3>
         <p className="text-sm text-zinc-400 mb-4">
           Generate SVG glyphs via HTTP. Same vector, same output — responses are
           cached aggressively.
@@ -223,17 +200,17 @@ svg = render_glyph(
 
         <CodeBlock
           label="HTML embed"
-          code={`<img src="https://vulnsig.io/api/v1/svg?vector=CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H" />`}
+          code={`<img src="https://vulnsig.io/api/v1/svg?vector=${encodedVector}" />`}
         />
 
         <CodeBlock
           label="Markdown"
-          code={`![Log4Shell](https://vulnsig.io/api/v1/svg?vector=CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H&size=64)`}
+          code={`![vulnsig](https://vulnsig.io/api/v1/svg?vector=${encodedVector}&size=64)`}
         />
 
         <CodeBlock
           label="curl"
-          code={`curl "https://vulnsig.io/api/v1/svg?vector=CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H" -o glyph.svg`}
+          code={`curl "https://vulnsig.io/api/v1/svg?vector=${encodedVector}" -o glyph.svg`}
         />
 
         <div className="mt-4">

@@ -118,6 +118,13 @@ export const VULNERABILITIES: Vulnerability[] = [
     description:
       "A cross-site-scripting (XSS) vulnerability exists when Microsoft SharePoint Server does not properly sanitize a specially crafted web request to an affected SharePoint server.",
   },
+  {
+    name: "PaperCut",
+    cve: "CVE-2023-27350",
+    vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+    description:
+      "PaperCut servers vulnerable to CVE-2023-27350 implement improper access controls in the SetupCompleted Java class, allowing malicious actors to bypass user authentication and access the server as an administrator.",
+  },
 ];
 
 // note: some 4.0 examples are from here:

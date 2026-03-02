@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { GalleryTab } from "./GalleryTab";
 import { LegendTab } from "./LegendTab";
 import { PackagesTab } from "./PackagesTab";
+import { useBuilder } from "./BuilderContext";
 
 const TABS = [
   { id: "gallery", label: "Gallery" },
@@ -11,10 +12,9 @@ const TABS = [
   { id: "packages", label: "Packages & API" },
 ] as const;
 
-type TabId = (typeof TABS)[number]["id"];
 
 export function TabbedSection() {
-  const [activeTab, setActiveTab] = useState<TabId>("gallery");
+  const { activeTab, setActiveTab } = useBuilder();
   const [underline, setUnderline] = useState({ left: 0, width: 0 });
   const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const tabBarRef = useRef<HTMLDivElement>(null);
@@ -72,7 +72,7 @@ export function TabbedSection() {
                     window.scrollTo({ top: y, behavior: "smooth" });
                   }
                 }}
-                className={`px-5 py-3 text-sm font-mono transition-colors cursor-pointer ${
+                className={`px-5 py-3 text-lg font-[family-name:var(--font-display)] transition-colors cursor-pointer ${
                   activeTab === tab.id
                     ? "text-zinc-100"
                     : "text-zinc-500 hover:text-zinc-300"

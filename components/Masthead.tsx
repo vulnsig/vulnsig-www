@@ -4,7 +4,7 @@ export function Masthead() {
       <h1 className="text-3xl tracking-wide text-zinc-300 font-[family-name:var(--font-display)]">
         VulnSig
       </h1>
-      <p className="text-sm text-zinc-500 font-sans">
+      <p className="text-md text-zinc-500 font-sans">
         CVSS is more than a score
       </p>
     </header>
