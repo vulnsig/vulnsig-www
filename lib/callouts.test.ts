@@ -142,7 +142,9 @@ describe("ciaCallout", () => {
       SI: "L",
       SA: "N",
     });
-    expect(result?.label).toBe("Subsequent: Confidentiality low, Integrity low");
+    expect(result?.label).toBe(
+      "Subsequent: Confidentiality low, Integrity low",
+    );
     expect(result?.metrics).toEqual(["SC", "SI"]);
   });
 
