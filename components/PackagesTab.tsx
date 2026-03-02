@@ -1,11 +1,50 @@
 "use client";
 
-function CodeBlock({ label, code }: { label?: string; code: string }) {
+import Prism from "prismjs";
+import "prismjs/components/prism-bash";
+import "prismjs/components/prism-python";
+import "prismjs/components/prism-jsx";
+import "prismjs/components/prism-tsx";
+import "prismjs/components/prism-markup";
+import "prismjs/components/prism-markdown";
+import { useMemo } from "react";
+
+const LANG_MAP: Record<string, string> = {
+  "TypeScript — Core library": "tsx",
+  "React": "tsx",
+  "Python": "python",
+  "TypeScript / JavaScript": "bash",
+  "HTML embed": "markup",
+  "Markdown": "markdown",
+  "curl": "bash",
+};
+
+function CodeBlock({
+  label,
+  code,
+}: {
+  label?: string;
+  code: string;
+}) {
+  const html = useMemo(() => {
+    const lang = (label && LANG_MAP[label]) || "bash";
+    const grammar = Prism.languages[lang];
+    if (!grammar) return null;
+    return Prism.highlight(code, grammar, lang);
+  }, [code, label]);
+
   return (
     <div className="mb-4">
       {label && <p className="text-xs font-mono text-zinc-500 mb-1">{label}</p>}
       <pre className="bg-zinc-900 border border-zinc-800 rounded-lg p-4 overflow-x-auto">
-        <code className="text-sm font-mono text-zinc-300">{code}</code>
+        {html ? (
+          <code
+            className="text-sm font-mono"
+            dangerouslySetInnerHTML={{ __html: html }}
+          />
+        ) : (
+          <code className="text-sm font-mono text-zinc-300">{code}</code>
+        )}
       </pre>
     </div>
   );
