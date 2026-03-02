@@ -14,7 +14,9 @@ export function BuilderBar() {
   const score = calculateScore(vector);
 
   // Keep ref in sync so blur handler always sees latest vector
-  vectorRef.current = vector;
+  useEffect(() => {
+    vectorRef.current = vector;
+  }, [vector]);
 
   // Sync input when vector changes externally (e.g., from gallery)
   useEffect(() => {
@@ -48,12 +50,10 @@ export function BuilderBar() {
 
   return (
     <div ref={builderRef}>
-      <div
-        className="sticky top-0 z-50 bg-zinc-900/95 backdrop-blur border-y border-zinc-800 builder-sticky"
-      >
+      <div className="sticky top-0 z-50 bg-zinc-900/95 backdrop-blur border-y border-zinc-800 builder-sticky">
         {/* Collapsed bar */}
-        <div className="max-w-6xl mx-auto flex items-center gap-4 px-4 py-3">
-          <VulnSig vector={vector} size={100} score={score} />
+        <div className="max-w-6xl mx-auto flex items-center gap-4 px-4 py-2">
+          <VulnSig vector={vector} size={60} score={score} />
 
           <input
             type="text"
@@ -76,7 +76,9 @@ export function BuilderBar() {
           >
             <span className="inline-grid [&>*]:col-start-1 [&>*]:row-start-1">
               <span className="invisible">Collapse</span>
-              <span className="text-center">{expanded ? "Collapse" : "Build"}</span>
+              <span className="text-center">
+                {expanded ? "Collapse" : "Build"}
+              </span>
             </span>
             <svg
               className={`w-3 h-3 transition-transform ${expanded ? "rotate-180" : ""}`}
@@ -84,7 +86,12 @@ export function BuilderBar() {
               stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 9l-7 7-7-7"
+              />
             </svg>
           </button>
         </div>

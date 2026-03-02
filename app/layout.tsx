@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fira_Code, DM_Sans } from "next/font/google";
+import { Fira_Code, DM_Sans, Atomic_Age } from "next/font/google";
 import "./globals.css";
 
 const firaCode = Fira_Code({
@@ -9,6 +9,12 @@ const firaCode = Fira_Code({
 
 const dmSans = DM_Sans({
   variable: "--font-sans",
+  subsets: ["latin"],
+});
+
+const atomicAge = Atomic_Age({
+  weight: "400",
+  variable: "--font-display",
   subsets: ["latin"],
 });
 
@@ -34,7 +40,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${firaCode.variable} ${dmSans.variable} antialiased bg-zinc-950 text-zinc-100 font-sans`}
+        className={`${firaCode.variable} ${dmSans.variable} ${atomicAge.variable} antialiased bg-zinc-950 text-zinc-100 font-sans`}
       >
         {children}
       </body>

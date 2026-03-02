@@ -1,8 +1,11 @@
 "use client";
 
+import { useMemo } from "react";
 import { VulnSig } from "vulnsig-react";
 import { calculateScore } from "vulnsig";
-import type { Vulnerability, Callout } from "@/data/vulnerabilities";
+import type { Vulnerability } from "@/data/vulnerabilities";
+import type { Callout, AutoCallout } from "@/lib/callouts";
+import { autoCallouts } from "@/lib/callouts";
 import { MetricTag, metricColor } from "./MetricTag";
 
 const LETTERS = ["A", "B", "C", "D", "E", "F"];
@@ -11,12 +14,12 @@ const FEATURE_METRICS: Record<string, string[]> = {
   "star-points": ["AV"],
   "star-shape": ["AC"],
   "star-outline": ["PR"],
-  "spikes": ["UI"],
+  spikes: ["UI"],
   "smooth-edge": ["UI"],
   "ring-brightness": ["C", "I", "A"],
   "split-band": ["S"],
-  "segmentation": ["AT"],
-  "color": ["Score"],
+  segmentation: ["AT"],
+  color: ["Score"],
 };
 
 // Position a letter marker near the relevant feature on the glyph
@@ -25,38 +28,51 @@ function getMarkerPosition(anchor: Callout["anchor"], glyphSize: number) {
   const offset = r * 0.72; // distance from center for markers
 
   const positions: Record<Callout["anchor"], { x: number; y: number }> = {
-    center:         { x: 0,             y: 0 },
-    top:            { x: 0,             y: -offset },
-    "top-right":    { x: offset * 0.7,  y: -offset * 0.7 },
-    right:          { x: offset,        y: 0 },
-    "bottom-right": { x: offset * 0.7,  y: offset * 0.7 },
-    bottom:         { x: 0,             y: offset },
-    "bottom-left":  { x: -offset * 0.7, y: offset * 0.7 },
-    left:           { x: -offset,       y: 0 },
-    "top-left":     { x: -offset * 0.7, y: -offset * 0.7 },
-    "inner-left":   { x: -offset * 0.4, y: offset * 0.15 },
-    "inner-right":  { x: offset * 0.4,  y: offset * 0.15 },
+    center: { x: 0, y: 0 },
+    top: { x: 0, y: -offset },
+    "top-right": { x: offset * 1.0, y: -offset * 1.0 },
+    right: { x: offset, y: 0 },
+    "bottom-right": { x: offset * 0.7, y: offset * 0.7 },
+    bottom: { x: 0, y: offset },
+    "bottom-left": { x: -offset * 0.7, y: offset * 0.7 },
+    left: { x: -offset, y: 0 },
+    "top-left": { x: -offset * 0.7, y: -offset * 0.7 },
+    "inner-left": { x: -offset * 0.4, y: offset * 0.15 },
+    "inner-right": { x: offset * 0.4, y: offset * 0.15 },
   };
 
   return positions[anchor];
 }
 
 export function HeroGlyph({ vuln }: { vuln: Vulnerability }) {
-  const glyphSize = 220;
+  const glyphSize = 200;
   const svgSize = glyphSize + 40; // padding for markers
   const cx = svgSize / 2;
   const cy = svgSize / 2;
-  const callouts = vuln.callouts ?? [];
+  const callouts: AutoCallout[] = useMemo(
+    () => autoCallouts(vuln.vector),
+    [vuln.vector],
+  );
 
   return (
     <div className="flex items-center gap-0 max-w-2xl w-full px-4">
       {/* Left: glyph with letter markers */}
-      <div className="flex-none relative" style={{ width: svgSize, height: svgSize }}>
+      <div
+        className="flex-none relative"
+        style={{ width: svgSize, height: svgSize }}
+      >
         <div
           className="absolute"
-          style={{ left: (svgSize - glyphSize) / 2, top: (svgSize - glyphSize) / 2 }}
+          style={{
+            left: (svgSize - glyphSize) / 2,
+            top: (svgSize - glyphSize) / 2,
+          }}
         >
-          <VulnSig vector={vuln.vector} size={glyphSize} score={calculateScore(vuln.vector)} />
+          <VulnSig
+            vector={vuln.vector}
+            size={glyphSize}
+            score={calculateScore(vuln.vector)}
+          />
         </div>
 
         {/* Letter markers overlaid on glyph */}
@@ -108,10 +124,10 @@ export function HeroGlyph({ vuln }: { vuln: Vulnerability }) {
 
       {/* Right: callout legend */}
       <div className="flex-1 min-w-0">
-        <div className="mb-3">
+        <div className="mb-4">
           <p className="font-semibold text-sm text-zinc-200">{vuln.name}</p>
           {vuln.cve && (
-            <p className="font-mono text-xs text-zinc-600">{vuln.cve}</p>
+            <p className="font-mono text-xs text-zinc-500">{vuln.cve}</p>
           )}
         </div>
         <ul className="space-y-2">
@@ -120,15 +136,21 @@ export function HeroGlyph({ vuln }: { vuln: Vulnerability }) {
             return (
               <li
                 key={callout.feature}
-                className="flex gap-2.5 items-center callout-animate"
+                className="flex gap-2 items-start callout-animate"
                 style={{ animationDelay: delay }}
               >
                 <span className="flex-none w-5 h-5 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-[10px] font-mono font-semibold text-zinc-400">
                   {LETTERS[i]}
                 </span>
-                {(FEATURE_METRICS[callout.feature] || []).map((k) => (
-                  <MetricTag key={k} label={k} color={metricColor(k)} />
-                ))}
+                <span className="inline-flex flex-wrap gap-1">
+                  {(
+                    callout.metrics ??
+                    FEATURE_METRICS[callout.feature] ??
+                    []
+                  ).map((k) => (
+                    <MetricTag key={k} label={k} color={metricColor(k)} />
+                  ))}
+                </span>
                 <span className="text-sm text-zinc-400 leading-relaxed">
                   {callout.label}
                 </span>
