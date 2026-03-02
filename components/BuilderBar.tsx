@@ -14,7 +14,9 @@ export function BuilderBar() {
   const score = calculateScore(vector);
 
   // Keep ref in sync so blur handler always sees latest vector
-  vectorRef.current = vector;
+  useEffect(() => {
+    vectorRef.current = vector;
+  }, [vector]);
 
   // Sync input when vector changes externally (e.g., from gallery)
   useEffect(() => {
