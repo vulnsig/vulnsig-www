@@ -37,7 +37,11 @@ export function BuilderProvider({ children }: { children: ReactNode }) {
     setExpanded(true);
     // Scroll to the hero glyph
     setTimeout(() => {
-      heroRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (heroRef.current) {
+        const y =
+          heroRef.current.getBoundingClientRect().top + window.scrollY - 64;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }
     }, 50);
   }, []);
 

@@ -10,7 +10,7 @@ export function HeroSection() {
   const vuln = match ?? { name: "", cve: null, vector, description: "" };
 
   return (
-    <section className="w-full py-4 px-4">
+    <section className="w-full pt-16 pb-4 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Headline */}
         {/* <div className="text-center mb-4">

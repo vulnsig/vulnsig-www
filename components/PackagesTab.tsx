@@ -11,21 +11,15 @@ import { useMemo } from "react";
 
 const LANG_MAP: Record<string, string> = {
   "TypeScript — Core library": "tsx",
-  "React": "tsx",
-  "Python": "python",
+  React: "tsx",
+  Python: "python",
   "TypeScript / JavaScript": "bash",
   "HTML embed": "markup",
-  "Markdown": "markdown",
-  "curl": "bash",
+  Markdown: "markdown",
+  curl: "bash",
 };
 
-function CodeBlock({
-  label,
-  code,
-}: {
-  label?: string;
-  code: string;
-}) {
+function CodeBlock({ label, code }: { label?: string; code: string }) {
   const html = useMemo(() => {
     const lang = (label && LANG_MAP[label]) || "bash";
     const grammar = Prism.languages[lang];
