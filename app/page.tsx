@@ -1,5 +1,6 @@
 import { BuilderProvider } from "@/components/BuilderContext";
 import { ClientOnly } from "@/components/ClientOnly";
+import { Masthead } from "@/components/Masthead";
 import { HeroSection } from "@/components/HeroSection";
 import { BuilderBar } from "@/components/BuilderBar";
 import { TabbedSection } from "@/components/TabbedSection";
@@ -8,6 +9,7 @@ export default function Home() {
   return (
     <BuilderProvider>
       <div className="min-h-screen relative z-2">
+        <Masthead />
         <ClientOnly>
           <HeroSection />
           <BuilderBar />
