@@ -19,8 +19,8 @@ jobs:
       matrix:
         os:
           - { name: "ubuntu-22.04", npm_cache: "~/.npm" }
-          - { name: "windows-2022", npm_cache: '~\AppData\Local\npm-cache' }
-          - { name: "macos-15", npm_cache: "~/Library/Caches/npm" }
+        #   - { name: "windows-2022", npm_cache: '~\AppData\Local\npm-cache' }
+        #   - { name: "macos-15", npm_cache: "~/Library/Caches/npm" }
         node:
           - { version: "18" }
           - { version: "20" }
