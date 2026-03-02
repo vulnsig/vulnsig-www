@@ -64,10 +64,13 @@ export function TabbedSection() {
                 tabIndex={activeTab === tab.id ? 0 : -1}
                 onClick={() => {
                   setActiveTab(tab.id);
-                  tabBarRef.current?.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start",
-                  });
+                  if (tabBarRef.current) {
+                    const y =
+                      tabBarRef.current.getBoundingClientRect().top +
+                      window.scrollY -
+                      64;
+                    window.scrollTo({ top: y, behavior: "smooth" });
+                  }
                 }}
                 className={`px-5 py-3 text-sm font-mono transition-colors cursor-pointer ${
                   activeTab === tab.id
