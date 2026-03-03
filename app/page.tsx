@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+import { DataProvider } from "@/components/DataContext";
 import { BuilderProvider } from "@/components/BuilderContext";
 import { ClientOnly } from "@/components/ClientOnly";
 import { Masthead } from "@/components/Masthead";
@@ -7,6 +9,8 @@ import { TabbedSection } from "@/components/TabbedSection";
 
 export default function Home() {
   return (
+    <Suspense>
+    <DataProvider>
     <BuilderProvider>
       <div className="min-h-screen relative z-2">
         <Masthead />
@@ -50,5 +54,7 @@ export default function Home() {
         </footer>
       </div>
     </BuilderProvider>
+    </DataProvider>
+    </Suspense>
   );
 }

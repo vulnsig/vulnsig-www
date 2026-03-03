@@ -6,13 +6,46 @@ import {
   useState,
   useCallback,
   useRef,
+  useEffect,
   type ReactNode,
 } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { VULNERABILITIES, type Vulnerability } from "@/data/vulnerabilities";
+import { useData, type CveDataset } from "./DataContext";
+
+function findVulnByCve(
+  cveId: string,
+  fallbackVector: string,
+  cveData: CveDataset,
+  kevData: CveDataset,
+): Vulnerability {
+  const fromGallery = VULNERABILITIES.find((v) => v.cve === cveId);
+  if (fromGallery) return fromGallery;
+
+  const fromRecent = cveData.cves.find((v) => v.id === cveId);
+  if (fromRecent)
+    return {
+      name: cveId,
+      cve: cveId,
+      vector: fromRecent.cvss.vectorString,
+      description: fromRecent.description,
+    };
+
+  const fromKev = kevData.cves.find((v) => v.id === cveId);
+  if (fromKev)
+    return {
+      name: cveId,
+      cve: cveId,
+      vector: fromKev.cvss.vectorString,
+      description: fromKev.description,
+    };
+
+  return { name: cveId, cve: cveId, vector: fallbackVector, description: "" };
+}
 
 interface BuilderContextValue {
   vector: string;
-  setVector: (v: string) => void;
+  setVector: (v: string, push?: boolean) => void;
   selectedVuln: Vulnerability | null;
   expanded: boolean;
   setExpanded: (e: boolean) => void;
@@ -27,19 +60,54 @@ interface BuilderContextValue {
 const BuilderContext = createContext<BuilderContextValue | null>(null);
 
 export function BuilderProvider({ children }: { children: ReactNode }) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const { cveData, kevData } = useData();
+
   const [selectedVuln, setSelectedVuln] = useState<Vulnerability | null>(
     () => VULNERABILITIES[Math.floor(Math.random() * VULNERABILITIES.length)],
   );
   const [vector, setVectorRaw] = useState(() => selectedVuln?.vector ?? "");
   const [expanded, setExpanded] = useState(false);
 
-  const setVector = useCallback((v: string) => {
-    setSelectedVuln(null);
-    setVectorRaw(v);
-  }, []);
+  const setVector = useCallback(
+    (v: string, push = false) => {
+      setSelectedVuln(null);
+      setVectorRaw(v);
+      if (v) {
+        const params = new URLSearchParams();
+        params.set("vector", v);
+        if (push) {
+          router.push(`${window.location.pathname}?${params}`, {
+            scroll: false,
+          });
+        } else {
+          history.replaceState(null, "", `${window.location.pathname}?${params}`);
+        }
+      } else {
+        history.replaceState(null, "", window.location.pathname);
+      }
+    },
+    [router],
+  );
   const [activeTab, setActiveTab] = useState("gallery");
   const builderRef = useRef<HTMLDivElement | null>(null);
   const heroRef = useRef<HTMLDivElement | null>(null);
+
+  // Sync state from URL — handles initial load, back, and forward.
+  // Skip when the vector already matches to avoid a redundant re-render
+  // after loadVector / setVector update state and the URL simultaneously.
+  useEffect(() => {
+    const urlVector = searchParams.get("vector");
+    const urlCve = searchParams.get("cve");
+    if (!urlVector || urlVector === vector) return;
+    const vuln = urlCve
+      ? findVulnByCve(urlCve, urlVector, cveData, kevData)
+      : null;
+    setVectorRaw(vuln?.vector ?? urlVector);
+    setSelectedVuln(vuln);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams, cveData, kevData]);
 
   const navigateToPackageSection = useCallback((sectionId: string) => {
     setActiveTab("packages");
@@ -61,6 +129,11 @@ export function BuilderProvider({ children }: { children: ReactNode }) {
     setSelectedVuln(vuln);
     setVectorRaw(vuln.vector);
     setExpanded(true);
+    // Use the Next.js router so back/forward updates useSearchParams correctly
+    const params = new URLSearchParams();
+    params.set("vector", vuln.vector);
+    if (vuln.cve) params.set("cve", vuln.cve);
+    router.push(`${window.location.pathname}?${params}`, { scroll: false });
     // Scroll to the hero glyph
     setTimeout(() => {
       if (heroRef.current) {
@@ -69,7 +142,7 @@ export function BuilderProvider({ children }: { children: ReactNode }) {
         window.scrollTo({ top: y, behavior: "smooth" });
       }
     }, 50);
-  }, []);
+  }, [router]);
 
   return (
     <BuilderContext.Provider

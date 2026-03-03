@@ -145,7 +145,10 @@ export function BuilderBar() {
         {expanded && (
           <div className="border-t border-zinc-800">
             <div className="max-w-6xl mx-auto">
-              <MetricPicker vector={vector} onChange={setVector} />
+              <MetricPicker
+                vector={vector}
+                onChange={(v) => setVector(v, true)}
+              />
             </div>
           </div>
         )}

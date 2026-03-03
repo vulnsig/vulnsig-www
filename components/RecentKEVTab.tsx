@@ -8,7 +8,6 @@ import { useData } from "./DataContext";
 
 type SortMode = "date-desc" | "date-asc" | "score-desc" | "score-asc";
 
-// Strip supplemental/environmental metrics from CVSS 4.0 vectors for display
 function displayVector(vectorString: string): string {
   const cut = vectorString.indexOf("/E:");
   return cut !== -1 ? vectorString.slice(0, cut) : vectorString;
@@ -22,13 +21,13 @@ function formatDate(iso: string): string {
   });
 }
 
-export function RecentCVETab() {
+export function RecentKEVTab() {
   const { loadVector } = useBuilder();
-  const { cveData } = useData();
+  const { kevData } = useData();
   const [sort, setSort] = useState<SortMode>("date-desc");
 
   const sorted = useMemo(() => {
-    const items = cveData.cves.slice(0, 40);
+    const items = kevData.cves.slice(0, 40);
     switch (sort) {
       case "date-desc":
         return items.sort((a, b) => b.published.localeCompare(a.published));
@@ -39,7 +38,7 @@ export function RecentCVETab() {
       case "score-asc":
         return items.sort((a, b) => a.cvss.baseScore - b.cvss.baseScore);
     }
-  }, [sort, cveData]);
+  }, [sort, kevData]);
 
   return (
     <div>
@@ -47,22 +46,15 @@ export function RecentCVETab() {
         <p className="text-sm text-zinc-400">
           {sorted.length} recent{" "}
           <a
-            href="https://nvd.nist.gov/"
+            href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
             target="_blank"
             rel="noopener noreferrer"
             className="text-zinc-400 hover:text-zinc-200 underline underline-offset-2 decoration-zinc-600 hover:decoration-zinc-400 transition-colors"
           >
-            Common Vulnerabilities and Exposures
+            Known Exploited Vulnerabilities
           </a>{" "}
           <span className="text-zinc-600">
-            up to{" "}
-            {new Date(cveData.windowEnd + "Z").toLocaleString("en-US", {
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-              hour: "numeric",
-              minute: "2-digit",
-            })}
+            up to {formatDate(kevData.windowEnd)}
           </span>
         </p>
         <div className="flex items-center gap-2">
