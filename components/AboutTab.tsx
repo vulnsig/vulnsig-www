@@ -29,8 +29,8 @@ export function AboutTab() {
           <p>
             VulnSig encodes CVSS metrics into a compact visual glyph. Each
             shape, characteristic, and color maps to a specific metric: attack
-            vector, complexity, privileges, impact on confidentiality,
-            integrity, and availability, scope change, and more.
+            vector, complexity, privileges; impact on confidentiality,
+            integrity, and availability; scope change, and more.
           </p>
           <p>
             While the the CVSS vector provides rich information, many
@@ -40,9 +40,14 @@ export function AboutTab() {
             very different as glyphs.
           </p>
           <p>
-            VulnSig supports CVSS 4.0, 3.1, and 3.0. It is available as a
+            VulnSig supports CVSS 4.0, 3.1, and 3.0. It is freely available as a
             TypeScript library, a React component, a Python library, and a REST
             API.
+          </p>
+          <p>
+            VulnSig was originally created for application in the{" "}
+            <ExternalLink href="https://fetter.io">Fetter IO</ExternalLink>{" "}
+            supply-chain monitoring application.
           </p>
         </div>
         <div className="space-y-2 text-sm">
