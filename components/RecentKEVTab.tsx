@@ -42,7 +42,7 @@ export function RecentKEVTab() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-4 gap-4">
         <p className="text-sm text-zinc-400">
           {sorted.length} recent{" "}
           <a

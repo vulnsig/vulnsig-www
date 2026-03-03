@@ -1,0 +1,6 @@
+
+
+  When S3 is ready, set the env vars in .env.local or your deployment config:
+  NEXT_PUBLIC_CVE_DATA_URL=https://your-bucket.s3.amazonaws.com/cve-recent.json
+  NEXT_PUBLIC_KEV_DATA_URL=https://your-bucket.s3.amazonaws.com/kev-recent.json
+

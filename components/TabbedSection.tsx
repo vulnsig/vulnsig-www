@@ -56,7 +56,7 @@ export function TabbedSection() {
           role="tablist"
           onKeyDown={handleKeyDown}
         >
-          <div className="flex gap-0">
+          <div className="flex flex-wrap gap-0">
             {TABS.map((tab) => (
               <button
                 key={tab.id}
@@ -68,19 +68,19 @@ export function TabbedSection() {
                 aria-controls={`panel-${tab.id}`}
                 tabIndex={activeTab === tab.id ? 0 : -1}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-4 py-2 text-lg font-[family-name:var(--font-display)] transition-colors cursor-pointer ${
+                className={`px-4 py-2 text-lg font-[family-name:var(--font-display)] transition-colors cursor-pointer border-b-2 md:border-b-0 ${
                   activeTab === tab.id
-                    ? "text-zinc-100"
-                    : "text-zinc-500 hover:text-zinc-300"
+                    ? "text-zinc-100 border-zinc-100"
+                    : "text-zinc-500 hover:text-zinc-300 border-transparent"
                 }`}
               >
                 {tab.label}
               </button>
             ))}
           </div>
-          {/* Underline indicator */}
+          {/* Sliding underline — only when all tabs fit on one row (md+) */}
           <div
-            className="absolute bottom-0 h-px bg-zinc-100 tab-underline"
+            className="absolute bottom-0 h-px bg-zinc-100 tab-underline hidden md:block"
             style={{ left: underline.left, width: underline.width }}
           />
         </div>
