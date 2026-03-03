@@ -167,7 +167,8 @@ pre code {
 
 /* Section highlight flash for "get this glyph" navigation */
 @keyframes section-highlight {
-  0%, 20% {
+  0%,
+  20% {
     color: #ffffff;
     text-shadow: 0 0 24px rgba(255, 255, 255, 0.6);
   }

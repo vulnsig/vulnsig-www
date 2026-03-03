@@ -33,9 +33,11 @@ export function AboutTab() {
             availability, scope change, and more.
           </p>
           <p>
-            While the the CVSS vector provides rich information, many applications only report the CVSS score. The goal of VulnSig is to make vulnerability characteristics beyond just severity immediately legible. Two
-            vulnerabilities with the same numeric score can look very different
-            as glyphs.
+            While the the CVSS vector provides rich information, many
+            applications only report the CVSS score. The goal of VulnSig is to
+            make vulnerability characteristics beyond just severity immediately
+            legible. Two vulnerabilities with the same numeric score can look
+            very different as glyphs.
           </p>
           <p>
             VulnSig supports CVSS 4.0, 3.1, and 3.0. It is available as a
@@ -89,18 +91,18 @@ export function AboutTab() {
         <div className="space-y-4 text-sm text-zinc-400 leading-relaxed mb-6">
           <p>
             The Common Vulnerability Scoring System (CVSS) is an open standard
-            for rating the severity of security vulnerabilities. It is maintained
-            by{" "}
+            for rating the severity of security vulnerabilities. It is
+            maintained by{" "}
             <ExternalLink href="https://www.first.org">FIRST</ExternalLink>{" "}
             (Forum of Incident Response and Security Teams) and widely adopted
             by vendors, researchers, and vulnerability databases worldwide.
           </p>
           <p>
-            A CVSS vector string encodes a set of metrics defining how a vulnerability
-            is accessed, what conditions are required, what privileges are
-            needed, and what impact it has on confidentiality, integrity, and
-            availability. These metrics are combined into a base score from 0 to
-            10.
+            A CVSS vector string encodes a set of metrics defining how a
+            vulnerability is accessed, what conditions are required, what
+            privileges are needed, and what impact it has on confidentiality,
+            integrity, and availability. These metrics are combined into a base
+            score from 0 to 10.
           </p>
         </div>
         <div className="space-y-2 text-sm">
@@ -113,29 +115,30 @@ export function AboutTab() {
                 first.org/cvss
               </ExternalLink>
               <span className="text-zinc-600 ml-2">
-                 CVSS specification and calculator (FIRST)
+                CVSS specification and calculator (FIRST)
               </span>
             </li>
             <li>
               <ExternalLink href="https://www.first.org/cvss/v4-0/">
                 first.org/cvss/v4-0
               </ExternalLink>
-              <span className="text-zinc-600 ml-2"> CVSS 4.0 specification</span>
+              <span className="text-zinc-600 ml-2">
+                {" "}
+                CVSS 4.0 specification
+              </span>
             </li>
             <li>
               <ExternalLink href="https://nvd.nist.gov/vuln-metrics/cvss">
                 nvd.nist.gov/vuln-metrics/cvss
               </ExternalLink>
               <span className="text-zinc-600 ml-2">
-                 NIST NVD CVSS documentation
+                NIST NVD CVSS documentation
               </span>
             </li>
             <li>
-              <ExternalLink href="https://www.cve.org">
-                cve.org
-              </ExternalLink>
+              <ExternalLink href="https://www.cve.org">cve.org</ExternalLink>
               <span className="text-zinc-600 ml-2">
-                 CVE Program (vulnerability identifiers)
+                CVE Program (vulnerability identifiers)
               </span>
             </li>
           </ul>

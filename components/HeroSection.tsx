@@ -10,7 +10,6 @@ export function HeroSection() {
   return (
     <section className="w-full pt-16 pb-4 px-4">
       <div className="max-w-6xl mx-auto">
-
         <div ref={heroRef} className="flex justify-center">
           <HeroGlyph vuln={vuln} />
         </div>
