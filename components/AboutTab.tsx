@@ -28,9 +28,9 @@ export function AboutTab() {
         <div className="space-y-4 text-sm text-zinc-400 leading-relaxed mb-6">
           <p>
             VulnSig encodes CVSS metrics into a compact visual glyph. Each
-            shape, characteristic, and color maps to a specific metric: attack vector,
-            complexity, privileges, impact on confidentiality, integrity, and
-            availability, scope change, and more.
+            shape, characteristic, and color maps to a specific metric: attack
+            vector, complexity, privileges, impact on confidentiality,
+            integrity, and availability, scope change, and more.
           </p>
           <p>
             While the the CVSS vector provides rich information, many

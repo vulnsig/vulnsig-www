@@ -7,7 +7,7 @@ import "prismjs/components/prism-jsx";
 import "prismjs/components/prism-tsx";
 import "prismjs/components/prism-markup";
 import "prismjs/components/prism-markdown";
-import { useMemo } from "react";
+import { useMemo, useState, useCallback } from "react";
 import { useBuilder } from "./BuilderContext";
 import { calculateScore } from "vulnsig";
 
@@ -23,6 +23,15 @@ const LANG_MAP: Record<string, string> = {
 };
 
 function CodeBlock({ label, code }: { label?: string; code: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = useCallback(() => {
+    navigator.clipboard.writeText(code).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    });
+  }, [code]);
+
   const html = useMemo(() => {
     const lang = (label && LANG_MAP[label]) || "bash";
     const grammar = Prism.languages[lang];
@@ -33,7 +42,40 @@ function CodeBlock({ label, code }: { label?: string; code: string }) {
   return (
     <div className="mb-4">
       {label && <p className="text-xs font-mono text-zinc-500 mb-1">{label}</p>}
-      <pre className="bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-2 overflow-x-auto">
+      <pre
+        onClick={handleCopy}
+        className="bg-zinc-900 border border-zinc-800 rounded-lg pl-4 pr-8 py-2 cursor-pointer hover:border-zinc-700 transition-colors relative group whitespace-pre-wrap break-all"
+      >
+        <span className="absolute top-2 right-2 text-zinc-600 group-hover:text-zinc-400 transition-colors">
+          {copied ? (
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="3.5 8.5 6.5 11.5 12.5 4.5" />
+            </svg>
+          ) : (
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <rect x="5.5" y="5.5" width="8" height="8" rx="1.5" />
+              <path d="M10.5 5.5V3a1.5 1.5 0 0 0-1.5-1.5H3A1.5 1.5 0 0 0 1.5 3v6A1.5 1.5 0 0 0 3 10.5h2.5" />
+            </svg>
+          )}
+        </span>
         {html ? (
           <code
             className="text-sm font-mono"
@@ -185,7 +227,7 @@ svg = render_glyph(
           </p>
         </div>
 
-        <div className="overflow-x-auto mb-6">
+        <div className="overflow-x-auto mb-6 bg-zinc-900 border border-zinc-800 rounded-lg p-4">
           <table className="w-full text-sm">
             <thead>
               <tr className="text-left text-zinc-500 border-b border-zinc-800">
