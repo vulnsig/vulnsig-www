@@ -54,8 +54,8 @@ def parse_args():
     parser.add_argument(
         "--filename",
         type=str,
-        default=None,
-        help="Output filename (default: cve-recent-YYYYMMDD-HHMM.json)",
+        default="cve-recent.json",
+        help="Output filename (default: cve-recent.json)",
     )
     return parser.parse_args()
 
@@ -225,9 +225,7 @@ def main():
     # Write output
     out_dir = Path(args.output)
     out_dir.mkdir(parents=True, exist_ok=True)
-
-    filename = args.filename or "cve-recent.json"
-    out_path = out_dir / filename
+    out_path = out_dir / args.filename
 
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2)
