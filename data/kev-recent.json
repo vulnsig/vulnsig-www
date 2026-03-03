@@ -1,0 +1,636 @@
+{
+  "windowStart": "2025-12-03",
+  "windowEnd": "2026-03-03",
+  "cves": [
+    {
+      "id": "CVE-2022-20775",
+      "published": "2026-02-25",
+      "description": "Cisco SD-WAN Path Traversal Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 7.8
+      }
+    },
+    {
+      "id": "CVE-2026-20127",
+      "published": "2026-02-25",
+      "description": "Cisco Catalyst SD-WAN Controller and Manager Authentication Bypass Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+        "baseScore": 10
+      }
+    },
+    {
+      "id": "CVE-2026-25108",
+      "published": "2026-02-24",
+      "description": "Soliton Systems K.K FileZen OS Command Injection Vulnerability",
+      "cvss": {
+        "version": "4.0",
+        "vectorString": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
+        "baseScore": 8.7
+      }
+    },
+    {
+      "id": "CVE-2025-49113",
+      "published": "2026-02-20",
+      "description": "RoundCube Webmail Deserialization of Untrusted Data Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H",
+        "baseScore": 9.9
+      }
+    },
+    {
+      "id": "CVE-2025-68461",
+      "published": "2026-02-20",
+      "description": "RoundCube Webmail Cross-site Scripting Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:N",
+        "baseScore": 7.2
+      }
+    },
+    {
+      "id": "CVE-2021-22175",
+      "published": "2026-02-18",
+      "description": "GitLab Server-Side Request Forgery (SSRF) Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:N/A:N",
+        "baseScore": 6.8
+      }
+    },
+    {
+      "id": "CVE-2026-22769",
+      "published": "2026-02-18",
+      "description": "Dell RecoverPoint for Virtual Machines (RP4VMs) Use of Hard-coded Credentials Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+        "baseScore": 10
+      }
+    },
+    {
+      "id": "CVE-2020-7796",
+      "published": "2026-02-17",
+      "description": "Synacor Zimbra Collaboration Suite (ZCS) Server-Side Request Forgery Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 9.8
+      }
+    },
+    {
+      "id": "CVE-2024-7694",
+      "published": "2026-02-17",
+      "description": "TeamT5 ThreatSonar Anti-Ransomware Unrestricted Upload of File with Dangerous Type Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 7.2
+      }
+    },
+    {
+      "id": "CVE-2008-0015",
+      "published": "2026-02-17",
+      "description": " Microsoft Windows Video ActiveX Control Remote Code Execution Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "baseScore": 8.8
+      }
+    },
+    {
+      "id": "CVE-2026-2441",
+      "published": "2026-02-17",
+      "description": "Google Chromium CSS Use-After-Free Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "baseScore": 8.8
+      }
+    },
+    {
+      "id": "CVE-2026-1731",
+      "published": "2026-02-13",
+      "description": "BeyondTrust Remote Support (RS) and Privileged Remote Access (PRA) OS Command Injection Vulnerability",
+      "cvss": {
+        "version": "4.0",
+        "vectorString": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:L/SI:H/SA:L",
+        "baseScore": 9.9
+      }
+    },
+    {
+      "id": "CVE-2026-20700",
+      "published": "2026-02-12",
+      "description": "Apple Multiple Buffer Overflow Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 7.8
+      }
+    },
+    {
+      "id": "CVE-2024-43468",
+      "published": "2026-02-12",
+      "description": "Microsoft Configuration Manager SQL Injection Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H/E:U/RL:O/RC:C",
+        "baseScore": 9.8
+      }
+    },
+    {
+      "id": "CVE-2025-15556",
+      "published": "2026-02-12",
+      "description": "Notepad++ Download of Code Without Integrity Check Vulnerability",
+      "cvss": {
+        "version": "4.0",
+        "vectorString": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
+        "baseScore": 7.7
+      }
+    },
+    {
+      "id": "CVE-2025-40536",
+      "published": "2026-02-12",
+      "description": "SolarWinds Web Help Desk Security Control Bypass Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 8.1
+      }
+    },
+    {
+      "id": "CVE-2026-21513",
+      "published": "2026-02-10",
+      "description": "Microsoft MSHTML Framework Protection Mechanism Failure Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H/E:U/RL:O/RC:C",
+        "baseScore": 8.8
+      }
+    },
+    {
+      "id": "CVE-2026-21525",
+      "published": "2026-02-10",
+      "description": "Microsoft Windows NULL Pointer Dereference Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H/E:U/RL:O/RC:C",
+        "baseScore": 6.2
+      }
+    },
+    {
+      "id": "CVE-2026-21510",
+      "published": "2026-02-10",
+      "description": "Microsoft Windows Shell Protection Mechanism Failure Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H/E:F/RL:O/RC:C",
+        "baseScore": 8.8
+      }
+    },
+    {
+      "id": "CVE-2026-21533",
+      "published": "2026-02-10",
+      "description": "Microsoft Windows Improper Privilege Management Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H/E:F/RL:O/RC:C",
+        "baseScore": 7.8
+      }
+    },
+    {
+      "id": "CVE-2026-21519",
+      "published": "2026-02-10",
+      "description": "Microsoft Windows Type Confusion Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H/E:U/RL:O/RC:C",
+        "baseScore": 7.8
+      }
+    },
+    {
+      "id": "CVE-2026-21514",
+      "published": "2026-02-10",
+      "description": "Microsoft Office Word Reliance on Untrusted Inputs in a Security Decision Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H/E:F/RL:O/RC:C",
+        "baseScore": 7.8
+      }
+    },
+    {
+      "id": "CVE-2025-11953",
+      "published": "2026-02-05",
+      "description": "React Native Community CLI OS Command Injection Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 9.8
+      }
+    },
+    {
+      "id": "CVE-2026-24423",
+      "published": "2026-02-05",
+      "description": "SmarterTools SmarterMail Missing Authentication for Critical Function Vulnerability",
+      "cvss": {
+        "version": "4.0",
+        "vectorString": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
+        "baseScore": 9.3
+      }
+    },
+    {
+      "id": "CVE-2021-39935",
+      "published": "2026-02-03",
+      "description": "GitLab Community and Enterprise Editions Server-Side Request Forgery (SSRF) Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:N/A:N",
+        "baseScore": 6.8
+      }
+    },
+    {
+      "id": "CVE-2025-64328",
+      "published": "2026-02-03",
+      "description": "Sangoma FreePBX OS Command Injection Vulnerability",
+      "cvss": {
+        "version": "4.0",
+        "vectorString": "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
+        "baseScore": 8.6
+      }
+    },
+    {
+      "id": "CVE-2019-19006",
+      "published": "2026-02-03",
+      "description": " Sangoma FreePBX Improper Authentication Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 9.8
+      }
+    },
+    {
+      "id": "CVE-2025-40551",
+      "published": "2026-02-03",
+      "description": "SolarWinds Web Help Desk Deserialization of Untrusted Data Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 9.8
+      }
+    },
+    {
+      "id": "CVE-2026-1281",
+      "published": "2026-01-29",
+      "description": "Ivanti Endpoint Manager Mobile (EPMM) Code Injection Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 9.8
+      }
+    },
+    {
+      "id": "CVE-2026-24858",
+      "published": "2026-01-27",
+      "description": "Fortinet Multiple Products Authentication Bypass Using an Alternate Path or Channel Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H/E:H/RL:O/RC:C",
+        "baseScore": 9.4
+      }
+    },
+    {
+      "id": "CVE-2018-14634",
+      "published": "2026-01-26",
+      "description": "Linux Kernel Integer Overflow Vulnerability",
+      "cvss": {
+        "version": "3.0",
+        "vectorString": "CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 7.8
+      }
+    },
+    {
+      "id": "CVE-2025-52691",
+      "published": "2026-01-26",
+      "description": "SmarterTools SmarterMail Unrestricted Upload of File with Dangerous Type Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+        "baseScore": 10
+      }
+    },
+    {
+      "id": "CVE-2026-23760",
+      "published": "2026-01-26",
+      "description": "SmarterTools SmarterMail Authentication Bypass Using an Alternate Path or Channel Vulnerability",
+      "cvss": {
+        "version": "4.0",
+        "vectorString": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
+        "baseScore": 9.3
+      }
+    },
+    {
+      "id": "CVE-2026-24061",
+      "published": "2026-01-26",
+      "description": "GNU InetUtils Argument Injection Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 9.8
+      }
+    },
+    {
+      "id": "CVE-2026-21509",
+      "published": "2026-01-26",
+      "description": "Microsoft Office Security Feature Bypass Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H/E:F/RL:O/RC:C",
+        "baseScore": 7.8
+      }
+    },
+    {
+      "id": "CVE-2024-37079",
+      "published": "2026-01-23",
+      "description": "Broadcom VMware vCenter Server Out-of-bounds Write Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 9.8
+      }
+    },
+    {
+      "id": "CVE-2025-68645",
+      "published": "2026-01-22",
+      "description": "Synacor Zimbra Collaboration Suite (ZCS) PHP Remote File Inclusion Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "baseScore": 8.8
+      }
+    },
+    {
+      "id": "CVE-2025-34026",
+      "published": "2026-01-22",
+      "description": "Versa Concerto Improper Authentication Vulnerability",
+      "cvss": {
+        "version": "4.0",
+        "vectorString": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:H/SI:L/SA:N",
+        "baseScore": 9.2
+      }
+    },
+    {
+      "id": "CVE-2025-31125",
+      "published": "2026-01-22",
+      "description": "Vite Vitejs Improper Access Control Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:N/A:N",
+        "baseScore": 5.3
+      }
+    },
+    {
+      "id": "CVE-2025-54313",
+      "published": "2026-01-22",
+      "description": "Prettier eslint-config-prettier Embedded Malicious Code Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:H/A:N",
+        "baseScore": 7.5
+      }
+    },
+    {
+      "id": "CVE-2026-20045",
+      "published": "2026-01-21",
+      "description": "Cisco Unified Communications Products Code Injection Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:N",
+        "baseScore": 8.2
+      }
+    },
+    {
+      "id": "CVE-2026-20805",
+      "published": "2026-01-13",
+      "description": "Microsoft Windows Information Disclosure Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N/E:U/RL:O/RC:C",
+        "baseScore": 5.5
+      }
+    },
+    {
+      "id": "CVE-2025-8110",
+      "published": "2026-01-12",
+      "description": "Gogs Path Traversal Vulnerability",
+      "cvss": {
+        "version": "4.0",
+        "vectorString": "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:A/AU:Y/R:U/V:C",
+        "baseScore": 8.7
+      }
+    },
+    {
+      "id": "CVE-2009-0556",
+      "published": "2026-01-07",
+      "description": "Microsoft Office PowerPoint Code Injection Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "baseScore": 8.8
+      }
+    },
+    {
+      "id": "CVE-2025-37164",
+      "published": "2026-01-07",
+      "description": "Hewlett Packard Enterprise (HPE) OneView Code Injection Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+        "baseScore": 10
+      }
+    },
+    {
+      "id": "CVE-2025-14847",
+      "published": "2025-12-29",
+      "description": "MongoDB and MongoDB Server Improper Handling of Length Parameter Inconsistency Vulnerability",
+      "cvss": {
+        "version": "4.0",
+        "vectorString": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N",
+        "baseScore": 8.7
+      }
+    },
+    {
+      "id": "CVE-2023-52163",
+      "published": "2025-12-22",
+      "description": "Digiever DS-2105 Pro Missing Authorization Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 8.8
+      }
+    },
+    {
+      "id": "CVE-2025-14733",
+      "published": "2025-12-19",
+      "description": "WatchGuard Firebox Out of Bounds Write Vulnerability",
+      "cvss": {
+        "version": "4.0",
+        "vectorString": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/U:Red",
+        "baseScore": 9.3
+      }
+    },
+    {
+      "id": "CVE-2025-59374",
+      "published": "2025-12-17",
+      "description": "ASUS Live Update Embedded Malicious Code Vulnerability",
+      "cvss": {
+        "version": "4.0",
+        "vectorString": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
+        "baseScore": 9.3
+      }
+    },
+    {
+      "id": "CVE-2025-40602",
+      "published": "2025-12-17",
+      "description": "SonicWall SMA1000 Missing Authorization Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 6.6
+      }
+    },
+    {
+      "id": "CVE-2025-20393",
+      "published": "2025-12-17",
+      "description": "Cisco Multiple Products Improper Input Validation Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+        "baseScore": 10
+      }
+    },
+    {
+      "id": "CVE-2025-59718",
+      "published": "2025-12-16",
+      "description": "Fortinet Multiple Products Improper Verification of Cryptographic Signature Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H/E:F/RL:O/RC:C",
+        "baseScore": 9.1
+      }
+    },
+    {
+      "id": "CVE-2025-14611",
+      "published": "2025-12-15",
+      "description": "Gladinet CentreStack and Triofox Hard Coded Cryptographic Vulnerability",
+      "cvss": {
+        "version": "4.0",
+        "vectorString": "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:L/VI:N/VA:N/SC:H/SI:H/SA:H/E:A",
+        "baseScore": 7.1
+      }
+    },
+    {
+      "id": "CVE-2025-43529",
+      "published": "2025-12-15",
+      "description": "Apple Multiple Products Use-After-Free WebKit Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "baseScore": 8.8
+      }
+    },
+    {
+      "id": "CVE-2018-4063",
+      "published": "2025-12-12",
+      "description": "Sierra Wireless AirLink ALEOS Unrestricted Upload of File with Dangerous Type Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 8.8
+      }
+    },
+    {
+      "id": "CVE-2025-14174",
+      "published": "2025-12-12",
+      "description": "Google Chromium Out of Bounds Memory Access Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "baseScore": 8.8
+      }
+    },
+    {
+      "id": "CVE-2025-58360",
+      "published": "2025-12-11",
+      "description": "OSGeo GeoServer Improper Restriction of XML External Entity Reference Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:L",
+        "baseScore": 8.2
+      }
+    },
+    {
+      "id": "CVE-2025-6218",
+      "published": "2025-12-09",
+      "description": "RARLAB WinRAR Path Traversal Vulnerability",
+      "cvss": {
+        "version": "3.0",
+        "vectorString": "CVSS:3.0/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "baseScore": 7.8
+      }
+    },
+    {
+      "id": "CVE-2025-62221",
+      "published": "2025-12-09",
+      "description": "Microsoft Windows Use After Free Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H/E:U/RL:O/RC:C",
+        "baseScore": 7.8
+      }
+    },
+    {
+      "id": "CVE-2022-37055",
+      "published": "2025-12-08",
+      "description": "D-Link Routers Buffer Overflow Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 9.8
+      }
+    },
+    {
+      "id": "CVE-2025-66644",
+      "published": "2025-12-08",
+      "description": "Array Networks ArrayOS AG OS Command Injection Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 7.2
+      }
+    },
+    {
+      "id": "CVE-2025-55182",
+      "published": "2025-12-05",
+      "description": "Meta React Server Components Remote Code Execution Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+        "baseScore": 10
+      }
+    },
+    {
+      "id": "CVE-2021-26828",
+      "published": "2025-12-03",
+      "description": "OpenPLC ScadaBR Unrestricted Upload of File with Dangerous Type Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 8.8
+      }
+    }
+  ]
+}
