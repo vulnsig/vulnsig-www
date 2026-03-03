@@ -214,13 +214,13 @@ def main():
     # Sort newest first
     cves.sort(key=lambda c: c["published"], reverse=True)
 
-    # payload = {
-    #     "generatedAt": datetime.now(timezone.utc).isoformat(),
-    #     "windowStart": window_start,
-    #     "windowEnd": window_end,
-    #     "count": len(cves),
-    #     "cves": cves,
-    # }
+    payload = {
+        # "generatedAt": datetime.now(timezone.utc).isoformat(),
+        "windowStart": window_start,
+        "windowEnd": window_end,
+        # "count": len(cves),
+        "cves": cves,
+    }
 
     # Write output
     out_dir = Path(args.output)
@@ -230,7 +230,7 @@ def main():
     out_path = out_dir / filename
 
     with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(cves, f, indent=2)
+        json.dump(payload, f, indent=2)
 
     print(f"Written to: {out_path}")
 

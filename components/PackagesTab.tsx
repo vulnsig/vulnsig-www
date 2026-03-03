@@ -241,7 +241,7 @@ svg = render_glyph(
           <p className="text-xs font-mono text-zinc-500 mb-2">
             Error response (400)
           </p>
-          <pre className="bg-zinc-900 border border-zinc-800 rounded-lg p-4 overflow-x-auto">
+          <pre className="bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-2 overflow-x-auto">
             <code className="text-sm font-mono text-zinc-300">{`{ "error": "Invalid CVSS vector", "detail": "..." }`}</code>
           </pre>
         </div>

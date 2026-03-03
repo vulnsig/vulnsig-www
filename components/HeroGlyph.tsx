@@ -127,7 +127,14 @@ export function HeroGlyph({ vuln }: { vuln: Vulnerability }) {
         <div className="mb-4">
           <p className="font-semibold text-sm text-zinc-200">{vuln.name}</p>
           {vuln.cve && (
-            <p className="font-mono text-xs text-zinc-500">{vuln.cve}</p>
+            <a
+              href={`https://nvd.nist.gov/vuln/detail/${vuln.cve}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
+            >
+              {vuln.cve}
+            </a>
           )}
         </div>
         <ul className="space-y-2">

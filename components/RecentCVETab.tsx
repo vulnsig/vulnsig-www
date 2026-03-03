@@ -6,7 +6,7 @@ import { VulnSig } from "vulnsig-react";
 import { ScoreBadge } from "./ScoreBadge";
 import { useBuilder } from "./BuilderContext";
 
-const POOL = cveData.slice(0, 40);
+const POOL = cveData.cves.slice(0, 40);
 
 type SortMode = "date-desc" | "score-desc" | "score-asc";
 
@@ -43,7 +43,19 @@ export function RecentCVETab() {
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <p className="text-sm text-zinc-400">{sorted.length} recent CVEs</p>
+        <p className="text-sm text-zinc-400">
+          {sorted.length} recent CVEs{" "}
+          <span className="text-zinc-600">
+            as of{" "}
+            {new Date(cveData.windowEnd + "Z").toLocaleString("en-US", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+              hour: "numeric",
+              minute: "2-digit",
+            })}
+          </span>
+        </p>
         <div className="flex items-center gap-2">
           <span className="text-xs text-zinc-500">Sort:</span>
           <select
@@ -83,7 +95,7 @@ export function RecentCVETab() {
                 <p className="text-sm text-zinc-400 leading-relaxed mb-2 line-clamp-3">
                   {cve.description}
                 </p>
-                <p className="font-mono text-xs text-zinc-700 mb-4 break-all">
+                <p className="font-mono text-xs text-zinc-600 mb-4 break-all">
                   {displayVector(vector)}
                 </p>
                 <button
