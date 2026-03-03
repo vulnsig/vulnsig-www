@@ -41,7 +41,6 @@ export function GalleryTab() {
       <div className="flex items-center justify-between mb-4">
         <p className="text-sm text-zinc-400">{sorted.length} vulnerabilities</p>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-zinc-500">Sort:</span>
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value as SortMode)}
