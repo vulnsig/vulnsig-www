@@ -6,7 +6,7 @@ import { VulnSig } from "vulnsig-react";
 import { ScoreBadge } from "./ScoreBadge";
 import { useBuilder } from "./BuilderContext";
 
-const POOL = cveData.slice(0, 20);
+const POOL = cveData.slice(0, 40);
 
 type SortMode = "date-desc" | "score-desc" | "score-asc";
 
