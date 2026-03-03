@@ -165,6 +165,28 @@ pre code {
   color: #fb923c;
 }
 
+/* Section highlight flash for "get this glyph" navigation */
+@keyframes section-highlight {
+  0%, 20% {
+    color: #ffffff;
+    text-shadow: 0 0 24px rgba(255, 255, 255, 0.6);
+  }
+  100% {
+    color: #f4f4f5;
+    text-shadow: none;
+  }
+}
+
+.section-highlight {
+  animation: section-highlight 2.5s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-highlight {
+    animation: none;
+  }
+}
+
 /* Sticky builder bar shadow */
 .builder-sticky {
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);

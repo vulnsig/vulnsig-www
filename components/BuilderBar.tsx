@@ -8,7 +8,14 @@ import { useBuilder } from "./BuilderContext";
 import { calculateScore } from "vulnsig";
 
 export function BuilderBar() {
-  const { vector, setVector, expanded, setExpanded, builderRef, navigateToPackageSection } = useBuilder();
+  const {
+    vector,
+    setVector,
+    expanded,
+    setExpanded,
+    builderRef,
+    navigateToPackageSection,
+  } = useBuilder();
   const [inputValue, setInputValue] = useState(vector);
   const vectorRef = useRef(vector);
   const score = calculateScore(vector);
@@ -100,7 +107,9 @@ export function BuilderBar() {
 
           {/* Row 2: get-from buttons */}
           <div className="flex items-center justify-end gap-2 pb-4">
-            <span className="text-xs font-mono text-zinc-600">get this glyph in</span>
+            <span className="text-xs font-mono text-zinc-600">
+              get this glyph via
+            </span>
             <div className="flex items-center border border-zinc-700 rounded overflow-hidden">
               <a
                 href={`/api/v1/svg?vector=${encodeURIComponent(vector)}${score !== null ? `&score=${score}` : ""}`}

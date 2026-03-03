@@ -14,14 +14,16 @@ function LegendSection({
   metricKeys,
   description,
   examples,
+  className,
 }: {
   title: string;
   metricKeys: string[];
   description: React.ReactNode;
   examples: LegendExample[];
+  className?: string;
 }) {
   return (
-    <div className="pb-10 border-b border-zinc-800 last:border-b-0">
+    <div className={`pb-10 border-b border-zinc-800 last:border-b-0 ${className ?? ""}`}>
       <div className="mb-4">
         <h3 className="text-lg font-semibold mb-1 flex items-center gap-2">
           {title}
@@ -46,6 +48,7 @@ function LegendSection({
 export function LegendTab() {
   return (
     <div className="space-y-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
       <LegendSection
         title="Color Hue"
         metricKeys={["Score"]}
@@ -242,6 +245,7 @@ export function LegendTab() {
       <LegendSection
         title="Ring Segmentation"
         metricKeys={["AT"]}
+        className="md:border-b-0"
         description={
           <>
             Attack Requirements captures prerequisites in the vulnerable
@@ -299,6 +303,8 @@ export function LegendTab() {
           },
         ]}
       />
+
+      </div>
 
       {/* Summary table */}
       <div className="pb-10">

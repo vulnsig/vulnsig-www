@@ -33,7 +33,7 @@ function CodeBlock({ label, code }: { label?: string; code: string }) {
   return (
     <div className="mb-4">
       {label && <p className="text-xs font-mono text-zinc-500 mb-1">{label}</p>}
-      <pre className="bg-zinc-900 border border-zinc-800 rounded-lg p-4 overflow-x-auto">
+      <pre className="bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-2 overflow-x-auto">
         {html ? (
           <code
             className="text-sm font-mono"
@@ -75,24 +75,36 @@ export function PackagesTab() {
     <div className="space-y-16">
       {/* TypeScript & React */}
       <div>
-        <h3 id="pkg-typescript" className="text-lg font-semibold mb-6">TypeScript &amp; React</h3>
+        <h3 id="pkg-typescript" className="text-lg font-semibold mb-6">
+          TypeScript &amp; React
+        </h3>
         <div className="space-y-6">
           <div>
-            <h4 className="text-sm font-mono text-zinc-500 uppercase tracking-wider mb-3">Install</h4>
+            <h4 className="text-sm font-mono text-zinc-500 uppercase tracking-wider mb-3">
+              Install
+            </h4>
             <CodeBlock
               code={`npm install vulnsig           # Core — SVG string output
 npm install vulnsig-react     # React component`}
             />
             <div className="flex gap-3 text-sm">
-              <ExternalLink href="https://www.npmjs.com/package/vulnsig">npm: vulnsig</ExternalLink>
+              <ExternalLink href="https://www.npmjs.com/package/vulnsig">
+                npm: vulnsig
+              </ExternalLink>
               <span className="text-zinc-700">·</span>
-              <ExternalLink href="https://www.npmjs.com/package/vulnsig-react">npm: vulnsig-react</ExternalLink>
+              <ExternalLink href="https://www.npmjs.com/package/vulnsig-react">
+                npm: vulnsig-react
+              </ExternalLink>
               <span className="text-zinc-700">·</span>
-              <ExternalLink href="https://github.com/vulnsig/vulnsig-ts">GitHub</ExternalLink>
+              <ExternalLink href="https://github.com/vulnsig/vulnsig-ts">
+                GitHub
+              </ExternalLink>
             </div>
           </div>
           <div>
-            <h4 className="text-sm font-mono text-zinc-500 uppercase tracking-wider mb-3">Usage</h4>
+            <h4 className="text-sm font-mono text-zinc-500 uppercase tracking-wider mb-3">
+              Usage
+            </h4>
             <CodeBlock
               label="TypeScript (Core library)"
               code={`import { renderGlyph } from 'vulnsig';
@@ -119,19 +131,29 @@ const svg = renderGlyph({
 
       {/* Python */}
       <div>
-        <h3 id="pkg-python" className="text-lg font-semibold mb-6">Python</h3>
+        <h3 id="pkg-python" className="text-lg font-semibold mb-6">
+          Python
+        </h3>
         <div className="space-y-6">
           <div>
-            <h4 className="text-sm font-mono text-zinc-500 uppercase tracking-wider mb-3">Install</h4>
+            <h4 className="text-sm font-mono text-zinc-500 uppercase tracking-wider mb-3">
+              Install
+            </h4>
             <CodeBlock code={`pip install vulnsig`} />
             <div className="flex gap-3 text-sm">
-              <ExternalLink href="https://pypi.org/project/vulnsig">PyPI: vulnsig</ExternalLink>
+              <ExternalLink href="https://pypi.org/project/vulnsig">
+                PyPI: vulnsig
+              </ExternalLink>
               <span className="text-zinc-700">·</span>
-              <ExternalLink href="https://github.com/vulnsig/vulnsig-py">GitHub</ExternalLink>
+              <ExternalLink href="https://github.com/vulnsig/vulnsig-py">
+                GitHub
+              </ExternalLink>
             </div>
           </div>
           <div>
-            <h4 className="text-sm font-mono text-zinc-500 uppercase tracking-wider mb-3">Usage</h4>
+            <h4 className="text-sm font-mono text-zinc-500 uppercase tracking-wider mb-3">
+              Usage
+            </h4>
             <CodeBlock
               label="Python"
               code={`from vulnsig import render_glyph
@@ -148,13 +170,15 @@ svg = render_glyph(
 
       {/* REST API */}
       <div>
-        <h3 id="pkg-rest-api" className="text-lg font-semibold mb-6">REST API</h3>
+        <h3 id="pkg-rest-api" className="text-lg font-semibold mb-6">
+          REST API
+        </h3>
         <p className="text-sm text-zinc-400 mb-4">
           Generate SVG glyphs via HTTP. Same vector, same output — responses are
           cached aggressively.
         </p>
 
-        <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-4 mb-4">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-2 mb-4">
           <p className="font-mono text-sm text-zinc-300">
             <span className="text-emerald-400">GET</span>{" "}
             https://vulnsig.io/api/v1/svg

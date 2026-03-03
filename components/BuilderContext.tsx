@@ -8,14 +8,15 @@ import {
   useRef,
   type ReactNode,
 } from "react";
-import { VULNERABILITIES } from "@/data/vulnerabilities";
+import { VULNERABILITIES, type Vulnerability } from "@/data/vulnerabilities";
 
 interface BuilderContextValue {
   vector: string;
   setVector: (v: string) => void;
+  selectedVuln: Vulnerability | null;
   expanded: boolean;
   setExpanded: (e: boolean) => void;
-  loadVector: (v: string) => void;
+  loadVector: (vuln: Vulnerability) => void;
   builderRef: React.RefObject<HTMLDivElement | null>;
   heroRef: React.RefObject<HTMLDivElement | null>;
   activeTab: string;
@@ -26,12 +27,16 @@ interface BuilderContextValue {
 const BuilderContext = createContext<BuilderContextValue | null>(null);
 
 export function BuilderProvider({ children }: { children: ReactNode }) {
-  const [vector, setVector] = useState(
-    () =>
-      VULNERABILITIES[Math.floor(Math.random() * VULNERABILITIES.length)]
-        .vector,
+  const [selectedVuln, setSelectedVuln] = useState<Vulnerability | null>(
+    () => VULNERABILITIES[Math.floor(Math.random() * VULNERABILITIES.length)],
   );
+  const [vector, setVectorRaw] = useState(() => selectedVuln?.vector ?? "");
   const [expanded, setExpanded] = useState(false);
+
+  const setVector = useCallback((v: string) => {
+    setSelectedVuln(null);
+    setVectorRaw(v);
+  }, []);
   const [activeTab, setActiveTab] = useState("gallery");
   const builderRef = useRef<HTMLDivElement | null>(null);
   const heroRef = useRef<HTMLDivElement | null>(null);
@@ -43,12 +48,18 @@ export function BuilderProvider({ children }: { children: ReactNode }) {
       if (el) {
         const y = el.getBoundingClientRect().top + window.scrollY - 80;
         window.scrollTo({ top: y, behavior: "smooth" });
+        // Restart animation even if triggered repeatedly
+        el.classList.remove("section-highlight");
+        void el.offsetWidth;
+        el.classList.add("section-highlight");
+        setTimeout(() => el.classList.remove("section-highlight"), 1400);
       }
     }, 50);
   }, []);
 
-  const loadVector = useCallback((v: string) => {
-    setVector(v);
+  const loadVector = useCallback((vuln: Vulnerability) => {
+    setSelectedVuln(vuln);
+    setVectorRaw(vuln.vector);
     setExpanded(true);
     // Scroll to the hero glyph
     setTimeout(() => {
@@ -65,6 +76,7 @@ export function BuilderProvider({ children }: { children: ReactNode }) {
       value={{
         vector,
         setVector,
+        selectedVuln,
         expanded,
         setExpanded,
         loadVector,

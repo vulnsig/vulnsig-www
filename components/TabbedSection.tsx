@@ -4,14 +4,17 @@ import { useState, useRef, useEffect } from "react";
 import { GalleryTab } from "./GalleryTab";
 import { LegendTab } from "./LegendTab";
 import { PackagesTab } from "./PackagesTab";
+import { AboutTab } from "./AboutTab";
+import { RecentCVETab } from "./RecentCVETab";
 import { useBuilder } from "./BuilderContext";
 
 const TABS = [
   { id: "gallery", label: "Gallery" },
+  { id: "recent", label: "Recent CVEs" },
   { id: "legend", label: "Legend" },
   { id: "packages", label: "Packages & API" },
+  { id: "about", label: "About" },
 ] as const;
-
 
 export function TabbedSection() {
   const { activeTab, setActiveTab } = useBuilder();
@@ -62,16 +65,7 @@ export function TabbedSection() {
                 aria-selected={activeTab === tab.id}
                 aria-controls={`panel-${tab.id}`}
                 tabIndex={activeTab === tab.id ? 0 : -1}
-                onClick={() => {
-                  setActiveTab(tab.id);
-                  if (tabBarRef.current) {
-                    const y =
-                      tabBarRef.current.getBoundingClientRect().top +
-                      window.scrollY -
-                      64;
-                    window.scrollTo({ top: y, behavior: "smooth" });
-                  }
-                }}
+                onClick={() => setActiveTab(tab.id)}
                 className={`px-5 py-3 text-lg font-[family-name:var(--font-display)] transition-colors cursor-pointer ${
                   activeTab === tab.id
                     ? "text-zinc-100"
@@ -99,8 +93,10 @@ export function TabbedSection() {
             hidden={activeTab !== tab.id}
           >
             {tab.id === "gallery" && <GalleryTab />}
+            {tab.id === "recent" && <RecentCVETab />}
             {tab.id === "legend" && <LegendTab />}
             {tab.id === "packages" && <PackagesTab />}
+            {tab.id === "about" && <AboutTab />}
           </div>
         ))}
       </div>

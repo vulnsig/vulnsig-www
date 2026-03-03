@@ -31,7 +31,7 @@ export function GalleryCard({ vuln }: { vuln: Vulnerability }) {
           {vuln.vector}
         </p>
         <button
-          onClick={() => loadVector(vuln.vector)}
+          onClick={() => loadVector(vuln)}
           className="text-xs font-mono text-zinc-400 hover:text-zinc-100 border border-zinc-700 hover:border-zinc-500 rounded px-3 py-1.5 transition-colors cursor-pointer"
         >
           Try in builder
