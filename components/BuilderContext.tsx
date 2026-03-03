@@ -82,7 +82,11 @@ export function BuilderProvider({ children }: { children: ReactNode }) {
             scroll: false,
           });
         } else {
-          history.replaceState(null, "", `${window.location.pathname}?${params}`);
+          history.replaceState(
+            null,
+            "",
+            `${window.location.pathname}?${params}`,
+          );
         }
       } else {
         history.replaceState(null, "", window.location.pathname);
@@ -125,24 +129,27 @@ export function BuilderProvider({ children }: { children: ReactNode }) {
     }, 50);
   }, []);
 
-  const loadVector = useCallback((vuln: Vulnerability) => {
-    setSelectedVuln(vuln);
-    setVectorRaw(vuln.vector);
-    setExpanded(true);
-    // Use the Next.js router so back/forward updates useSearchParams correctly
-    const params = new URLSearchParams();
-    params.set("vector", vuln.vector);
-    if (vuln.cve) params.set("cve", vuln.cve);
-    router.push(`${window.location.pathname}?${params}`, { scroll: false });
-    // Scroll to the hero glyph
-    setTimeout(() => {
-      if (heroRef.current) {
-        const y =
-          heroRef.current.getBoundingClientRect().top + window.scrollY - 64;
-        window.scrollTo({ top: y, behavior: "smooth" });
-      }
-    }, 50);
-  }, [router]);
+  const loadVector = useCallback(
+    (vuln: Vulnerability) => {
+      setSelectedVuln(vuln);
+      setVectorRaw(vuln.vector);
+      setExpanded(true);
+      // Use the Next.js router so back/forward updates useSearchParams correctly
+      const params = new URLSearchParams();
+      params.set("vector", vuln.vector);
+      if (vuln.cve) params.set("cve", vuln.cve);
+      router.push(`${window.location.pathname}?${params}`, { scroll: false });
+      // Scroll to the hero glyph
+      setTimeout(() => {
+        if (heroRef.current) {
+          const y =
+            heroRef.current.getBoundingClientRect().top + window.scrollY - 64;
+          window.scrollTo({ top: y, behavior: "smooth" });
+        }
+      }, 50);
+    },
+    [router],
+  );
 
   return (
     <BuilderContext.Provider
