@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { VulnSig } from "vulnsig-react";
 import { calculateScore } from "vulnsig";
-import { ScoreBadge } from "./ScoreBadge";
 import { useData } from "./DataContext";
 import { VULNERABILITIES } from "@/data/vulnerabilities";
 import type { CveEntry } from "./DataContext";
@@ -22,10 +21,7 @@ function shuffle<T>(arr: T[]): T[] {
   return out;
 }
 
-function buildDistractorPool(
-  cves: CveEntry[],
-  kevs: CveEntry[],
-): QuizEntry[] {
+function buildDistractorPool(cves: CveEntry[], kevs: CveEntry[]): QuizEntry[] {
   const seen = new Set<string>();
   const pool: QuizEntry[] = [];
   for (const c of cves.slice(0, 40)) {
@@ -48,12 +44,18 @@ interface QuizQuestion {
   choices: QuizEntry[];
 }
 
+const DIFFICULTY_CHOICES = { easy: 3, challenging: 6, hard: 9 } as const;
+type Difficulty = keyof typeof DIFFICULTY_CHOICES;
+
 function generateQuestion(
   questionPool: QuizEntry[],
   distractorPool: QuizEntry[],
+  numChoices: number,
   excludeVector?: string,
 ): QuizQuestion | null {
-  if (questionPool.length === 0 || distractorPool.length < 2) return null;
+  const numDistractors = numChoices - 1;
+  if (questionPool.length === 0 || distractorPool.length < numDistractors)
+    return null;
 
   const available = excludeVector
     ? questionPool.filter((q) => q.vector !== excludeVector)
@@ -62,11 +64,9 @@ function generateQuestion(
 
   const correct = available[Math.floor(Math.random() * available.length)];
 
-  const distPool = distractorPool.filter(
-    (d) => d.vector !== correct.vector,
-  );
-  const shuffledDistractors = shuffle(distPool).slice(0, 2);
-  if (shuffledDistractors.length < 2) return null;
+  const distPool = distractorPool.filter((d) => d.vector !== correct.vector);
+  const shuffledDistractors = shuffle(distPool).slice(0, numDistractors);
+  if (shuffledDistractors.length < numDistractors) return null;
 
   const choices = shuffle([correct, ...shuffledDistractors]);
   return { correct, choices };
@@ -76,8 +76,7 @@ export function QuizTab() {
   const { cveData, kevData } = useData();
 
   const questionPool: QuizEntry[] = useMemo(
-    () =>
-      VULNERABILITIES.map((v) => ({ id: v.name, vector: v.vector })),
+    () => VULNERABILITIES.map((v) => ({ id: v.name, vector: v.vector })),
     [],
   );
 
@@ -86,8 +85,10 @@ export function QuizTab() {
     [cveData, kevData],
   );
 
+  const [difficulty, setDifficulty] = useState<Difficulty>("easy");
+
   const [question, setQuestion] = useState<QuizQuestion | null>(() =>
-    generateQuestion(questionPool, distractorPool),
+    generateQuestion(questionPool, distractorPool, DIFFICULTY_CHOICES["easy"]),
   );
   const [wrongChoices, setWrongChoices] = useState<Set<string>>(new Set());
   const [solved, setSolved] = useState(false);
@@ -97,6 +98,21 @@ export function QuizTab() {
   } | null>(null);
   const [showVector, setShowVector] = useState(false);
   const [score, setScore] = useState({ correct: 0, total: 0 });
+  const [fadingMessage, setFadingMessage] = useState(false);
+
+  useEffect(() => {
+    setFadingMessage(false);
+    if (!lastMessage || lastMessage.correct) return;
+    const fadeTimer = setTimeout(() => setFadingMessage(true), 1000);
+    const clearTimer = setTimeout(() => {
+      setLastMessage(null);
+      setFadingMessage(false);
+    }, 4000);
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(clearTimer);
+    };
+  }, [lastMessage]);
 
   const handleSelect = useCallback(
     (vector: string) => {
@@ -107,7 +123,7 @@ export function QuizTab() {
 
       if (isCorrect) {
         setSolved(true);
-        setLastMessage({ text: "✓ Correct! Well done.", correct: true });
+        setLastMessage({ text: "Correct!", correct: true });
         setScore((prev) => ({
           correct: prev.correct + 1,
           total: prev.total + 1,
@@ -115,7 +131,7 @@ export function QuizTab() {
       } else {
         setWrongChoices((prev) => new Set([...prev, vector]));
         setLastMessage({
-          text: "✗ Not quite — try another glyph.",
+          text: "Try another glyph",
           correct: false,
         });
         setScore((prev) => ({ ...prev, total: prev.total + 1 }));
@@ -128,6 +144,7 @@ export function QuizTab() {
     const next = generateQuestion(
       questionPool,
       distractorPool,
+      DIFFICULTY_CHOICES[difficulty],
       question?.correct.vector,
     );
     setQuestion(next);
@@ -135,58 +152,88 @@ export function QuizTab() {
     setSolved(false);
     setLastMessage(null);
     setShowVector(false);
-  }, [question, questionPool, distractorPool]);
+  }, [question, questionPool, distractorPool, difficulty]);
 
   if (!question) {
-    return (
-      <div className="text-zinc-500 text-sm">
-        Loading quiz…
-      </div>
-    );
+    return <div className="text-zinc-500 text-sm">Loading quiz…</div>;
   }
-
-  const questionScore = calculateScore(question.correct.vector);
 
   return (
     <div className="max-w-2xl mx-auto">
+      {/* Difficulty selector */}
+      <div className="flex items-center gap-3 mb-6">
+        {/* <label className="text-sm text-zinc-500">Difficulty</label> */}
+        <select
+          value={difficulty}
+          onChange={(e) => {
+            const next = e.target.value as Difficulty;
+            setDifficulty(next);
+            setQuestion(
+              generateQuestion(
+                questionPool,
+                distractorPool,
+                DIFFICULTY_CHOICES[next],
+              ),
+            );
+            setWrongChoices(new Set());
+            setSolved(false);
+            setLastMessage(null);
+            setShowVector(false);
+          }}
+          className="text-xs font-mono bg-zinc-900 border border-zinc-700 rounded px-2 py-1 text-zinc-300 cursor-pointer"
+        >
+          <option value="easy">Easy (3 glyphs)</option>
+          <option value="challenging">Challenging (6 glyphs)</option>
+          <option value="hard">Hard (9 glyphs)</option>
+        </select>
+      </div>
+
       {/* Score tracker */}
       <div className="flex items-center justify-between mb-6">
         <p className="text-sm text-zinc-400">
           Score:{" "}
-          <span className="font-mono text-zinc-200">
+          <span className="text-zinc-200">
             {score.correct} / {score.total}
           </span>
         </p>
         {score.total > 0 && (
-          <p className="text-xs font-mono text-zinc-500">
+          <p className="text-sm text-zinc-500">
             {Math.round((score.correct / score.total) * 100)}% accuracy
           </p>
         )}
       </div>
 
       {/* Question card */}
-      <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-6 mb-6">
-        <p className="text-xs font-mono text-zinc-500 mb-2">
+      <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-6 mb-6 min-h-60">
+        <p className="text-sm text-zinc-500 mb-2">
           Which glyph matches this vulnerability?
         </p>
-        <div className="flex items-center gap-3 mb-4">
-          <h2 className="text-xl font-semibold text-zinc-100">
+        <div className="flex gap-2 mb-4">
+          <h2 className="w-1/3 text-xl font-semibold text-zinc-100">
             {question.correct.id}
           </h2>
-          <ScoreBadge score={questionScore} size="sm" />
+          <span className="w-2/3 text-sm text-zinc-400">
+            {
+              VULNERABILITIES.find((v) => v.name === question.correct.id)
+                ?.description
+            }
+          </span>
         </div>
-        {showVector ? (
-          <p className="font-mono text-xs text-zinc-400 break-all">
+        <div className="relative">
+          <p
+            className={`font-mono text-xs break-all ${showVector ? "text-zinc-400" : "invisible"}`}
+          >
             {question.correct.vector}
           </p>
-        ) : (
-          <button
-            onClick={() => setShowVector(true)}
-            className="text-xs font-mono text-zinc-500 hover:text-zinc-300 border border-zinc-700 hover:border-zinc-500 rounded px-3 py-1.5 transition-colors cursor-pointer"
-          >
-            Show CVSS vector
-          </button>
-        )}
+          {!showVector && (
+            <button
+              onClick={() => setShowVector(true)}
+              className="absolute top-0 left-0 text-xs font-mono text-zinc-500 hover:text-zinc-300 border border-zinc-700 hover:border-zinc-500 rounded px-3 py-1.5 transition-colors cursor-pointer"
+            >
+              Show CVSS vector
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Glyph choices */}
@@ -200,9 +247,9 @@ export function QuizTab() {
           let borderClass =
             "border-zinc-700 hover:border-zinc-500 cursor-pointer";
           if (solved && isCorrectChoice) {
-            borderClass = "border-green-500";
+            borderClass = "border-indigo-500/70";
           } else if (isWrong) {
-            borderClass = "border-red-800 opacity-40 cursor-default";
+            borderClass = "border-zinc-700 opacity-40 cursor-default";
           } else if (solved) {
             borderClass = "border-zinc-800 cursor-default";
           }
@@ -216,35 +263,25 @@ export function QuizTab() {
               className={`bg-zinc-900 border rounded-lg p-4 flex flex-col items-center gap-2 transition-colors ${borderClass}`}
             >
               <VulnSig vector={choice.vector} size={100} score={choiceScore} />
-              {solved && isCorrectChoice && (
-                <p className="text-xs font-mono text-green-400">✓ correct</p>
-              )}
-              {isWrong && (
-                <p className="text-xs font-mono text-red-500">✗ wrong</p>
-              )}
             </button>
           );
         })}
       </div>
 
       {/* Feedback message */}
-      {lastMessage && (
-        <div className="text-center mb-4">
-          <p
-            className={`font-semibold mb-4 ${lastMessage.correct ? "text-green-400" : "text-red-400"}`}
-          >
-            {lastMessage.text}
-          </p>
-          {solved && (
-            <button
-              onClick={handleNext}
-              className="text-sm font-mono text-zinc-400 hover:text-zinc-100 border border-zinc-700 hover:border-zinc-500 rounded px-4 py-2 transition-colors cursor-pointer"
-            >
-              Next question →
-            </button>
-          )}
-        </div>
-      )}
+      <div className={`text-center mb-4 ${lastMessage ? "" : "invisible"}`}>
+        <p
+          className={`font-semibold mb-4 transition-opacity duration-1000 ${fadingMessage ? "opacity-0" : "opacity-100"} ${lastMessage?.correct ? "text-indigo-300/90" : "text-zinc-400"}`}
+        >
+          {lastMessage?.text ?? "placeholder"}
+        </p>
+        <button
+          onClick={handleNext}
+          className={`text-sm font-mono text-zinc-400 hover:text-zinc-100 border border-zinc-700 hover:border-zinc-500 rounded px-4 py-2 transition-colors cursor-pointer ${solved ? "" : "invisible"}`}
+        >
+          Next question
+        </button>
+      </div>
     </div>
   );
 }
