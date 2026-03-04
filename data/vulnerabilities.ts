@@ -11,56 +11,55 @@ export const VULNERABILITIES: Vulnerability[] = [
     cve: "CVE-2021-44228",
     vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
     description:
-      "Remote code execution in Apache Log4j. A network attacker with no privileges and no user interaction can fully compromise confidentiality, integrity, and availability — and the damage spreads to downstream systems.",
+      "Remote code execution in Apache Log4j. A network attacker with no privileges and no user interaction can fully compromise confidentiality, integrity, and availability, and the damage spreads to downstream systems.",
   },
   {
     name: "Heartbleed",
     cve: "CVE-2014-0160",
     vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
     description:
-      "Information disclosure in OpenSSL. Only confidentiality is impacted — the glyph shows a single bright sector while the rest remain dark, demonstrating CIA independence.",
+      "Information disclosure in OpenSSL. Only confidentiality is impacted.",
   },
   {
     name: "Spectre",
     cve: "CVE-2017-5715",
     vector: "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:C/C:H/I:N/A:N",
     description:
-      "Speculative execution side-channel. Local access, high complexity, low privileges — the blunt star and split band show scope change reaching downstream systems, with only confidentiality impacted.",
+      "Speculative execution side-channel. Local access, high complexity, low privileges; only confidentiality impacted.",
   },
   {
     name: "EternalBlue",
     cve: "CVE-2017-0144",
     vector: "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
     description:
-      "SMB remote code execution used by WannaCry. Full impact on the vulnerable system but no downstream spread — the ring is solid, not split.",
+      "A Windows SMB vulnerability exploited to propagate the WannaCry ransomware globally. Full impact on the vulnerable system but no downstream spread.",
   },
   {
     name: "Dirty COW",
     cve: "CVE-2016-5195",
     vector: "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H",
     description:
-      "Linux kernel privilege escalation via copy-on-write race condition. Local access with low privileges — high confidentiality and integrity impact but no availability impact.",
+      "Linux kernel privilege escalation via copy-on-write race condition. Local access with low privileges: high confidentiality and integrity impact but no availability impact.",
   },
   {
     name: "BlueKeep",
     cve: "CVE-2019-0708",
     vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
     description:
-      "RDP remote code execution. Network-accessible with no interaction needed. Full vulnerable system impact with low downstream spread visible in the split band.",
+      "RDP remote code execution. Network-accessible with no interaction needed. Full vulnerable system impact with low downstream spread.",
   },
   {
     name: "Rowhammer",
     cve: "CVE-2015-0565",
     vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
-    description:
-      "DRAM bit-flip exploit. High complexity with preconditions — the blunt, segmented glyph shows multiple barriers to exploitation alongside significant downstream impact.",
+    description: "DRAM bit-flip exploit. High complexity with preconditions.",
   },
   {
     name: "KRACK",
     cve: "CVE-2017-13077",
     vector: "CVSS:3.0/AV:A/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
     description:
-      "WPA2 key reinstallation attack. Adjacent network access required (6-point star), high complexity with preconditions — only confidentiality affected.",
+      "WPA2 key reinstallation attack. Adjacent network access required, high complexity with preconditions; confidentiality and integrity affected.",
   },
   {
     name: "Shellshock",
@@ -74,21 +73,21 @@ export const VULNERABILITIES: Vulnerability[] = [
     cve: "CVE-2014-3566",
     vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:L/I:N/A:N",
     description:
-      "SSL 3.0 padding oracle. High complexity with preconditions and only low confidentiality impact — the subdued glyph reflects a difficult-to-exploit, limited-impact vulnerability.",
+      "SSL 3.0 padding oracle. High complexity with preconditions and only low confidentiality impact; a difficult-to-exploit, limited-impact vulnerability.",
   },
   {
     name: "Meltdown",
     cve: "CVE-2017-5754",
     vector: "CVSS:3.0/AV:L/AC:H/PR:L/UI:N/S:C/C:H/I:N/A:N",
     description:
-      "CPU memory isolation bypass. Similar profile to Spectre — local, high complexity, preconditions required. The split band shows downstream system impact on confidentiality.",
+      "CPU memory isolation bypass. Similar profile to Spectre — local, high complexity, preconditions required; downstream system impact on confidentiality.",
   },
   {
     name: "Sudo Baron Samedit",
     cve: "CVE-2021-3156",
     vector: "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
     description:
-      "Heap overflow in sudo. Local, low complexity, low privileges needed — full CIA impact on the vulnerable system. A sharp 4-point star with all sectors bright.",
+      "Heap overflow in sudo. Local, low complexity, low privileges needed; full CIA impact on the vulnerable system.",
   },
   {
     name: "Next.js Middleware Bypass Vulnerability",
@@ -104,20 +103,20 @@ export const VULNERABILITIES: Vulnerability[] = [
     description:
       "There is a race condition which can lead sshd to handle some signals in an unsafe manner. An unauthenticated, remote attacker may be able to trigger it by failing to authenticate within a set time period.",
   },
-  {
-    name: "aiohttp directory traversal",
-    cve: "CVE-2024-23334",
-    vector: "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N",
-    description:
-      "Improperly configuring static resource resolution in aiohttp when used as a web server can result in the unauthorized reading of arbitrary files on the system.",
-  },
-  {
-    name: "Microsoft Office SharePoint XSS Vulnerability",
-    cve: "CVE-2020-0926",
-    vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:P/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N",
-    description:
-      "A cross-site-scripting (XSS) vulnerability exists when Microsoft SharePoint Server does not properly sanitize a specially crafted web request to an affected SharePoint server.",
-  },
+  // {
+  //   name: "aiohttp directory traversal",
+  //   cve: "CVE-2024-23334",
+  //   vector: "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N",
+  //   description:
+  //     "Improperly configuring static resource resolution in aiohttp when used as a web server can result in the unauthorized reading of arbitrary files on the system.",
+  // },
+  // {
+  //   name: "Microsoft Office SharePoint XSS Vulnerability",
+  //   cve: "CVE-2020-0926",
+  //   vector: "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:P/VC:N/VI:N/VA:N/SC:L/SI:L/SA:N",
+  //   description:
+  //     "A cross-site-scripting (XSS) vulnerability exists when Microsoft SharePoint Server does not properly sanitize a specially crafted web request to an affected SharePoint server.",
+  // },
   {
     name: "PaperCut",
     cve: "CVE-2023-27350",
@@ -125,7 +124,58 @@ export const VULNERABILITIES: Vulnerability[] = [
     description:
       "PaperCut servers vulnerable to CVE-2023-27350 implement improper access controls in the SetupCompleted Java class, allowing malicious actors to bypass user authentication and access the server as an administrator.",
   },
+  {
+    name: "ProxyShell",
+    cve: "CVE-2021-34473",
+    vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+    description:
+      "A chain of Microsoft Exchange vulnerabilities widely exploited for RCE.",
+  },
+  {
+    name: "Microsoft Office Memory Corruption",
+    cve: "CVE-2017-11882",
+    vector: "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+    description:
+      "A long-standing vulnerability in the Equation Editor, frequently used in phishing campaigns.",
+  },
+  {
+    name: "NFS mount daemon",
+    cve: "CVE-1999-0211",
+    vector: "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    description:
+      "Extra long export lists over 256 characters in some mount daemons allows NFS directories to be mounted by anyone.",
+  },
+  {
+    name: "Folina",
+    cve: "CVE-2022-30190",
+    vector: "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+    description:
+      "A remote code execution vulnerability exists when MSDT is called using the URL protocol from a calling application such as Word. An attacker who successfully exploits this vulnerability can run arbitrary code with the privileges of the calling application. The attacker can then install programs, view, change, or delete data, or create new accounts in the context allowed by the user’s rights.",
+  },
+  {
+    name: "PetitPotam",
+    cve: "CVE-2021-36942",
+    vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+    description:
+      "Windows LSA Spoofing Vulnerability. Allows unauthenticated attackers to take over Windows Domain Controllers and compromise an entire Active Directory domain.",
+  },
+  {
+    name: "PrintNightmare",
+    cve: "CVE-2021-34527",
+    vector: "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+    description:
+      "A remote code execution vulnerability exists when the Windows Print Spooler service improperly performs privileged file operations. An attacker who successfully exploited this vulnerability could run arbitrary code with SYSTEM privileges. An attacker could then install programs; view, change, or delete data; or create new accounts with full user rights.",
+  },
+  {
+    name: "CitrixBleed",
+    cve: "CVE-2023-4966",
+    vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+    description:
+      "Sensitive information disclosure in NetScaler ADC and NetScaler Gateway when configured as a Gateway (VPN virtual server, ICA Proxy, CVPN, RDP Proxy) or AAA  virtual server.",
+  },
 ];
 
 // note: some 4.0 examples are from here:
 // https://www.first.org/cvss/examples
+// historical examples here:
+// https://www.tenable.com/blog/from-bugs-to-breaches-25-significant-cves-as-mitre-cve-turns-25

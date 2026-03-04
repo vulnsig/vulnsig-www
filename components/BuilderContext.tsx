@@ -74,9 +74,10 @@ export function BuilderProvider({ children }: { children: ReactNode }) {
     (v: string, push = false) => {
       setSelectedVuln(null);
       setVectorRaw(v);
+      const params = new URLSearchParams(window.location.search);
       if (v) {
-        const params = new URLSearchParams();
         params.set("vector", v);
+        params.delete("cve");
         if (push) {
           router.push(`${window.location.pathname}?${params}`, {
             scroll: false,
@@ -89,16 +90,44 @@ export function BuilderProvider({ children }: { children: ReactNode }) {
           );
         }
       } else {
-        history.replaceState(null, "", window.location.pathname);
+        params.delete("vector");
+        params.delete("cve");
+        const search = params.toString();
+        history.replaceState(
+          null,
+          "",
+          search
+            ? `${window.location.pathname}?${search}`
+            : window.location.pathname,
+        );
       }
     },
     [router],
   );
-  const [activeTab, setActiveTab] = useState("gallery");
+  const [activeTab, setActiveTabState] = useState(
+    () => searchParams.get("tab") ?? "gallery",
+  );
+
+  const setActiveTab = useCallback(
+    (tab: string) => {
+      setActiveTabState(tab);
+      const params = new URLSearchParams(window.location.search);
+      params.set("tab", tab);
+      router.push(`${window.location.pathname}?${params}`, { scroll: false });
+    },
+    [router],
+  );
   const builderRef = useRef<HTMLDivElement | null>(null);
   const heroRef = useRef<HTMLDivElement | null>(null);
 
-  // Sync state from URL — handles initial load, back, and forward.
+  // Sync tab from URL on back/forward
+  useEffect(() => {
+    const urlTab = searchParams.get("tab") ?? "gallery";
+    if (urlTab !== activeTab) setActiveTabState(urlTab);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
+  // Sync vector state from URL — handles initial load, back, and forward.
   // Skip when the vector already matches to avoid a redundant re-render
   // after loadVector / setVector update state and the URL simultaneously.
   useEffect(() => {
@@ -113,21 +142,24 @@ export function BuilderProvider({ children }: { children: ReactNode }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams, cveData, kevData]);
 
-  const navigateToPackageSection = useCallback((sectionId: string) => {
-    setActiveTab("packages");
-    setTimeout(() => {
-      const el = document.getElementById(sectionId);
-      if (el) {
-        const y = el.getBoundingClientRect().top + window.scrollY - 80;
-        window.scrollTo({ top: y, behavior: "smooth" });
-        // Restart animation even if triggered repeatedly
-        el.classList.remove("section-highlight");
-        void el.offsetWidth;
-        el.classList.add("section-highlight");
-        setTimeout(() => el.classList.remove("section-highlight"), 1400);
-      }
-    }, 50);
-  }, []);
+  const navigateToPackageSection = useCallback(
+    (sectionId: string) => {
+      setActiveTab("packages");
+      setTimeout(() => {
+        const el = document.getElementById(sectionId);
+        if (el) {
+          const y = el.getBoundingClientRect().top + window.scrollY - 80;
+          window.scrollTo({ top: y, behavior: "smooth" });
+          // Restart animation even if triggered repeatedly
+          el.classList.remove("section-highlight");
+          void el.offsetWidth;
+          el.classList.add("section-highlight");
+          setTimeout(() => el.classList.remove("section-highlight"), 1400);
+        }
+      }, 50);
+    },
+    [setActiveTab],
+  );
 
   const loadVector = useCallback(
     (vuln: Vulnerability) => {
@@ -135,9 +167,10 @@ export function BuilderProvider({ children }: { children: ReactNode }) {
       setVectorRaw(vuln.vector);
       setExpanded(true);
       // Use the Next.js router so back/forward updates useSearchParams correctly
-      const params = new URLSearchParams();
+      const params = new URLSearchParams(window.location.search);
       params.set("vector", vuln.vector);
       if (vuln.cve) params.set("cve", vuln.cve);
+      else params.delete("cve");
       router.push(`${window.location.pathname}?${params}`, { scroll: false });
       // Scroll to the hero glyph
       setTimeout(() => {
