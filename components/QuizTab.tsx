@@ -95,19 +95,18 @@ export function QuizTab() {
   const [lastMessage, setLastMessage] = useState<{
     text: string;
     correct: boolean;
+    fading?: boolean;
   } | null>(null);
   const [showVector, setShowVector] = useState(false);
   const [score, setScore] = useState({ correct: 0, total: 0 });
-  const [fadingMessage, setFadingMessage] = useState(false);
 
   useEffect(() => {
-    setFadingMessage(false);
-    if (!lastMessage || lastMessage.correct) return;
-    const fadeTimer = setTimeout(() => setFadingMessage(true), 1000);
-    const clearTimer = setTimeout(() => {
-      setLastMessage(null);
-      setFadingMessage(false);
-    }, 4000);
+    if (!lastMessage || lastMessage.correct || lastMessage.fading) return;
+    const fadeTimer = setTimeout(
+      () => setLastMessage((prev) => (prev ? { ...prev, fading: true } : null)),
+      1000,
+    );
+    const clearTimer = setTimeout(() => setLastMessage(null), 4000);
     return () => {
       clearTimeout(fadeTimer);
       clearTimeout(clearTimer);
@@ -271,7 +270,7 @@ export function QuizTab() {
       {/* Feedback message */}
       <div className={`text-center mb-4 ${lastMessage ? "" : "invisible"}`}>
         <p
-          className={`font-semibold mb-4 transition-opacity duration-1000 ${fadingMessage ? "opacity-0" : "opacity-100"} ${lastMessage?.correct ? "text-indigo-300/90" : "text-zinc-400"}`}
+          className={`font-semibold mb-4 transition-opacity duration-1000 ${lastMessage?.fading ? "opacity-0" : "opacity-100"} ${lastMessage?.correct ? "text-indigo-300/90" : "text-zinc-400"}`}
         >
           {lastMessage?.text ?? "placeholder"}
         </p>

@@ -142,21 +142,24 @@ export function BuilderProvider({ children }: { children: ReactNode }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams, cveData, kevData]);
 
-  const navigateToPackageSection = useCallback((sectionId: string) => {
-    setActiveTab("packages");
-    setTimeout(() => {
-      const el = document.getElementById(sectionId);
-      if (el) {
-        const y = el.getBoundingClientRect().top + window.scrollY - 80;
-        window.scrollTo({ top: y, behavior: "smooth" });
-        // Restart animation even if triggered repeatedly
-        el.classList.remove("section-highlight");
-        void el.offsetWidth;
-        el.classList.add("section-highlight");
-        setTimeout(() => el.classList.remove("section-highlight"), 1400);
-      }
-    }, 50);
-  }, []);
+  const navigateToPackageSection = useCallback(
+    (sectionId: string) => {
+      setActiveTab("packages");
+      setTimeout(() => {
+        const el = document.getElementById(sectionId);
+        if (el) {
+          const y = el.getBoundingClientRect().top + window.scrollY - 80;
+          window.scrollTo({ top: y, behavior: "smooth" });
+          // Restart animation even if triggered repeatedly
+          el.classList.remove("section-highlight");
+          void el.offsetWidth;
+          el.classList.add("section-highlight");
+          setTimeout(() => el.classList.remove("section-highlight"), 1400);
+        }
+      }, 50);
+    },
+    [setActiveTab],
+  );
 
   const loadVector = useCallback(
     (vuln: Vulnerability) => {

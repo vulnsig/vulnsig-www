@@ -1,18 +1,11 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { VulnSig } from "vulnsig-react";
-import { ScoreBadge } from "./ScoreBadge";
 import { useBuilder } from "./BuilderContext";
 import { useData } from "./DataContext";
+import { GlyphCard } from "./GlyphCard";
 
 type SortMode = "date-desc" | "date-asc" | "score-desc" | "score-asc";
-
-// Strip supplemental/environmental metrics from CVSS 4.0 vectors for display
-function displayVector(vectorString: string): string {
-  const cut = vectorString.indexOf("/E:");
-  return cut !== -1 ? vectorString.slice(0, cut) : vectorString;
-}
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-US", {
@@ -92,50 +85,26 @@ export function RecentCVETab() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {sorted.map((cve) => {
-          const vector = cve.cvss.vectorString;
-          const score = cve.cvss.baseScore;
-
-          return (
-            <div
-              key={cve.id}
-              className="bg-zinc-900 border border-zinc-800 rounded-lg px-2 pt-2 pb-4 flex flex-col items-center gap-2 hover:border-zinc-700 transition-colors"
-            >
-              <div aria-label={`${cve.id} glyph, score ${score}`}>
-                <VulnSig vector={vector} size={100} score={score} />
-              </div>
-
-              <div className="text-center w-full">
-                <div className="flex items-center justify-center gap-2 mb-2">
-                  <h3 className="font-semibold text-sm font-mono">{cve.id}</h3>
-                  <ScoreBadge score={score} size="sm" />
-                </div>
-                <p className="font-mono text-xs text-zinc-600 mb-2">
-                  {formatDate(cve.published)} · CVSS {cve.cvss.version}
-                </p>
-                <p className="text-sm text-zinc-400 leading-relaxed mb-2 line-clamp-3">
-                  {cve.description}
-                </p>
-                <p className="font-mono text-xs text-zinc-600 mb-4 break-all">
-                  {displayVector(vector)}
-                </p>
-                <button
-                  onClick={() =>
-                    loadVector({
-                      name: cve.id,
-                      cve: cve.id,
-                      vector,
-                      description: cve.description,
-                    })
-                  }
-                  className="text-xs font-mono text-zinc-400 hover:text-zinc-100 border border-zinc-700 hover:border-zinc-500 rounded px-3 py-1.5 transition-colors cursor-pointer"
-                >
-                  Try in builder
-                </button>
-              </div>
-            </div>
-          );
-        })}
+        {sorted.map((cve) => (
+          <GlyphCard
+            key={cve.id}
+            name={cve.id}
+            nameMono
+            cveId={cve.id}
+            subtitle={`${formatDate(cve.published)} · CVSS ${cve.cvss.version}`}
+            description={cve.description}
+            vector={cve.cvss.vectorString}
+            score={cve.cvss.baseScore}
+            onLoadVector={() =>
+              loadVector({
+                name: cve.id,
+                cve: cve.id,
+                vector: cve.cvss.vectorString,
+                description: cve.description,
+              })
+            }
+          />
+        ))}
       </div>
     </div>
   );

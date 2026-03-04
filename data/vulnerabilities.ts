@@ -131,7 +131,51 @@ export const VULNERABILITIES: Vulnerability[] = [
     description:
       "A chain of Microsoft Exchange vulnerabilities widely exploited for RCE.",
   },
+  {
+    name: "Microsoft Office Memory Corruption",
+    cve: "CVE-2017-11882",
+    vector: "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+    description:
+      "A long-standing vulnerability in the Equation Editor, frequently used in phishing campaigns.",
+  },
+  {
+    name: "NFS mount daemon",
+    cve: "CVE-1999-0211",
+    vector: "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    description:
+      "Extra long export lists over 256 characters in some mount daemons allows NFS directories to be mounted by anyone.",
+  },
+  {
+    name: "Folina",
+    cve: "CVE-2022-30190",
+    vector: "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+    description:
+      "A remote code execution vulnerability exists when MSDT is called using the URL protocol from a calling application such as Word. An attacker who successfully exploits this vulnerability can run arbitrary code with the privileges of the calling application. The attacker can then install programs, view, change, or delete data, or create new accounts in the context allowed by the user’s rights.",
+  },
+  {
+    name: "PetitPotam",
+    cve: "CVE-2021-36942",
+    vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+    description:
+      "Windows LSA Spoofing Vulnerability. Allows unauthenticated attackers to take over Windows Domain Controllers and compromise an entire Active Directory domain.",
+  },
+  {
+    name: "PrintNightmare",
+    cve: "CVE-2021-34527",
+    vector: "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+    description:
+      "A remote code execution vulnerability exists when the Windows Print Spooler service improperly performs privileged file operations. An attacker who successfully exploited this vulnerability could run arbitrary code with SYSTEM privileges. An attacker could then install programs; view, change, or delete data; or create new accounts with full user rights.",
+  },
+  {
+    name: "CitrixBleed",
+    cve: "CVE-2023-4966",
+    vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+    description:
+      "Sensitive information disclosure in NetScaler ADC and NetScaler Gateway when configured as a Gateway (VPN virtual server, ICA Proxy, CVPN, RDP Proxy) or AAA  virtual server.",
+  },
 ];
 
 // note: some 4.0 examples are from here:
 // https://www.first.org/cvss/examples
+// historical examples here:
+// https://www.tenable.com/blog/from-bugs-to-breaches-25-significant-cves-as-mitre-cve-turns-25

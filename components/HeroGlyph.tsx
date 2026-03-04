@@ -55,116 +55,120 @@ export function HeroGlyph({ vuln }: { vuln: Vulnerability }) {
   );
 
   return (
-    <div className="flex items-center gap-0 max-w-2xl w-full px-4">
-      {/* Left: glyph with letter markers */}
-      <div
-        className="flex-none relative"
-        style={{ width: svgSize, height: svgSize }}
-      >
+    <div className="flex items-center w-full px-2">
+      {/* Left half: glyph with letter markers, right-justified */}
+      <div className="flex-1 flex justify-end">
         <div
-          className="absolute"
-          style={{
-            left: (svgSize - glyphSize) / 2,
-            top: (svgSize - glyphSize) / 2,
-          }}
+          className="flex-none relative"
+          style={{ width: svgSize, height: svgSize }}
         >
-          <VulnSig
-            vector={vuln.vector}
-            size={glyphSize}
-            score={calculateScore(vuln.vector)}
-          />
-        </div>
+          <div
+            className="absolute"
+            style={{
+              left: (svgSize - glyphSize) / 2,
+              top: (svgSize - glyphSize) / 2,
+            }}
+          >
+            <VulnSig
+              vector={vuln.vector}
+              size={glyphSize}
+              score={calculateScore(vuln.vector)}
+            />
+          </div>
 
-        {/* Letter markers overlaid on glyph */}
-        <svg
-          className="absolute inset-0 pointer-events-none"
-          width={svgSize}
-          height={svgSize}
-          viewBox={`0 0 ${svgSize} ${svgSize}`}
-        >
-          {callouts.map((callout, i) => {
-            const pos = getMarkerPosition(callout.anchor, glyphSize);
-            const mx = cx + pos.x;
-            const my = cy + pos.y;
-            const delay = `${i * 0.2}s`;
+          {/* Letter markers overlaid on glyph */}
+          <svg
+            className="absolute inset-0 pointer-events-none"
+            width={svgSize}
+            height={svgSize}
+            viewBox={`0 0 ${svgSize} ${svgSize}`}
+          >
+            {callouts.map((callout, i) => {
+              const pos = getMarkerPosition(callout.anchor, glyphSize);
+              const mx = cx + pos.x;
+              const my = cy + pos.y;
+              const delay = `${i * 0.2}s`;
 
-            return (
-              <g
-                key={callout.feature}
-                className="callout-animate"
-                style={{ animationDelay: delay }}
-              >
-                <circle
-                  cx={mx}
-                  cy={my}
-                  r={11}
-                  fill="rgba(0,0,0,0.7)"
-                  stroke="rgba(255,255,255,0.3)"
-                  strokeWidth={1}
-                />
-                <text
-                  x={mx}
-                  y={my}
-                  textAnchor="middle"
-                  dominantBaseline="central"
-                  style={{
-                    fontSize: "11px",
-                    fontFamily: "var(--font-mono), monospace",
-                    fontWeight: 600,
-                    fill: "rgba(255,255,255,0.85)",
-                  }}
+              return (
+                <g
+                  key={callout.feature}
+                  className="callout-animate"
+                  style={{ animationDelay: delay }}
                 >
-                  {LETTERS[i]}
-                </text>
-              </g>
-            );
-          })}
-        </svg>
+                  <circle
+                    cx={mx}
+                    cy={my}
+                    r={11}
+                    fill="rgba(0,0,0,0.7)"
+                    stroke="rgba(255,255,255,0.3)"
+                    strokeWidth={1}
+                  />
+                  <text
+                    x={mx}
+                    y={my}
+                    textAnchor="middle"
+                    dominantBaseline="central"
+                    style={{
+                      fontSize: "11px",
+                      fontFamily: "var(--font-mono), monospace",
+                      fontWeight: 600,
+                      fill: "rgba(255,255,255,0.85)",
+                    }}
+                  >
+                    {LETTERS[i]}
+                  </text>
+                </g>
+              );
+            })}
+          </svg>
+        </div>
       </div>
 
-      {/* Right: callout legend */}
-      <div className="flex-1 min-w-0">
-        <div className="mb-4">
-          <p className="font-semibold text-sm text-zinc-200">{vuln.name}</p>
-          {vuln.cve && (
-            <a
-              href={`https://nvd.nist.gov/vuln/detail/${vuln.cve}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-mono text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
-            >
-              {vuln.cve}
-            </a>
-          )}
-        </div>
-        <ul className="space-y-2">
-          {callouts.map((callout, i) => {
-            const delay = `${i * 0.2}s`;
-            return (
-              <li
-                key={callout.feature}
-                className="flex gap-2 items-start callout-animate"
-                style={{ animationDelay: delay }}
+      {/* Right half: callout legend, left-justified */}
+      <div className="flex-1">
+        <div className="min-w-0">
+          <div className="mb-4">
+            <p className="font-semibold text-sm text-zinc-200">{vuln.name}</p>
+            {vuln.cve && (
+              <a
+                href={`https://nvd.nist.gov/vuln/detail/${vuln.cve}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-mono text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
               >
-                <span className="flex-none w-5 h-5 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-[10px] font-mono font-semibold text-zinc-400">
-                  {LETTERS[i]}
-                </span>
-                <span className="inline-flex flex-wrap gap-1">
-                  {(
-                    callout.metrics ??
-                    FEATURE_METRICS[callout.feature] ??
-                    []
-                  ).map((k) => (
-                    <MetricTag key={k} label={k} color={metricColor(k)} />
-                  ))}
-                </span>
-                <span className="text-sm text-zinc-400 leading-relaxed">
-                  {callout.label}
-                </span>
-              </li>
-            );
-          })}
-        </ul>
+                {vuln.cve}
+              </a>
+            )}
+          </div>
+          <ul className="space-y-2">
+            {callouts.map((callout, i) => {
+              const delay = `${i * 0.2}s`;
+              return (
+                <li
+                  key={callout.feature}
+                  className="flex gap-2 items-start callout-animate"
+                  style={{ animationDelay: delay }}
+                >
+                  <span className="flex-none w-5 h-5 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center text-[10px] font-mono font-semibold text-zinc-400">
+                    {LETTERS[i]}
+                  </span>
+                  <span className="inline-flex flex-wrap gap-1">
+                    {(
+                      callout.metrics ??
+                      FEATURE_METRICS[callout.feature] ??
+                      []
+                    ).map((k) => (
+                      <MetricTag key={k} label={k} color={metricColor(k)} />
+                    ))}
+                  </span>
+                  <span className="text-sm text-zinc-400 leading-relaxed">
+                    {callout.label}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </div>
     </div>
   );
