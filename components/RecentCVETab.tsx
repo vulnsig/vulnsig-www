@@ -27,8 +27,12 @@ export function RecentCVETab() {
   const { cveData } = useData();
   const [sort, setSort] = useState<SortMode>("date-desc");
 
+  const pool = useMemo(() => cveData.cves.slice(0, 40), [cveData]);
+
+  const latestPublished = pool[0]?.published ?? "";
+
   const sorted = useMemo(() => {
-    const items = cveData.cves.slice(0, 40);
+    const items = [...pool];
     switch (sort) {
       case "date-desc":
         return items.sort((a, b) => b.published.localeCompare(a.published));
@@ -39,7 +43,7 @@ export function RecentCVETab() {
       case "score-asc":
         return items.sort((a, b) => a.cvss.baseScore - b.cvss.baseScore);
     }
-  }, [sort, cveData]);
+  }, [sort, pool]);
 
   return (
     <div>
@@ -56,7 +60,15 @@ export function RecentCVETab() {
           </a>{" "}
           <span className="text-zinc-600">
             up to{" "}
-            {new Date(cveData.windowEnd + "Z").toLocaleString("en-US", {
+            {new Date(latestPublished + "Z").toLocaleString("en-US", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+              hour: "numeric",
+              minute: "2-digit",
+            })}
+            {" as of "}
+            {new Date(cveData.generatedAt).toLocaleString("en-US", {
               year: "numeric",
               month: "short",
               day: "numeric",

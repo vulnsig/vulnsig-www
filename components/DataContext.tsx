@@ -18,6 +18,7 @@ export interface CveEntry {
 }
 
 export interface CveDataset {
+  generatedAt: string;
   windowStart: string;
   windowEnd: string;
   cves: CveEntry[];

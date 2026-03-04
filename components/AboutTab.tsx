@@ -45,7 +45,7 @@ export function AboutTab() {
             API.
           </p>
           <p>
-            VulnSig was originally created for application in the{" "}
+            VulnSig was created by <ExternalLink href="https://www.flexatone.net">Christopher Ariza</ExternalLink>{" "} for application in the{" "}
             <ExternalLink href="https://fetter.io">Fetter IO</ExternalLink>{" "}
             supply-chain monitoring application.
           </p>

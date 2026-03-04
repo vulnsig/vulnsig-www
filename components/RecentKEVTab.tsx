@@ -54,7 +54,15 @@ export function RecentKEVTab() {
             Known Exploited Vulnerabilities
           </a>{" "}
           <span className="text-zinc-600">
-            up to {formatDate(kevData.windowEnd)}
+            up to {formatDate(kevData.cves[0]?.published ?? "")}
+            {" as of "}
+            {new Date(kevData.generatedAt).toLocaleString("en-US", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+              hour: "numeric",
+              minute: "2-digit",
+            })}
           </span>
         </p>
         <div className="flex items-center gap-2">

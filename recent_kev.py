@@ -19,13 +19,13 @@ import sys
 import time
 import urllib.request
 import urllib.error
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime, timezone
 from pathlib import Path
 
 
 KEV_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
 MITRE_URL = "https://cveawg.mitre.org/api/cve/{cve_id}"
-REQUEST_DELAY = 0.3  # seconds between MITRE API requests
+REQUEST_DELAY = 0.1  # seconds between MITRE API requests
 
 # Highest version wins
 CVSS_PRIORITY = ["cvssV4_0", "cvssV3_1", "cvssV3_0", "cvssV2_0"]
@@ -145,13 +145,11 @@ def main():
     in_window.sort(key=lambda v: v["dateAdded"], reverse=True)
 
     print(f"Found {len(in_window)} KEV entries in window")
-
     if not in_window:
         print(
             "No entries in date window. Try widening the range with --days.",
             file=sys.stderr,
         )
-        sys.exit(1)
 
     # Enrich each entry with CVSS from MITRE
     print(f"\nFetching CVSS data from MITRE CVE API...")
@@ -161,10 +159,8 @@ def main():
     for i, vuln in enumerate(in_window):
         cve_id = vuln["cveID"]
         print(f"  [{i + 1}/{len(in_window)}] {cve_id}...", end=" ", flush=True)
-
         if i > 0:
             time.sleep(REQUEST_DELAY)
-
         try:
             data = fetch_json(MITRE_URL.format(cve_id=cve_id))
             cvss = extract_cvss(data.get("containers", {}))
@@ -193,6 +189,7 @@ def main():
     )
 
     payload = {
+        "generatedAt": datetime.now(timezone.utc).isoformat(),
         "windowStart": window_start.isoformat(),
         "windowEnd": window_end.isoformat(),
         "cves": cves,

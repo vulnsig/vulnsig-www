@@ -215,10 +215,9 @@ def main():
     cves.sort(key=lambda c: c["published"], reverse=True)
 
     payload = {
-        # "generatedAt": datetime.now(timezone.utc).isoformat(),
+        "generatedAt": datetime.now(timezone.utc).isoformat(),
         "windowStart": window_start,
         "windowEnd": window_end,
-        # "count": len(cves),
         "cves": cves,
     }
 
