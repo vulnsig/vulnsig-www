@@ -21,18 +21,24 @@ function shuffle<T>(arr: T[]): T[] {
   return out;
 }
 
-function buildDistractorPool(cves: CveEntry[], kevs: CveEntry[]): QuizEntry[] {
-  const seen = new Set<string>();
+// Strip the "CVSS:X.X/" version prefix so vectors that differ only in version
+// (e.g. CVSS:3.0 vs CVSS:3.1) are treated as visually identical.
+function vectorMetrics(vector: string): string {
+  const i = vector.indexOf("/");
+  return i !== -1 ? vector.slice(i + 1) : vector;
+}
+
+function buildDistractorPool(
+  cves: CveEntry[],
+  kevs: CveEntry[],
+  excludeMetrics: Set<string>,
+): QuizEntry[] {
+  const seen = new Set<string>(excludeMetrics);
   const pool: QuizEntry[] = [];
-  for (const c of cves.slice(0, 40)) {
-    if (!seen.has(c.cvss.vectorString)) {
-      seen.add(c.cvss.vectorString);
-      pool.push({ id: c.id, vector: c.cvss.vectorString });
-    }
-  }
-  for (const c of kevs.slice(0, 40)) {
-    if (!seen.has(c.cvss.vectorString)) {
-      seen.add(c.cvss.vectorString);
+  for (const c of [...cves, ...kevs]) {
+    const key = vectorMetrics(c.cvss.vectorString);
+    if (!seen.has(key)) {
+      seen.add(key);
       pool.push({ id: c.id, vector: c.cvss.vectorString });
     }
   }
@@ -64,7 +70,10 @@ function generateQuestion(
 
   const correct = available[Math.floor(Math.random() * available.length)];
 
-  const distPool = distractorPool.filter((d) => d.vector !== correct.vector);
+  const correctMetrics = vectorMetrics(correct.vector);
+  const distPool = distractorPool.filter(
+    (d) => vectorMetrics(d.vector) !== correctMetrics,
+  );
   const shuffledDistractors = shuffle(distPool).slice(0, numDistractors);
   if (shuffledDistractors.length < numDistractors) return null;
 
@@ -81,8 +90,13 @@ export function QuizTab() {
   );
 
   const distractorPool = useMemo(
-    () => buildDistractorPool(cveData.cves, kevData.cves),
-    [cveData, kevData],
+    () =>
+      buildDistractorPool(
+        cveData.cves,
+        kevData.cves,
+        new Set(questionPool.map((q) => vectorMetrics(q.vector))),
+      ),
+    [cveData, kevData, questionPool],
   );
 
   const [difficulty, setDifficulty] = useState<Difficulty>("easy");
@@ -276,7 +290,7 @@ export function QuizTab() {
         </p>
         <button
           onClick={handleNext}
-          className={`text-sm font-mono text-zinc-400 hover:text-zinc-100 border border-zinc-700 hover:border-zinc-500 rounded px-4 py-2 transition-colors cursor-pointer ${solved ? "" : "invisible"}`}
+          className={`text-sm font-mono text-zinc-400 hover:text-zinc-100 border border-zinc-700 hover:border-zinc-500 rounded px-3 py-1.5 transition-colors cursor-pointer ${solved ? "" : "invisible"}`}
         >
           Next question
         </button>
