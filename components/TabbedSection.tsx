@@ -58,7 +58,7 @@ export function TabbedSection() {
           role="tablist"
           onKeyDown={handleKeyDown}
         >
-          <div className="flex flex-wrap gap-0">
+          <div className="flex flex-wrap">
             {TABS.map((tab) => (
               <button
                 key={tab.id}
@@ -70,7 +70,7 @@ export function TabbedSection() {
                 aria-controls={`panel-${tab.id}`}
                 tabIndex={activeTab === tab.id ? 0 : -1}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-4 py-2 text-lg font-[family-name:var(--font-display)] transition-colors cursor-pointer border-b-2 md:border-b-0 ${
+                className={`flex-1 px-4 py-2 text-lg font-[family-name:var(--font-display)] transition-colors cursor-pointer border-b-2 md:border-b-0 ${
                   activeTab === tab.id
                     ? "text-zinc-100 border-zinc-100"
                     : "text-zinc-500 hover:text-zinc-300 border-transparent"
