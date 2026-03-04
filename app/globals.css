@@ -93,23 +93,6 @@ body::before {
     color 0.15s ease;
 }
 
-/* Glyph pulse on change */
-@keyframes glyph-pulse {
-  0% {
-    filter: brightness(1);
-  }
-  50% {
-    filter: brightness(1.3);
-  }
-  100% {
-    filter: brightness(1);
-  }
-}
-
-.glyph-pulse {
-  animation: glyph-pulse 0.3s ease-out;
-}
-
 /* Code block styling */
 pre code {
   font-family: var(--font-mono), ui-monospace, monospace;
