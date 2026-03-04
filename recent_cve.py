@@ -104,8 +104,6 @@ def extract_cvss(metrics):
                 "version": "4.0",
                 "vectorString": data["vectorString"],
                 "baseScore": data.get("baseScore"),
-                # "baseSeverity": data.get("baseSeverity"),
-                # "source": entry.get("source"),
             }
 
     # CVSS v3.1 — prefer "Primary" source (NVD) over CNA
@@ -121,8 +119,6 @@ def extract_cvss(metrics):
                 "version": "3.1",
                 "vectorString": data["vectorString"],
                 "baseScore": data.get("baseScore"),
-                # "baseSeverity": data.get("baseSeverity"),
-                # "source": v31.get("source"),
             }
 
     return None
@@ -155,22 +151,12 @@ def transform(item):
         "lastModified": cve.get("lastModified"),
         "description": en_desc,
         "cvss": cvss,
-        # "weaknesses": weaknesses,
-        # "references": references,
     }
 
 
 def main():
     args = parse_args()
     api_key = args.api_key or os.environ.get("NVD_API_KEY")
-
-    # if not api_key:
-    #     print(
-    #         "Warning: no API key provided. Rate limit is 5 req/30s. "
-    #         "Use --api-key or set NVD_API_KEY env var.",
-    #         file=sys.stderr,
-    #     )
-
     window_start, window_end = build_window(args.hours)
     print(f"Fetching CVEs published between {window_start} and {window_end} UTC")
 
