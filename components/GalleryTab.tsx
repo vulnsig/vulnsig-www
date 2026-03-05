@@ -8,7 +8,7 @@ import { calculateScore } from "vulnsig";
 type SortMode = "score-desc" | "score-asc" | "name";
 
 export function GalleryTab() {
-  const [sort, setSort] = useState<SortMode>("score-desc");
+  const [sort, setSort] = useState<SortMode>("name");
 
   // Deduplicate by name (different CVEs can share the same vector)
   const unique = useMemo(() => {

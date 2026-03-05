@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useRef } from "react";
 import { GalleryTab } from "./GalleryTab";
 import { LegendTab } from "./LegendTab";
 import { PackagesTab } from "./PackagesTab";
@@ -12,26 +12,17 @@ import { useBuilder } from "./BuilderContext";
 
 const TABS = [
   { id: "gallery", label: "Gallery" },
-  { id: "cves", label: "Recent CVEs" },
-  { id: "kevs", label: "Recent KEVs" },
+  { id: "cves", label: "CVEs" },
+  { id: "kevs", label: "KEVs" },
   { id: "quiz", label: "Quiz" },
   { id: "legend", label: "Legend" },
-  { id: "packages", label: "Packages & API" },
+  { id: "tools", label: "Tools" },
   { id: "about", label: "About" },
 ] as const;
 
 export function TabbedSection() {
   const { activeTab, setActiveTab } = useBuilder();
-  const [underline, setUnderline] = useState({ left: 0, width: 0 });
   const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
-  const tabBarRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = tabRefs.current[activeTab];
-    if (el) {
-      setUnderline({ left: el.offsetLeft, width: el.offsetWidth });
-    }
-  }, [activeTab]);
 
   function handleKeyDown(e: React.KeyboardEvent) {
     const idx = TABS.findIndex((t) => t.id === activeTab);
@@ -49,45 +40,43 @@ export function TabbedSection() {
   }
 
   return (
-    <section className="w-full py-4 px-4">
-      <div className="max-w-6xl mx-auto">
-        {/* Tab bar */}
-        <div
-          ref={tabBarRef}
-          className="relative border-b border-zinc-800 mb-8"
-          role="tablist"
-          onKeyDown={handleKeyDown}
-        >
-          <div className="flex flex-wrap">
-            {TABS.map((tab) => (
-              <button
-                key={tab.id}
-                ref={(el) => {
-                  tabRefs.current[tab.id] = el;
-                }}
-                role="tab"
-                aria-selected={activeTab === tab.id}
-                aria-controls={`panel-${tab.id}`}
-                tabIndex={activeTab === tab.id ? 0 : -1}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex-1 px-4 py-2 text-sm font-[family-name:var(--font-mono)] uppercase transition-colors cursor-pointer border-b-2 md:border-b-0 ${
-                  activeTab === tab.id
-                    ? "text-zinc-100 border-zinc-100"
-                    : "text-zinc-500 hover:text-zinc-300 border-transparent"
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-          {/* Sliding underline — only when all tabs fit on one row (md+) */}
-          <div
-            className="absolute bottom-0 h-px bg-zinc-100 tab-underline hidden md:block"
-            style={{ left: underline.left, width: underline.width }}
-          />
+    <section className="w-full">
+      {/* Tab bar — full width background, content constrained to max-w-6xl */}
+      <div
+        className="w-full bg-zinc-900 border-y border-zinc-800"
+        style={{
+          background:
+            "repeating-linear-gradient(45deg, #18181b, #18181b 4px, #1f1f23 4px, #1f1f23 8px)",
+        }}
+        role="tablist"
+        onKeyDown={handleKeyDown}
+      >
+        <div className="max-w-6xl mx-auto px-4 flex flex-wrap">
+          {TABS.map((tab) => (
+            <button
+              key={tab.id}
+              ref={(el) => {
+                tabRefs.current[tab.id] = el;
+              }}
+              role="tab"
+              aria-selected={activeTab === tab.id}
+              aria-controls={`panel-${tab.id}`}
+              tabIndex={activeTab === tab.id ? 0 : -1}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex-1 px-4 py-3 text-sm font-[family-name:var(--font-mono)] font-semibold uppercase transition-colors cursor-pointer ${
+                activeTab === tab.id
+                  ? "text-zinc-100"
+                  : "text-zinc-500 hover:text-zinc-300"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
+      </div>
 
-        {/* Tab panels */}
+      {/* Tab panels */}
+      <div className="max-w-6xl mx-auto px-4 py-8">
         {TABS.map((tab) => (
           <div
             key={tab.id}
@@ -101,7 +90,7 @@ export function TabbedSection() {
             {tab.id === "kevs" && <RecentKEVTab />}
             {tab.id === "quiz" && <QuizTab />}
             {tab.id === "legend" && <LegendTab />}
-            {tab.id === "packages" && <PackagesTab />}
+            {tab.id === "tools" && <PackagesTab />}
             {tab.id === "about" && <AboutTab />}
           </div>
         ))}

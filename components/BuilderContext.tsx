@@ -144,7 +144,7 @@ export function BuilderProvider({ children }: { children: ReactNode }) {
 
   const navigateToPackageSection = useCallback(
     (sectionId: string) => {
-      setActiveTab("packages");
+      setActiveTab("tools");
       setTimeout(() => {
         const el = document.getElementById(sectionId);
         if (el) {

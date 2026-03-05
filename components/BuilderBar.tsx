@@ -62,7 +62,7 @@ export function BuilderBar() {
         <div className="max-w-6xl mx-auto px-4">
           {/* Row 1: glyph + vector input + score + collapse */}
           <div className="flex items-center gap-4 pt-2">
-            <VulnSig vector={vector} size={60} score={score} />
+            <VulnSig vector={vector} size={50} score={score} />
 
             <input
               type="text"
