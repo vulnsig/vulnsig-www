@@ -20,7 +20,7 @@ export function RecentCVETab() {
   const { cveData } = useData();
   const [sort, setSort] = useState<SortMode>("date-desc");
 
-  const pool = useMemo(() => cveData.cves.slice(0, 40), [cveData]);
+  const pool = useMemo(() => cveData.cves.slice(0, 50), [cveData]);
 
   const latestPublished = pool[0]?.published ?? "";
 

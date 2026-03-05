@@ -21,7 +21,7 @@ export function RecentKEVTab() {
   const [sort, setSort] = useState<SortMode>("date-desc");
 
   const sorted = useMemo(() => {
-    const items = kevData.cves.slice(0, 40);
+    const items = kevData.cves.slice(0, 50);
     switch (sort) {
       case "date-desc":
         return items.sort((a, b) => b.published.localeCompare(a.published));

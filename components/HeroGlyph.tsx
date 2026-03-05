@@ -46,7 +46,7 @@ function getMarkerPosition(anchor: Callout["anchor"], glyphSize: number) {
 
 export function HeroGlyph({ vuln }: { vuln: Vulnerability }) {
   const glyphSize = 200;
-  const svgSize = glyphSize + 40; // padding for markers
+  const svgSize = glyphSize + 10; // padding for markers
   const cx = svgSize / 2;
   const cy = svgSize / 2;
   const callouts: AutoCallout[] = useMemo(
@@ -55,7 +55,7 @@ export function HeroGlyph({ vuln }: { vuln: Vulnerability }) {
   );
 
   return (
-    <div className="flex items-center w-full px-2">
+    <div className="flex items-center w-full px-0">
       {/* Left half: glyph with letter markers, right-justified */}
       <div className="flex-1 flex justify-end">
         <div

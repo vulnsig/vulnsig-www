@@ -13,7 +13,7 @@ export function ScoreBadge({
   // Match the glyph render: base lightness 52 * light multiplier
   const lightness = 52 * light;
   const bg = `hsl(${hue}, ${sat}%, ${lightness}%)`;
-  const textColor = lightness > 40 ? "#000" : "#fff";
+  const textColor = lightness > 50 ? "#000" : "#fff";
 
   const sizeClasses = {
     sm: "text-xs px-1.5 py-0.5",

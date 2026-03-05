@@ -57,7 +57,7 @@ export function BuilderBar() {
 
   return (
     <div ref={builderRef}>
-      <div className="sticky top-0 z-50 bg-zinc-900/95 backdrop-blur border-y border-zinc-800 builder-sticky">
+      <div className="sticky top-0 z-50 bg-zinc-900 backdrop-blur border-y border-zinc-800 builder-sticky">
         {/* Collapsed bar */}
         <div className="max-w-6xl mx-auto px-4">
           {/* Row 1: glyph + vector input + score + collapse */}
