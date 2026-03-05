@@ -247,7 +247,6 @@ export function LegendTab() {
         <LegendSection
           title="Ring Segmentation"
           metricKeys={["AT"]}
-          className="md:border-b-0"
           description={
             <>
               Attack Requirements captures prerequisites in the vulnerable
@@ -302,6 +301,42 @@ export function LegendTab() {
               vector:
                 "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
               score: 9.3,
+            },
+          ]}
+        />
+
+        <LegendSection
+          title="Exploit Maturity"
+          metricKeys={["E"]}
+          description={
+            <>
+              Exploit Maturity is a CVSS 4.0 threat metric that adjusts the
+              score based on real-world exploitation evidence.{" "}
+              <ValueTag label="A" /> Attacked means active exploitation is
+              confirmed — concentric rings appear behind the star.{" "}
+              <ValueTag label="P" /> PoC means a proof-of-concept exists — a
+              filled circle appears. <ValueTag label="U" /> Unproven and{" "}
+              <ValueTag label="X" /> Not Defined produce no marker.
+            </>
+          }
+          examples={[
+            {
+              label: "E:A — Rings",
+              vector:
+                "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:A",
+              score: 9.3,
+            },
+            {
+              label: "E:P — Circle",
+              vector:
+                "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:P",
+              score: 8.9,
+            },
+            {
+              label: "E:U — None",
+              vector:
+                "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:U",
+              score: 8.1,
             },
           ]}
         />
@@ -402,6 +437,16 @@ export function LegendTab() {
                 </td>
                 <td className="py-2 text-zinc-400">
                   Split when any &gt; <ValueTag label="N" />
+                </td>
+              </tr>
+              <tr className="border-b border-zinc-800/50">
+                <td className="py-2 pr-4">Exploit marker</td>
+                <td className="py-2 pr-4">
+                  <MetricTag label="E" color={metricColor("E")} />
+                </td>
+                <td className="py-2 text-zinc-400">
+                  Rings=<ValueTag label="A" /> Circle=<ValueTag label="P" />{" "}
+                  None=<ValueTag label="U" />/<ValueTag label="X" />
                 </td>
               </tr>
               <tr>
