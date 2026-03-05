@@ -43,7 +43,7 @@ export function TabbedSection() {
     <section className="w-full">
       {/* Tab bar — full width background, content constrained to max-w-6xl */}
       <div
-        className="w-full bg-zinc-900 border-y border-zinc-800"
+        className="w-full bg-zinc-900 border-b border-zinc-800"
         style={{
           background:
             "repeating-linear-gradient(45deg, #18181b, #18181b 4px, #1f1f23 4px, #1f1f23 8px)",
@@ -51,7 +51,7 @@ export function TabbedSection() {
         role="tablist"
         onKeyDown={handleKeyDown}
       >
-        <div className="max-w-6xl mx-auto px-4 flex flex-wrap">
+        <div className="max-w-6xl mx-auto px-4 flex flex-wrap py-3 gap-y-3">
           {TABS.map((tab) => (
             <button
               key={tab.id}
@@ -63,7 +63,7 @@ export function TabbedSection() {
               aria-controls={`panel-${tab.id}`}
               tabIndex={activeTab === tab.id ? 0 : -1}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 px-4 py-3 text-sm font-[family-name:var(--font-mono)] font-semibold uppercase transition-colors cursor-pointer ${
+              className={`flex-1 basis-1/4 sm:basis-0 px-4 text-sm font-[family-name:var(--font-mono)] font-semibold uppercase transition-colors cursor-pointer ${
                 activeTab === tab.id
                   ? "text-zinc-100"
                   : "text-zinc-500 hover:text-zinc-300"
