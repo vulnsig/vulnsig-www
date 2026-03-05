@@ -75,7 +75,7 @@ export function BuilderBar() {
               aria-label="CVSS vector string"
             />
 
-            <ScoreBadge score={score} />
+            <ScoreBadge score={score} size="sm" />
 
             <button
               onClick={() => setExpanded(!expanded)}
