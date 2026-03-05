@@ -173,6 +173,34 @@ export const VULNERABILITIES: Vulnerability[] = [
     description:
       "Sensitive information disclosure in NetScaler ADC and NetScaler Gateway when configured as a Gateway (VPN virtual server, ICA Proxy, CVPN, RDP Proxy) or AAA  virtual server.",
   },
+  {
+    name: "ACE on affected Tesla vehicles",
+    cve: "CVE-2022-3093",
+    vector: "CVSS:3.1/AV:P/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+    description:
+      "This vulnerability allows physical attackers to execute arbitrary code on affected Tesla vehicles. Authentication is not required to exploit this vulnerability. The specific flaw exists within the ice_updater update mechanism. The issue results from the lack of proper validation of user-supplied firmware. An attacker can leverage this vulnerability to execute code in the context of root.",
+  },
+  {
+    name: "TP-Link Tapo H200 V1 Exposed Credentials",
+    cve: "CVE-2025-3442",
+    vector: "CVSS:4.0/AV:P/AC:H/AT:N/PR:N/UI:N/VC:H/VI:L/VA:L/SC:N/SI:N/SA:N",
+    description:
+      "This vulnerability exists in TP-Link Tapo H200 V1 IoT Smart Hub due to storage of Wi-Fi credentials in plain text within the device firmware. An attacker with physical access could exploit this by extracting the firmware and analyzing the binary data to obtain the Wi-Fi credentials stored on the vulnerable device.",
+  },
+  {
+    name: "Wattsense Bridge Device Compromise",
+    cve: "CVE-2025-26408",
+    vector: "CVSS:3.1/AV:P/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+    description:
+      "The JTAG interface of Wattsense Bridge devices can be accessed with physical access to the PCB. After connecting to the interface, full access to the device is possible. This enables an attacker to extract information, modify and debug the device's firmware. All known versions are affected.",
+  },
+  {
+    name: "Exposed Credentials in GE HealthCare EchoPAC",
+    cve: "CVE-2024-27109",
+    vector: "CVSS:3.1/AV:P/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+    description:
+      "Insufficiently protected credentials in GE HealthCare EchoPAC products.",
+  },
 ];
 
 // note: some 4.0 examples are from here:
