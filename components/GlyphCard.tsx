@@ -49,11 +49,11 @@ export function GlyphCard({
             {cveId}
           </a>
         )}
-        {subtitle && <p className="text-xs text-zinc-600 mb-2">{subtitle}</p>}
+        {subtitle && <p className="text-xs text-zinc-500 mb-2">{subtitle}</p>}
         <p className="text-sm text-zinc-400 leading-relaxed mb-2 line-clamp-3">
           {description}
         </p>
-        <p className="font-mono text-xs text-zinc-600 mb-4 break-all">
+        <p className="font-mono text-xs text-zinc-500 mb-4 break-all">
           {vector}
         </p>
         <button
