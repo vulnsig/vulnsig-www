@@ -232,7 +232,7 @@ export function LegendTab() {
         />
 
         <LegendSection
-          title="Ring Segmentation"
+          title="Trisection Ring Segmentation"
           metricKeys={["AT"]}
           description={
             <>
@@ -257,7 +257,7 @@ export function LegendTab() {
         />
 
         <LegendSection
-          title="Spikes and Bumps"
+          title="Spikes & Bumps"
           metricKeys={["UI"]}
           description={
             <>
@@ -327,14 +327,22 @@ export function LegendTab() {
           <table className="w-full text-sm">
             <thead>
               <tr className="text-left text-zinc-500 border-b border-zinc-800">
-                <th className="pb-2 pr-4 font-mono font-normal">Visual</th>
-                <th className="pb-2 pr-4 font-mono font-normal">Metric</th>
-                <th className="pb-2 font-mono font-normal">Encoding</th>
+                <th className="pb-2 pr-4 font-semibold">Visual</th>
+                <th className="pb-2 pr-4 font-semibold">Metric</th>
+                <th className="pb-2 font-semibold">Encoding</th>
               </tr>
             </thead>
             <tbody className="text-zinc-300">
-              <tr className="border-b border-zinc-800/50">
-                <td className="py-2 pr-4">Star points</td>
+              <tr className="border-b border-zinc-800">
+                <td className="py-2 pr-4">Color Hue</td>
+                <td className="py-2 pr-4">
+                  <MetricTag label="Score" color={metricColor("Score")} />
+                </td>
+                <td className="py-2 text-zinc-400">Red=critical → yellow=low</td>
+              </tr>
+
+              <tr className="border-b border-zinc-800">
+                <td className="py-2 pr-4">Star Points</td>
                 <td className="py-2 pr-4">
                   <MetricTag label="AV" color={metricColor("AV")} />
                 </td>
@@ -346,8 +354,8 @@ export function LegendTab() {
                   <ValueTag label="P" />
                 </td>
               </tr>
-              <tr className="border-b border-zinc-800/50">
-                <td className="py-2 pr-4">Star pointiness</td>
+              <tr className="border-b border-zinc-800">
+                <td className="py-2 pr-4">Star Pointiness</td>
                 <td className="py-2 pr-4">
                   <MetricTag label="AC" color={metricColor("AC")} />
                 </td>
@@ -357,8 +365,8 @@ export function LegendTab() {
                   <ValueTag label="H" />
                 </td>
               </tr>
-              <tr className="border-b border-zinc-800/50">
-                <td className="py-2 pr-4">Star outline</td>
+              <tr className="border-b border-zinc-800">
+                <td className="py-2 pr-4">Star Outline</td>
                 <td className="py-2 pr-4">
                   <MetricTag label="PR" color={metricColor("PR")} />
                 </td>
@@ -369,31 +377,9 @@ export function LegendTab() {
                   <ValueTag label="H" />
                 </td>
               </tr>
-              <tr className="border-b border-zinc-800/50">
-                <td className="py-2 pr-4">Spikes / bumps</td>
-                <td className="py-2 pr-4">
-                  <MetricTag label="UI" color={metricColor("UI")} />
-                </td>
-                <td className="py-2 text-zinc-400">
-                  Spikes=
-                  <ValueTag label="N" /> Bumps=
-                  <ValueTag label="P" /> Smooth=
-                  <ValueTag label="A" />
-                </td>
-              </tr>
-              <tr className="border-b border-zinc-800/50">
-                <td className="py-2 pr-4">Ring segmentation</td>
-                <td className="py-2 pr-4">
-                  <MetricTag label="AT" color={metricColor("AT")} />
-                </td>
-                <td className="py-2 text-zinc-400">
-                  Solid=
-                  <ValueTag label="N" /> Segmented=
-                  <ValueTag label="P" />
-                </td>
-              </tr>
-              <tr className="border-b border-zinc-800/50">
-                <td className="py-2 pr-4">Ring brightness</td>
+
+              <tr className="border-b border-zinc-800">
+                <td className="py-2 pr-4">Trisection Ring Brightness</td>
                 <td className="py-2 pr-4 space-x-1">
                   <MetricTag label="VC" color={metricColor("VC")} />
                   <MetricTag label="VI" color={metricColor("VI")} />
@@ -406,8 +392,8 @@ export function LegendTab() {
                   <ValueTag label="N" />
                 </td>
               </tr>
-              <tr className="border-b border-zinc-800/50">
-                <td className="py-2 pr-4">Split band</td>
+              <tr className="border-b border-zinc-800">
+                <td className="py-2 pr-4">Trisection Ring Split</td>
                 <td className="py-2 pr-4 space-x-1">
                   <MetricTag label="SC" color={metricColor("SC")} />
                   <MetricTag label="SI" color={metricColor("SI")} />
@@ -417,8 +403,34 @@ export function LegendTab() {
                   Split when any &gt; <ValueTag label="N" />
                 </td>
               </tr>
-              <tr className="border-b border-zinc-800/50">
-                <td className="py-2 pr-4">Exploit marker</td>
+
+              <tr className="border-b border-zinc-800">
+                <td className="py-2 pr-4">Trisection Ring Segmentation</td>
+                <td className="py-2 pr-4">
+                  <MetricTag label="AT" color={metricColor("AT")} />
+                </td>
+                <td className="py-2 text-zinc-400">
+                  Solid=
+                  <ValueTag label="N" /> Segmented=
+                  <ValueTag label="P" />
+                </td>
+              </tr>
+
+              <tr className="border-b border-zinc-800">
+                <td className="py-2 pr-4">Spikes & bumps</td>
+                <td className="py-2 pr-4">
+                  <MetricTag label="UI" color={metricColor("UI")} />
+                </td>
+                <td className="py-2 text-zinc-400">
+                  Spikes=
+                  <ValueTag label="N" /> Bumps=
+                  <ValueTag label="P" /> Smooth=
+                  <ValueTag label="A" />
+                </td>
+              </tr>
+
+              <tr className="border-b border-zinc-800">
+                <td className="py-2 pr-4">Exploit Maturity</td>
                 <td className="py-2 pr-4">
                   <MetricTag label="E" color={metricColor("E")} />
                 </td>
@@ -429,13 +441,7 @@ export function LegendTab() {
                   <ValueTag label="U" />/<ValueTag label="X" />
                 </td>
               </tr>
-              <tr>
-                <td className="py-2 pr-4">Color hue</td>
-                <td className="py-2 pr-4">
-                  <MetricTag label="Score" color={metricColor("Score")} />
-                </td>
-                <td className="py-2 text-zinc-400">Red=critical → green=low</td>
-              </tr>
+
             </tbody>
           </table>
         </div>
