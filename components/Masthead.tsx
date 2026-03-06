@@ -5,7 +5,7 @@ export function Masthead() {
         VulnSig
       </h1>
       <p className="text-md text-zinc-500 font-sans">
-        CVSS is more than a score
+        more than a score
       </p>
     </header>
   );
