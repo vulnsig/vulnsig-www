@@ -10,7 +10,11 @@ interface MetricDef {
   defaultValue?: string;
 }
 
-const METRIC_GROUPS_40: { title: string; metrics: MetricDef[]; className?: string }[] = [
+const METRIC_GROUPS_40: {
+  title: string;
+  metrics: MetricDef[];
+  className?: string;
+}[] = [
   {
     title: "Exploitability",
     className: "row-span-2 sm:row-span-1",
@@ -102,9 +106,10 @@ const METRIC_GROUPS_40: { title: string; metrics: MetricDef[]; className?: strin
   },
 ];
 
-const METRIC_GROUPS_31: { title: string; metrics: MetricDef[] }[] = [
+const METRIC_GROUPS_31: { title: string; metrics: MetricDef[]; className?: string }[] = [
   {
     title: "Exploitability",
+    className: "row-span-2 sm:row-span-1",
     metrics: [
       {
         key: "AV",

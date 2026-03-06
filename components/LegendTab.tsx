@@ -445,8 +445,10 @@ export function LegendTab() {
                   <MetricTag label="E" color={metricColor("E")} />
                 </td>
                 <td className="py-2 text-zinc-400">
-                  Rings=<ValueTag label="A" /> Circle=<ValueTag label="P" />{" "}
-                  None=<ValueTag label="U" />/<ValueTag label="X" />
+                  Rings=
+                  <ValueTag label="A" /> Circle=
+                  <ValueTag label="P" /> None=
+                  <ValueTag label="U" />/<ValueTag label="X" />
                 </td>
               </tr>
               <tr>
