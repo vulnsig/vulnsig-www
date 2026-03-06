@@ -4,9 +4,7 @@ export function Masthead() {
       <h1 className="text-3xl tracking-wide text-zinc-300 font-[family-name:var(--font-display)]">
         VulnSig
       </h1>
-      <p className="text-md text-zinc-500 font-sans">
-        more than a score
-      </p>
+      <p className="text-md text-zinc-500 font-sans">more than a score</p>
     </header>
   );
 }

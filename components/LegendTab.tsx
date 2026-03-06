@@ -54,31 +54,27 @@ export function LegendTab() {
         <LegendSection
           title="Color Hue"
           metricKeys={["Score"]}
-          description="The glyph's overall color maps directly to the CVSS score. Red means critical (9-10), orange is high (7-8.9), yellow is medium (4-6.9), and green is low (0.1-3.9). The color gives an instant severity read before you examine any details."
+          description="The glyph's overall color maps to the CVSS score. Red means critical (9-10), red-orange is high (7-8.9), orange is medium (4-6.9), and yellow is low (0.1-3.9). The color gives an instant indicator of severity."
           examples={[
             {
               label: "10.0",
               vector:
                 "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H",
-              score: 10.0,
             },
             {
               label: "8.7",
               vector:
-                "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:L/SI:N/SA:N",
-              score: 8.7,
+                "CVSS:4.0/AV:A/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:H/SC:L/SI:N/SA:N",
             },
             {
               label: "5.6",
               vector:
-                "CVSS:4.0/AV:L/AC:H/AT:P/PR:L/UI:N/VC:H/VI:N/VA:N/SC:H/SI:N/SA:N",
-              score: 5.6,
+                "CVSS:4.0/AV:L/AC:H/AT:H/PR:H/UI:N/VC:H/VI:N/VA:N/SC:H/SI:N/SA:N",
             },
             {
               label: "2.3",
               vector:
-                "CVSS:4.0/AV:N/AC:H/AT:P/PR:N/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N",
-              score: 2.3,
+                "CVSS:4.0/AV:P/AC:H/AT:P/PR:N/UI:N/VC:L/VI:N/VA:N/SC:N/SI:N/SA:N",
             },
           ]}
         />
@@ -89,37 +85,33 @@ export function LegendTab() {
           description={
             <>
               Attack Vector describes how the vulnerability is exploited.{" "}
-              <ValueTag label="N" /> Network means remote exploitation — 8
+              <ValueTag label="N" /> Network means remote exploitation: 8
               points. <ValueTag label="A" /> Adjacent requires local network
-              access — 6 points. <ValueTag label="L" /> Local needs OS-level
-              access — 4 points. <ValueTag label="P" /> Physical requires
-              touching the device — 3 points.
+              access: 6 points. <ValueTag label="L" /> Local needs OS-level
+              access: 4 points. <ValueTag label="P" /> Physical requires
+              touching the device: 3 points.
             </>
           }
           examples={[
             {
-              label: "AV:N — 8pts",
+              label: "AV:N: 8",
               vector:
                 "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
-              score: 9.3,
             },
             {
-              label: "AV:A — 6pts",
+              label: "AV:A: 6",
               vector:
                 "CVSS:4.0/AV:A/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
-              score: 9.3,
             },
             {
-              label: "AV:L — 4pts",
+              label: "AV:L: 4",
               vector:
                 "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
-              score: 9.3,
             },
             {
-              label: "AV:P — 3pts",
+              label: "AV:P: 3",
               vector:
                 "CVSS:4.0/AV:P/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
-              score: 9.3,
             },
           ]}
         />
@@ -130,23 +122,21 @@ export function LegendTab() {
           description={
             <>
               Attack Complexity reflects conditions beyond the attacker&apos;s
-              control. <ValueTag label="L" /> Low produces sharp star points —
+              control. <ValueTag label="L" /> Low produces sharp star points:
               exploitation is straightforward. <ValueTag label="H" /> High
-              produces blunt, rounded points — specific conditions must align.
+              produces blunt, rounded points: specific conditions must align.
             </>
           }
           examples={[
             {
-              label: "AC:L — Sharp",
+              label: "AC:L: Sharp",
               vector:
-                "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
-              score: 9.3,
+                "CVSS:4.0/AV:P/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
             },
             {
-              label: "AC:H — Blunt",
+              label: "AC:H: Blunt",
               vector:
-                "CVSS:4.0/AV:N/AC:H/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
-              score: 9.3,
+                "CVSS:4.0/AV:P/AC:H/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
             },
           ]}
         />
@@ -165,81 +155,78 @@ export function LegendTab() {
           }
           examples={[
             {
-              label: "PR:N — Thin",
+              label: "PR:N: Thin",
               vector:
-                "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
-              score: 9.3,
+                "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
             },
             {
-              label: "PR:L — Medium",
+              label: "PR:L: Medium",
               vector:
-                "CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
-              score: 9.3,
+                "CVSS:4.0/AV:L/AC:L/AT:N/PR:L/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
             },
             {
-              label: "PR:H — Thick",
+              label: "PR:H: Thick",
               vector:
-                "CVSS:4.0/AV:N/AC:L/AT:N/PR:H/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
-              score: 9.3,
+                "CVSS:4.0/AV:L/AC:L/AT:N/PR:H/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
             },
           ]}
         />
 
         <LegendSection
-          title="Ring Brightness"
+          title="Trisection Ring Brightness"
           metricKeys={["VC", "VI", "VA"]}
           description={
             <>
-              The ring is divided into three sectors for Confidentiality,
-              Integrity, and Availability. <ValueTag label="H" /> High lights a
-              sector brightly, <ValueTag label="L" /> Low dims it, and{" "}
-              <ValueTag label="N" /> None leaves it dark.
+              The trisection ring is divided into three sectors for
+              Confidentiality, Integrity, and Availability.{" "}
+              <ValueTag label="H" /> High lights a sector brightly,{" "}
+              <ValueTag label="L" /> Low dims it, and <ValueTag label="N" />{" "}
+              None leaves it dark.
             </>
           }
           examples={[
             {
               label: "All High",
               vector:
-                "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
-              score: 9.3,
+                "CVSS:4.0/AV:A/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
             },
             {
-              label: "C only",
+              label: "C High",
               vector:
-                "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N",
-              score: 9.3,
+                "CVSS:4.0/AV:A/AC:L/AT:N/PR:N/UI:P/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N",
             },
             {
-              label: "A only",
+              label: "A Low",
               vector:
-                "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N",
-              score: 9.3,
+                "CVSS:4.0/AV:A/AC:L/AT:N/PR:N/UI:P/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N",
             },
             {
-              label: "All None",
+              label: "A High, I Low",
               vector:
-                "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:N/SC:N/SI:N/SA:N",
-              score: 9.3,
+                "CVSS:4.0/AV:A/AC:L/AT:N/PR:N/UI:P/VC:N/VI:L/VA:H/SC:N/SI:N/SA:N",
             },
           ]}
         />
 
         <LegendSection
-          title="Split Band"
+          title="Trisection Ring Split"
           metricKeys={["SC", "SI", "SA"]}
-          description="When a vulnerability impacts downstream systems (not just the vulnerable component), the ring shows a split band. This indicates blast radius — the effects propagate beyond the original target."
+          description="When a vulnerability impacts downstream systems (not just the vulnerable component), the trisection ring shows a split band. This indicates blast radius, i.e., the effects propagate beyond the original target."
           examples={[
             {
               label: "No downstream",
               vector:
-                "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
-              score: 9.3,
+                "CVSS:4.0/AV:A/AC:L/AT:N/PR:N/UI:R/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
             },
             {
-              label: "Full downstream",
+              label: "High downstream",
               vector:
-                "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H",
-              score: 10.0,
+                "CVSS:4.0/AV:A/AC:L/AT:N/PR:N/UI:R/VC:H/VI:H/VA:H/SC:H/SI:H/SA:H",
+            },
+            {
+              label: "Low downstream",
+              vector:
+                "CVSS:4.0/AV:A/AC:L/AT:N/PR:N/UI:R/VC:H/VI:H/VA:H/SC:L/SI:L/SA:L",
             },
           ]}
         />
@@ -249,24 +236,22 @@ export function LegendTab() {
           metricKeys={["AT"]}
           description={
             <>
-              Attack Requirements captures prerequisites in the vulnerable
-              system&apos;s environment. <ValueTag label="P" /> Present segments
-              the ring with visible cuts. <ValueTag label="N" /> None keeps the
-              ring smooth and continuous.
+              Attack Requirements describes if prerequisites in the vulnerable
+              system&apos;s environment are required. <ValueTag label="P" />{" "}
+              Present segments the ring with visible cuts.{" "}
+              <ValueTag label="N" /> None keeps the ring smooth and continuous.
             </>
           }
           examples={[
             {
               label: "AT:N — Solid",
               vector:
-                "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
-              score: 9.3,
+                "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:A/VC:H/VI:L/VA:H/SC:N/SI:N/SA:N",
             },
             {
               label: "AT:P — Segmented",
               vector:
-                "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
-              score: 9.3,
+                "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:A/VC:H/VI:L/VA:H/SC:N/SI:N/SA:N",
             },
           ]}
         />
@@ -277,30 +262,26 @@ export function LegendTab() {
           description={
             <>
               User Interaction describes whether someone other than the attacker
-              must participate. <ValueTag label="N" /> None produces spikes —
-              fires autonomously. <ValueTag label="P" /> Passive shows bumps —
-              encountered during normal use. <ValueTag label="A" /> Active
-              produces a smooth edge — deliberate action required.
+              must participate. <ValueTag label="N" /> None produces spikes.{" "}
+              <ValueTag label="P" /> Passive shows bumps. <ValueTag label="A" />{" "}
+              Active produces a smooth edge.
             </>
           }
           examples={[
             {
-              label: "UI:N — Spikes",
+              label: "UI:N: Spikes",
               vector:
-                "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
-              score: 9.3,
+                "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N",
             },
             {
-              label: "UI:P — Bumps",
+              label: "UI:P: Bumps",
               vector:
-                "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:P/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
-              score: 9.3,
+                "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:P/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N",
             },
             {
-              label: "UI:A — Smooth",
+              label: "UI:A: Smooth",
               vector:
-                "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:A/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
-              score: 9.3,
+                "CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:A/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N",
             },
           ]}
         />
@@ -313,30 +294,27 @@ export function LegendTab() {
               Exploit Maturity is a CVSS 4.0 threat metric that adjusts the
               score based on real-world exploitation evidence.{" "}
               <ValueTag label="A" /> Attacked means active exploitation is
-              confirmed — concentric rings appear behind the star.{" "}
-              <ValueTag label="P" /> PoC means a proof-of-concept exists — a
+              confirmed: concentric rings appear behind the star.{" "}
+              <ValueTag label="P" /> PoC means a proof-of-concept exists: a
               filled circle appears. <ValueTag label="U" /> Unproven and{" "}
               <ValueTag label="X" /> Not Defined produce no marker.
             </>
           }
           examples={[
             {
-              label: "E:A — Rings",
+              label: "E:A: Rings",
               vector:
-                "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:A",
-              score: 9.3,
+                "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:L/VA:N/SC:N/SI:N/SA:N/E:A",
             },
             {
-              label: "E:P — Circle",
+              label: "E:P: Circle",
               vector:
-                "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:P",
-              score: 8.9,
+                "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:L/VA:N/SC:N/SI:N/SA:N/E:P",
             },
             {
-              label: "E:U — None",
+              label: "E:U: None",
               vector:
-                "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/E:U",
-              score: 8.1,
+                "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:L/VA:N/SC:N/SI:N/SA:N/E:U",
             },
           ]}
         />

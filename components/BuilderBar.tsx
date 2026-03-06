@@ -61,7 +61,7 @@ export function BuilderBar() {
         {/* Collapsed bar */}
         <div className="max-w-6xl mx-auto px-4">
           {/* Row 1: glyph + vector input + score + collapse */}
-          <div className="flex items-center gap-4 pt-2">
+          <div className="flex items-center pt-2">
             <VulnSig vector={vector} size={50} score={score} />
 
             <input
@@ -70,7 +70,7 @@ export function BuilderBar() {
               onChange={handleInputChange}
               onBlur={handleInputBlur}
               onKeyDown={handleInputKeyDown}
-              className="flex-1 min-w-0 bg-zinc-800/50 border border-zinc-700 rounded px-3 py-1.5 font-mono text-xs text-zinc-300 focus:outline-none focus:border-zinc-500"
+              className="flex-1 min-w-0 bg-zinc-800/50 border border-zinc-700 rounded px-2 py-1.5 ml-2 mr-4 font-mono text-xs text-zinc-300 focus:outline-none focus:border-zinc-500"
               spellCheck={false}
               aria-label="CVSS vector string"
             />
@@ -79,7 +79,7 @@ export function BuilderBar() {
 
             <button
               onClick={() => setExpanded(!expanded)}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono text-zinc-400 hover:text-zinc-200 border border-zinc-700 rounded hover:border-zinc-600 cursor-pointer transition-colors"
+              className="flex items-center px-3 py-1.5 ml-4 text-xs font-mono text-zinc-400 hover:text-zinc-200 border border-zinc-700 rounded hover:border-zinc-600 cursor-pointer transition-colors"
               aria-expanded={expanded}
               aria-label={expanded ? "Collapse builder" : "Expand builder"}
             >
