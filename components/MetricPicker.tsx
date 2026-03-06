@@ -7,11 +7,17 @@ interface MetricDef {
   name: string;
   values: string[];
   labels: string[];
+  defaultValue?: string;
 }
 
-const METRIC_GROUPS_40: { title: string; metrics: MetricDef[] }[] = [
+const METRIC_GROUPS_40: {
+  title: string;
+  metrics: MetricDef[];
+  className?: string;
+}[] = [
   {
     title: "Exploitability",
+    className: "row-span-2 sm:row-span-1",
     metrics: [
       {
         key: "AV",
@@ -42,6 +48,13 @@ const METRIC_GROUPS_40: { title: string; metrics: MetricDef[] }[] = [
         name: "User Interaction",
         values: ["N", "P", "A"],
         labels: ["None", "Passive", "Active"],
+      },
+      {
+        key: "E",
+        name: "Exploit Maturity",
+        values: ["A", "P", "U", "X"],
+        labels: ["Attacked", "PoC", "Unproven", "Not Defined"],
+        defaultValue: "X",
       },
     ],
   },
@@ -93,9 +106,14 @@ const METRIC_GROUPS_40: { title: string; metrics: MetricDef[] }[] = [
   },
 ];
 
-const METRIC_GROUPS_31: { title: string; metrics: MetricDef[] }[] = [
+const METRIC_GROUPS_31: {
+  title: string;
+  metrics: MetricDef[];
+  className?: string;
+}[] = [
   {
     title: "Exploitability",
+    className: "row-span-2 sm:row-span-1",
     metrics: [
       {
         key: "AV",
@@ -183,18 +201,18 @@ export function MetricPicker({
   const metrics = parseVectorMetrics(vector);
 
   function handleChange(key: string, value: string) {
-    // Replace the single metric in-place to avoid parse/rebuild mixing vectors
-    const newVector = vector.replace(
-      new RegExp(`(?<=/)${key}:[^/]+`),
-      `${key}:${value}`,
-    );
-    onChange(newVector);
+    const regex = new RegExp(`(?<=/)${key}:[^/]+`);
+    if (regex.test(vector)) {
+      onChange(vector.replace(regex, `${key}:${value}`));
+    } else {
+      onChange(`${vector}/${key}:${value}`);
+    }
   }
 
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 p-6">
       {groups.map((group) => (
-        <div key={group.title}>
+        <div key={group.title} className={group.className}>
           <h3 className="text-xs font-mono text-zinc-500 uppercase tracking-wider mb-3">
             {group.title}
           </h3>
@@ -210,7 +228,8 @@ export function MetricPicker({
                 </label>
                 <div className="flex rounded overflow-hidden border border-zinc-700">
                   {metric.values.map((val, i) => {
-                    const isActive = metrics[metric.key] === val;
+                    const current = metrics[metric.key] ?? metric.defaultValue;
+                    const isActive = current === val;
                     return (
                       <button
                         key={val}

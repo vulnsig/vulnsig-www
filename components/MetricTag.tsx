@@ -18,6 +18,7 @@ const METRIC_COLORS: Record<string, string> = {
   A: "#6366f1",
   "V*": "#6366f1",
   "S*": "#f59e0b",
+  E: "#14b8a6",
   Score: "#10b981",
 };
 
