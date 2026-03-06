@@ -338,7 +338,9 @@ export function LegendTab() {
                 <td className="py-2 pr-4">
                   <MetricTag label="Score" color={metricColor("Score")} />
                 </td>
-                <td className="py-2 text-zinc-400">Red=critical → yellow=low</td>
+                <td className="py-2 text-zinc-400">
+                  Red=critical → yellow=low
+                </td>
               </tr>
 
               <tr className="border-b border-zinc-800">
@@ -441,7 +443,6 @@ export function LegendTab() {
                   <ValueTag label="U" />/<ValueTag label="X" />
                 </td>
               </tr>
-
             </tbody>
           </table>
         </div>
