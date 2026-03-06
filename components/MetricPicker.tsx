@@ -106,7 +106,11 @@ const METRIC_GROUPS_40: {
   },
 ];
 
-const METRIC_GROUPS_31: { title: string; metrics: MetricDef[]; className?: string }[] = [
+const METRIC_GROUPS_31: {
+  title: string;
+  metrics: MetricDef[];
+  className?: string;
+}[] = [
   {
     title: "Exploitability",
     className: "row-span-2 sm:row-span-1",
