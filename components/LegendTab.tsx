@@ -323,7 +323,7 @@ export function LegendTab() {
       {/* Summary table */}
       <div className="pb-10">
         <h3 className="text-lg font-semibold mb-4">Summary</h3>
-        <div className="overflow-x-auto bg-zinc-900 border border-zinc-800 rounded-lg p-4">
+        <div className="overflow-x-auto bg-zinc-900 border border-zinc-800 rounded-lg pt-2 px-4">
           <table className="w-full text-sm">
             <thead>
               <tr className="text-left text-zinc-500 border-b border-zinc-800">
@@ -431,7 +431,7 @@ export function LegendTab() {
                 </td>
               </tr>
 
-              <tr className="border-b border-zinc-800">
+              <tr>
                 <td className="py-2 pr-4">Exploit Maturity</td>
                 <td className="py-2 pr-4">
                   <MetricTag label="E" color={metricColor("E")} />
