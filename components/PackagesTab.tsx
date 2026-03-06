@@ -216,14 +216,14 @@ svg = render_glyph(
           REST API
         </h3>
         <p className="text-sm text-zinc-400 mb-4">
-          Generate SVG glyphs via HTTP. Same vector, same output — responses are
+          Generate SVG glyphs via HTTP. Responses are
           cached aggressively.
         </p>
 
         <div className="bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-2 mb-4">
           <p className="font-mono text-sm text-zinc-300">
             <span className="text-emerald-400">GET</span>{" "}
-            https://vulnsig.io/api/v1/svg
+            https://vulnsig.io/api/svg
           </p>
         </div>
 
@@ -242,7 +242,7 @@ svg = render_glyph(
                 <td className="py-2 pr-4 font-mono text-xs">vector</td>
                 <td className="py-2 pr-4 text-zinc-400">string</td>
                 <td className="py-2 pr-4 text-zinc-400">yes</td>
-                <td className="py-2 text-zinc-400">CVSS 4.0 vector string</td>
+                <td className="py-2 text-zinc-400">CVSS 4.0 or 3.x vector string</td>
               </tr>
               <tr className="border-b border-zinc-800/50">
                 <td className="py-2 pr-4 font-mono text-xs">size</td>
@@ -266,17 +266,17 @@ svg = render_glyph(
 
         <CodeBlock
           label="HTML embed"
-          code={`<img src="https://vulnsig.io/api/v1/svg?vector=${encodedVector}" />`}
+          code={`<img src="https://vulnsig.io/api/svg?vector=${encodedVector}" />`}
         />
 
         <CodeBlock
           label="Markdown"
-          code={`![vulnsig](https://vulnsig.io/api/v1/svg?vector=${encodedVector}&size=64)`}
+          code={`![vulnsig](https://vulnsig.io/api/svg?vector=${encodedVector}&size=64)`}
         />
 
         <CodeBlock
           label="curl"
-          code={`curl "https://vulnsig.io/api/v1/svg?vector=${encodedVector}" -o glyph.svg`}
+          code={`curl "https://vulnsig.io/api/svg?vector=${encodedVector}" -o glyph.svg`}
         />
 
         <div className="mt-4">

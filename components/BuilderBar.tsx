@@ -112,7 +112,7 @@ export function BuilderBar() {
             </span>
             <div className="flex items-center border border-zinc-700 rounded overflow-hidden">
               <a
-                href={`/api/v1/svg?vector=${encodeURIComponent(vector)}${score !== null ? `&score=${score}` : ""}`}
+                href={`/api/svg?vector=${encodeURIComponent(vector)}${score !== null ? `&score=${score}` : ""}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-3 py-1.5 text-xs font-mono text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 transition-colors border-r border-zinc-700"

@@ -419,7 +419,7 @@ export function LegendTab() {
               </tr>
 
               <tr className="border-b border-zinc-800">
-                <td className="py-2 pr-4">Spikes & bumps</td>
+                <td className="py-2 pr-4">Spikes & Bumps</td>
                 <td className="py-2 pr-4">
                   <MetricTag label="UI" color={metricColor("UI")} />
                 </td>
