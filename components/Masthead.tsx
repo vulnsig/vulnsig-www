@@ -45,7 +45,9 @@ export function Masthead() {
         <VulnSigLogo size={28} color1={c1} color2={c2} color3={c3} />
         VulnSig
       </h1>
-      <p className="text-md text-zinc-500 font-sans italic">more than a score</p>
+      <p className="text-md text-zinc-500 font-sans italic">
+        more than a score
+      </p>
     </header>
   );
 }

@@ -216,8 +216,7 @@ svg = render_glyph(
           REST API
         </h3>
         <p className="text-sm text-zinc-400 mb-4">
-          Generate SVG glyphs via HTTP. Responses are
-          cached aggressively.
+          Generate SVG glyphs via HTTP. Responses are cached aggressively.
         </p>
 
         <div className="bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-2 mb-4">
@@ -242,7 +241,9 @@ svg = render_glyph(
                 <td className="py-2 pr-4 font-mono text-xs">vector</td>
                 <td className="py-2 pr-4 text-zinc-400">string</td>
                 <td className="py-2 pr-4 text-zinc-400">yes</td>
-                <td className="py-2 text-zinc-400">CVSS 4.0 or 3.x vector string</td>
+                <td className="py-2 text-zinc-400">
+                  CVSS 4.0 or 3.x vector string
+                </td>
               </tr>
               <tr className="border-b border-zinc-800/50">
                 <td className="py-2 pr-4 font-mono text-xs">size</td>
