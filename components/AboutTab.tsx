@@ -33,11 +33,10 @@ export function AboutTab() {
             integrity, and availability; scope change, and more.
           </p>
           <p>
-            While the the CVSS vector provides rich information, many
+            While the CVSS vector provides rich information, many
             applications only report the CVSS score. The goal of VulnSig is to
             make vulnerability characteristics beyond just severity immediately
-            legible. Two vulnerabilities with the same numeric score can look
-            very different as glyphs.
+            legible.
           </p>
           <p>
             VulnSig supports CVSS 4.0, 3.1, and 3.0. It is freely available as a
