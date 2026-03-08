@@ -87,9 +87,7 @@ export function GlyphCard({
           <p className="text-sm text-zinc-400 mb-2 leading-relaxed">
             {description}
           </p>
-          <p className="font-mono text-xs text-zinc-500 break-all">
-            {vector}
-          </p>
+          <p className="font-mono text-xs text-zinc-500 break-all">{vector}</p>
         </div>
       </div>
     </div>
