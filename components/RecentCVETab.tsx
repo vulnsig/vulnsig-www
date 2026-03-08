@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { VirtuosoGrid } from "react-virtuoso";
 import { useBuilder } from "./BuilderContext";
 import { useData } from "./DataContext";
 import { GlyphCard } from "./GlyphCard";
@@ -20,12 +21,10 @@ export function RecentCVETab() {
   const { cveData } = useData();
   const [sort, setSort] = useState<SortMode>("date-desc");
 
-  const pool = useMemo(() => cveData.cves.slice(0, 50), [cveData]);
-
-  const latestPublished = pool[0]?.published ?? "";
+  const latestPublished = cveData.cves[0]?.published ?? "";
 
   const sorted = useMemo(() => {
-    const items = [...pool];
+    const items = [...cveData.cves];
     switch (sort) {
       case "date-desc":
         return items.sort((a, b) => b.published.localeCompare(a.published));
@@ -36,7 +35,7 @@ export function RecentCVETab() {
       case "score-asc":
         return items.sort((a, b) => a.cvss.baseScore - b.cvss.baseScore);
     }
-  }, [sort, pool]);
+  }, [sort, cveData.cves]);
 
   return (
     <div>
@@ -84,28 +83,33 @@ export function RecentCVETab() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {sorted.map((cve) => (
-          <GlyphCard
-            key={cve.id}
-            name={cve.id}
-            nameMono
-            cveId={cve.id}
-            subtitle={`${formatDate(cve.published)} · CVSS ${cve.cvss.version}`}
-            description={cve.description}
-            vector={cve.cvss.vectorString}
-            score={cve.cvss.baseScore}
-            onLoadVector={() =>
-              loadVector({
-                name: cve.id,
-                cve: cve.id,
-                vector: cve.cvss.vectorString,
-                description: cve.description,
-              })
-            }
-          />
-        ))}
-      </div>
+      <VirtuosoGrid
+        useWindowScroll
+        totalCount={sorted.length}
+        listClassName="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+        itemContent={(index) => {
+          const cve = sorted[index];
+          return (
+            <GlyphCard
+              name={cve.id}
+              nameMono
+              cveId={cve.id}
+              subtitle={`${formatDate(cve.published)} · CVSS ${cve.cvss.version}`}
+              description={cve.description}
+              vector={cve.cvss.vectorString}
+              score={cve.cvss.baseScore}
+              onLoadVector={() =>
+                loadVector({
+                  name: cve.id,
+                  cve: cve.id,
+                  vector: cve.cvss.vectorString,
+                  description: cve.description,
+                })
+              }
+            />
+          );
+        }}
+      />
     </div>
   );
 }

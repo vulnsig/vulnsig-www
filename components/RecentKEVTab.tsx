@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { VirtuosoGrid } from "react-virtuoso";
 import { useBuilder } from "./BuilderContext";
 import { useData } from "./DataContext";
 import { GlyphCard } from "./GlyphCard";
@@ -21,7 +22,7 @@ export function RecentKEVTab() {
   const [sort, setSort] = useState<SortMode>("date-desc");
 
   const sorted = useMemo(() => {
-    const items = kevData.cves.slice(0, 50);
+    const items = [...kevData.cves];
     switch (sort) {
       case "date-desc":
         return items.sort((a, b) => b.published.localeCompare(a.published));
@@ -32,7 +33,7 @@ export function RecentKEVTab() {
       case "score-asc":
         return items.sort((a, b) => a.cvss.baseScore - b.cvss.baseScore);
     }
-  }, [sort, kevData]);
+  }, [sort, kevData.cves]);
 
   return (
     <div>
@@ -73,28 +74,33 @@ export function RecentKEVTab() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {sorted.map((cve) => (
-          <GlyphCard
-            key={cve.id}
-            name={cve.id}
-            nameMono
-            cveId={cve.id}
-            subtitle={`${formatDate(cve.published)} · CVSS ${cve.cvss.version}`}
-            description={cve.description}
-            vector={cve.cvss.vectorString}
-            score={cve.cvss.baseScore}
-            onLoadVector={() =>
-              loadVector({
-                name: cve.id,
-                cve: cve.id,
-                vector: cve.cvss.vectorString,
-                description: cve.description,
-              })
-            }
-          />
-        ))}
-      </div>
+      <VirtuosoGrid
+        useWindowScroll
+        totalCount={sorted.length}
+        listClassName="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+        itemContent={(index) => {
+          const kev = sorted[index];
+          return (
+            <GlyphCard
+              name={kev.id}
+              nameMono
+              cveId={kev.id}
+              subtitle={`${formatDate(kev.published)} · CVSS ${kev.cvss.version}`}
+              description={kev.description}
+              vector={kev.cvss.vectorString}
+              score={kev.cvss.baseScore}
+              onLoadVector={() =>
+                loadVector({
+                  name: kev.id,
+                  cve: kev.id,
+                  vector: kev.cvss.vectorString,
+                  description: kev.description,
+                })
+              }
+            />
+          );
+        }}
+      />
     </div>
   );
 }
