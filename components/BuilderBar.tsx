@@ -106,11 +106,11 @@ export function BuilderBar() {
           </div>
 
           {/* Row 2: get-from buttons */}
-          <div className="flex items-center justify-end gap-2 pb-4">
+          <div className="flex flex-wrap items-center justify-end gap-2 pb-4">
             <span className="text-xs font-mono text-zinc-600">
               get this glyph via
             </span>
-            <div className="flex items-center border border-zinc-700 rounded overflow-hidden">
+            <div className="flex flex-wrap items-center border border-zinc-700 rounded overflow-hidden">
               <a
                 href={`/api/svg?vector=${encodeURIComponent(vector)}${score !== null ? `&score=${score}` : ""}`}
                 target="_blank"
@@ -126,10 +126,22 @@ export function BuilderBar() {
                 TypeScript
               </button>
               <button
+                onClick={() => navigateToPackageSection("pkg-react")}
+                className="px-3 py-1.5 text-xs font-mono text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 transition-colors cursor-pointer border-r border-zinc-700"
+              >
+                React
+              </button>
+              <button
                 onClick={() => navigateToPackageSection("pkg-python")}
                 className="px-3 py-1.5 text-xs font-mono text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 transition-colors cursor-pointer border-r border-zinc-700"
               >
                 Python
+              </button>
+              <button
+                onClick={() => navigateToPackageSection("pkg-rust")}
+                className="px-3 py-1.5 text-xs font-mono text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 transition-colors cursor-pointer border-r border-zinc-700"
+              >
+                Rust
               </button>
               <button
                 onClick={() => navigateToPackageSection("pkg-rest-api")}

@@ -7,6 +7,7 @@ import "prismjs/components/prism-jsx";
 import "prismjs/components/prism-tsx";
 import "prismjs/components/prism-markup";
 import "prismjs/components/prism-markdown";
+import "prismjs/components/prism-rust";
 import { useMemo, useState, useCallback } from "react";
 import { useBuilder } from "./BuilderContext";
 import { calculateScore } from "vulnsig";
@@ -15,6 +16,7 @@ const LANG_MAP: Record<string, string> = {
   "TypeScript (Core library)": "tsx",
   React: "tsx",
   Python: "python",
+  Rust: "rust",
   "TypeScript / JavaScript": "bash",
   "HTML embed": "markup",
   Markdown: "markdown",
@@ -115,27 +117,20 @@ export function PackagesTab() {
 
   return (
     <div className="space-y-16">
-      {/* TypeScript & React */}
+      {/* TypeScript */}
       <div>
         <h3 id="pkg-typescript" className="text-lg font-semibold mb-6">
-          TypeScript &amp; React
+          TypeScript
         </h3>
         <div className="space-y-6">
           <div>
             <h4 className="text-sm font-mono text-zinc-500 uppercase tracking-wider mb-3">
               Install
             </h4>
-            <CodeBlock
-              code={`npm install vulnsig           # Core — SVG string output
-npm install vulnsig-react     # React component`}
-            />
+            <CodeBlock code={`npm install vulnsig`} />
             <div className="flex gap-3 text-sm">
               <ExternalLink href="https://www.npmjs.com/package/vulnsig">
                 npm: vulnsig
-              </ExternalLink>
-              <span className="text-zinc-700">·</span>
-              <ExternalLink href="https://www.npmjs.com/package/vulnsig-react">
-                npm: vulnsig-react
               </ExternalLink>
               <span className="text-zinc-700">·</span>
               <ExternalLink href="https://github.com/vulnsig/vulnsig-ts">
@@ -157,6 +152,35 @@ const svg = renderGlyph({
 });
 // svg is an SVG string you can embed or save`}
             />
+          </div>
+        </div>
+      </div>
+
+      {/* React */}
+      <div>
+        <h3 id="pkg-react" className="text-lg font-semibold mb-6">
+          React
+        </h3>
+        <div className="space-y-6">
+          <div>
+            <h4 className="text-sm font-mono text-zinc-500 uppercase tracking-wider mb-3">
+              Install
+            </h4>
+            <CodeBlock code={`npm install vulnsig-react`} />
+            <div className="flex gap-3 text-sm">
+              <ExternalLink href="https://www.npmjs.com/package/vulnsig-react">
+                npm: vulnsig-react
+              </ExternalLink>
+              <span className="text-zinc-700">·</span>
+              <ExternalLink href="https://github.com/vulnsig/vulnsig-ts">
+                GitHub
+              </ExternalLink>
+            </div>
+          </div>
+          <div>
+            <h4 className="text-sm font-mono text-zinc-500 uppercase tracking-wider mb-3">
+              Usage
+            </h4>
             <CodeBlock
               label="React"
               code={`import { VulnSig } from 'vulnsig-react';
@@ -205,6 +229,46 @@ svg = render_glyph(
     size=120,
 )
 # svg is an SVG string`}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Rust */}
+      <div>
+        <h3 id="pkg-rust" className="text-lg font-semibold mb-6">
+          Rust
+        </h3>
+        <div className="space-y-6">
+          <div>
+            <h4 className="text-sm font-mono text-zinc-500 uppercase tracking-wider mb-3">
+              Install
+            </h4>
+            <CodeBlock code={`cargo add vulnsig`} />
+            <div className="flex gap-3 text-sm">
+              <ExternalLink href="https://crates.io/crates/vulnsig">
+                crates.io: vulnsig
+              </ExternalLink>
+              <span className="text-zinc-700">·</span>
+              <ExternalLink href="https://github.com/vulnsig/vulnsig-rs">
+                GitHub
+              </ExternalLink>
+            </div>
+          </div>
+          <div>
+            <h4 className="text-sm font-mono text-zinc-500 uppercase tracking-wider mb-3">
+              Usage
+            </h4>
+            <CodeBlock
+              label="Rust"
+              code={`use vulnsig::render_glyph;
+
+let svg = render_glyph(
+    "${vector}",
+    None,      // score: auto-calculated if None
+    Some(120), // size in pixels
+);
+// svg is an SVG string`}
             />
           </div>
         </div>
