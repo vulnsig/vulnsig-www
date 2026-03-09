@@ -8,11 +8,13 @@ import { GlyphCard } from "./GlyphCard";
 
 type SortMode = "date-desc" | "date-asc" | "score-desc" | "score-asc";
 
-function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("en-US", {
+function formatDateTime(iso: string): string {
+  return new Date(iso).toLocaleString("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
   });
 }
 
@@ -22,6 +24,8 @@ export function RecentCVETab() {
   const [sort, setSort] = useState<SortMode>("date-desc");
 
   const latestPublished = cveData.cves[0]?.published ?? "";
+  const earliestPublished =
+    cveData.cves[cveData.cves.length - 1]?.published ?? "";
 
   const sorted = useMemo(() => {
     const items = [...cveData.cves];
@@ -51,14 +55,8 @@ export function RecentCVETab() {
             Common Vulnerabilities and Exposures
           </a>{" "}
           <span className="text-zinc-600">
-            up to{" "}
-            {new Date(latestPublished + "Z").toLocaleString("en-US", {
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-              hour: "numeric",
-              minute: "2-digit",
-            })}
+            from {formatDateTime(earliestPublished)} to{" "}
+            {formatDateTime(latestPublished)}
             {" as of "}
             {new Date(cveData.generatedAt).toLocaleString("en-US", {
               year: "numeric",
@@ -94,7 +92,7 @@ export function RecentCVETab() {
               name={cve.id}
               nameMono
               cveId={cve.id}
-              subtitle={`${formatDate(cve.published)} · CVSS ${cve.cvss.version}`}
+              subtitle={`${formatDateTime(cve.published)} · CVSS ${cve.cvss.version}`}
               description={cve.description}
               vector={cve.cvss.vectorString}
               score={cve.cvss.baseScore}

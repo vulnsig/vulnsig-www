@@ -21,6 +21,10 @@ export function RecentKEVTab() {
   const { kevData } = useData();
   const [sort, setSort] = useState<SortMode>("date-desc");
 
+  const latestPublished = kevData.cves[0]?.published ?? "";
+  const earliestPublished =
+    kevData.cves[kevData.cves.length - 1]?.published ?? "";
+
   const sorted = useMemo(() => {
     const items = [...kevData.cves];
     switch (sort) {
@@ -49,7 +53,8 @@ export function RecentKEVTab() {
             Known Exploited Vulnerabilities
           </a>{" "}
           <span className="text-zinc-600">
-            up to {formatDate(kevData.cves[0]?.published ?? "")}
+            from {formatDate(earliestPublished)} to{" "}
+            {formatDate(latestPublished)}
             {" as of "}
             {new Date(kevData.generatedAt).toLocaleString("en-US", {
               year: "numeric",
