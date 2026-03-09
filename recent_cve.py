@@ -36,8 +36,8 @@ def parse_args():
     parser.add_argument(
         "--hours",
         type=float,
-        default=24.0,
-        help="How many hours back to search (default: 24)",
+        default=48.0,
+        help="How many hours back to search (default: 48)",
     )
     parser.add_argument(
         "--output",

@@ -44,8 +44,8 @@ def parse_args():
     parser.add_argument(
         "--days",
         type=float,
-        default=90.0,
-        help="How many days back to collect KEV entries (default: 90)",
+        default=180.0,
+        help="How many days back to collect KEV entries (default: 180)",
     )
     parser.add_argument(
         "--start",
