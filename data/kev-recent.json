@@ -1,8 +1,58 @@
 {
-  "generatedAt": "2026-03-04T01:04:13.031605+00:00",
-  "windowStart": "2025-12-03",
-  "windowEnd": "2026-03-03",
+  "generatedAt": "2026-03-09T15:46:19.117814+00:00",
+  "windowStart": "2025-09-10",
+  "windowEnd": "2026-03-09",
   "cves": [
+    {
+      "id": "CVE-2017-7921",
+      "published": "2026-03-05",
+      "description": "Hikvision Multiple Products Improper Authentication Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 9.8
+      }
+    },
+    {
+      "id": "CVE-2021-22681",
+      "published": "2026-03-05",
+      "description": "Rockwell Multiple Products Insufficient Protected Credentials Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 9.8
+      }
+    },
+    {
+      "id": "CVE-2023-43000",
+      "published": "2026-03-05",
+      "description": "Apple Multiple products Use-After-Free Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "baseScore": 8.8
+      }
+    },
+    {
+      "id": "CVE-2021-30952",
+      "published": "2026-03-05",
+      "description": "Apple Multiple Products Integer Overflow or Wraparound Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "baseScore": 8.8
+      }
+    },
+    {
+      "id": "CVE-2023-41974",
+      "published": "2026-03-05",
+      "description": "Apple iOS and iPadOS Use-After-Free Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "baseScore": 7.8
+      }
+    },
     {
       "id": "CVE-2026-22719",
       "published": "2026-03-03",
@@ -651,6 +701,536 @@
         "version": "3.1",
         "vectorString": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
         "baseScore": 8.8
+      }
+    },
+    {
+      "id": "CVE-2025-48633",
+      "published": "2025-12-02",
+      "description": "Android Framework Information Disclosure Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:N/A:N",
+        "baseScore": 5.5
+      }
+    },
+    {
+      "id": "CVE-2025-48572",
+      "published": "2025-12-02",
+      "description": "Android Framework Privilege Escalation Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 7.8
+      }
+    },
+    {
+      "id": "CVE-2021-26829",
+      "published": "2025-11-28",
+      "description": "OpenPLC ScadaBR Cross-site Scripting Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N",
+        "baseScore": 5.4
+      }
+    },
+    {
+      "id": "CVE-2025-61757",
+      "published": "2025-11-21",
+      "description": "Oracle Fusion Middleware Missing Authentication for Critical Function Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 9.8
+      }
+    },
+    {
+      "id": "CVE-2025-13223",
+      "published": "2025-11-19",
+      "description": "Google Chromium V8 Type Confusion Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "baseScore": 8.8
+      }
+    },
+    {
+      "id": "CVE-2025-58034",
+      "published": "2025-11-18",
+      "description": "Fortinet FortiWeb OS Command Injection Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H/E:F/RL:O/RC:C",
+        "baseScore": 6.7
+      }
+    },
+    {
+      "id": "CVE-2025-64446",
+      "published": "2025-11-14",
+      "description": "Fortinet FortiWeb Path Traversal Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H/E:H/RL:O/RC:C",
+        "baseScore": 9.4
+      }
+    },
+    {
+      "id": "CVE-2025-12480",
+      "published": "2025-11-12",
+      "description": "Gladinet Triofox Improper Access Control Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "baseScore": 9.1
+      }
+    },
+    {
+      "id": "CVE-2025-62215",
+      "published": "2025-11-12",
+      "description": "Microsoft Windows Race Condition Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H/E:F/RL:O/RC:C",
+        "baseScore": 7
+      }
+    },
+    {
+      "id": "CVE-2025-9242",
+      "published": "2025-11-12",
+      "description": "WatchGuard Firebox Out-of-Bounds Write Vulnerability",
+      "cvss": {
+        "version": "4.0",
+        "vectorString": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
+        "baseScore": 9.3
+      }
+    },
+    {
+      "id": "CVE-2025-21042",
+      "published": "2025-11-10",
+      "description": "Samsung Mobile Devices Out-of-Bounds Write Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "baseScore": 8.8
+      }
+    },
+    {
+      "id": "CVE-2025-48703",
+      "published": "2025-11-04",
+      "description": "CWP Control Web Panel OS Command Injection Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:H",
+        "baseScore": 9
+      }
+    },
+    {
+      "id": "CVE-2025-11371",
+      "published": "2025-11-04",
+      "description": "Gladinet CentreStack and Triofox Files or Directories Accessible to External Parties Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "baseScore": 7.5
+      }
+    },
+    {
+      "id": "CVE-2025-41244",
+      "published": "2025-10-30",
+      "description": "Broadcom VMware Aria Operations and VMware Tools Privilege Defined with Unsafe Actions Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 7.8
+      }
+    },
+    {
+      "id": "CVE-2025-24893",
+      "published": "2025-10-30",
+      "description": "XWiki Platform Eval Injection Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 9.8
+      }
+    },
+    {
+      "id": "CVE-2025-6204",
+      "published": "2025-10-28",
+      "description": "Dassault Syst\u00e8mes DELMIA Apriso Code Injection Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:C/C:H/I:H/A:H",
+        "baseScore": 8
+      }
+    },
+    {
+      "id": "CVE-2025-6205",
+      "published": "2025-10-28",
+      "description": "Dassault Syst\u00e8mes DELMIA Apriso Missing Authorization Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "baseScore": 9.1
+      }
+    },
+    {
+      "id": "CVE-2025-54236",
+      "published": "2025-10-24",
+      "description": "Adobe Commerce and\u202fMagento Improper Input Validation Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+        "baseScore": 9.1
+      }
+    },
+    {
+      "id": "CVE-2025-59287",
+      "published": "2025-10-24",
+      "description": "Microsoft Windows Server Update Service (WSUS) Deserialization of Untrusted Data Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H/E:P/RL:O/RC:C",
+        "baseScore": 9.8
+      }
+    },
+    {
+      "id": "CVE-2025-61932",
+      "published": "2025-10-22",
+      "description": "Motex LANSCOPE Endpoint Manager Improper Verification of Source of a Communication Channel Vulnerability",
+      "cvss": {
+        "version": "4.0",
+        "vectorString": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
+        "baseScore": 9.3
+      }
+    },
+    {
+      "id": "CVE-2022-48503",
+      "published": "2025-10-20",
+      "description": "Apple Multiple Products Unspecified Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "baseScore": 8.8
+      }
+    },
+    {
+      "id": "CVE-2025-2746",
+      "published": "2025-10-20",
+      "description": "Kentico Xperience CMS Authentication Bypass Using an Alternate Path or Channel Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 9.8
+      }
+    },
+    {
+      "id": "CVE-2025-2747",
+      "published": "2025-10-20",
+      "description": "Kentico Xperience CMS Authentication Bypass Using an Alternate Path or Channel Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 9.8
+      }
+    },
+    {
+      "id": "CVE-2025-33073",
+      "published": "2025-10-20",
+      "description": "Microsoft Windows SMB Client Improper Access Control Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H/E:P/RL:O/RC:C",
+        "baseScore": 8.8
+      }
+    },
+    {
+      "id": "CVE-2025-61884",
+      "published": "2025-10-20",
+      "description": "Oracle E-Business Suite Server-Side Request Forgery (SSRF) Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "baseScore": 7.5
+      }
+    },
+    {
+      "id": "CVE-2025-54253",
+      "published": "2025-10-15",
+      "description": "Adobe Experience Manager Forms Code Execution Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+        "baseScore": 10
+      }
+    },
+    {
+      "id": "CVE-2025-47827",
+      "published": "2025-10-14",
+      "description": "IGEL OS Use of a Key Past its Expiration Date Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:P/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "baseScore": 4.6
+      }
+    },
+    {
+      "id": "CVE-2025-24990",
+      "published": "2025-10-14",
+      "description": "Microsoft Windows Untrusted Pointer Dereference Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H/E:F/RL:O/RC:C",
+        "baseScore": 7.8
+      }
+    },
+    {
+      "id": "CVE-2025-59230",
+      "published": "2025-10-14",
+      "description": "Microsoft Windows Improper Access Control Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H/E:F/RL:O/RC:C",
+        "baseScore": 7.8
+      }
+    },
+    {
+      "id": "CVE-2016-7836",
+      "published": "2025-10-14",
+      "description": "SKYSEA Client View Improper Authentication Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 9.8
+      }
+    },
+    {
+      "id": "CVE-2021-43798",
+      "published": "2025-10-09",
+      "description": "Grafana Path Traversal Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "baseScore": 7.5
+      }
+    },
+    {
+      "id": "CVE-2025-27915",
+      "published": "2025-10-07",
+      "description": "Synacor Zimbra Collaboration Suite (ZCS) Cross-site Scripting Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N",
+        "baseScore": 5.4
+      }
+    },
+    {
+      "id": "CVE-2021-22555",
+      "published": "2025-10-06",
+      "description": "Linux Kernel Heap Out-of-Bounds Write Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:A/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:H",
+        "baseScore": 8.3
+      }
+    },
+    {
+      "id": "CVE-2010-3962",
+      "published": "2025-10-06",
+      "description": "Microsoft Internet Explorer Uninitialized Memory Corruption Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 8.1
+      }
+    },
+    {
+      "id": "CVE-2021-43226",
+      "published": "2025-10-06",
+      "description": "Microsoft Windows Privilege Escalation Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H/E:U/RL:O/RC:C",
+        "baseScore": 7.8
+      }
+    },
+    {
+      "id": "CVE-2013-3918",
+      "published": "2025-10-06",
+      "description": "Microsoft Windows Out-of-Bounds Write Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "baseScore": 8.8
+      }
+    },
+    {
+      "id": "CVE-2011-3402",
+      "published": "2025-10-06",
+      "description": "Microsoft Windows Remote Code Execution Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "baseScore": 8.8
+      }
+    },
+    {
+      "id": "CVE-2010-3765",
+      "published": "2025-10-06",
+      "description": "Mozilla Multiple Products Remote Code Execution Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 9.8
+      }
+    },
+    {
+      "id": "CVE-2025-61882",
+      "published": "2025-10-06",
+      "description": "Oracle E-Business Suite Unspecified Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 9.8
+      }
+    },
+    {
+      "id": "CVE-2014-6278",
+      "published": "2025-10-02",
+      "description": "GNU Bash OS Command Injection Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "baseScore": 8.8
+      }
+    },
+    {
+      "id": "CVE-2017-1000353",
+      "published": "2025-10-02",
+      "description": "Jenkins Remote Code Execution Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 9.8
+      }
+    },
+    {
+      "id": "CVE-2015-7755",
+      "published": "2025-10-02",
+      "description": "Juniper ScreenOS Improper Authentication Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 9.8
+      }
+    },
+    {
+      "id": "CVE-2025-21043",
+      "published": "2025-10-02",
+      "description": "Samsung Mobile Devices Out-of-Bounds Write Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "baseScore": 8.8
+      }
+    },
+    {
+      "id": "CVE-2025-4008",
+      "published": "2025-10-02",
+      "description": "Smartbedded Meteobridge Command Injection Vulnerability",
+      "cvss": {
+        "version": "4.0",
+        "vectorString": "CVSS:4.0/AV:A/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N",
+        "baseScore": 8.7
+      }
+    },
+    {
+      "id": "CVE-2025-32463",
+      "published": "2025-09-29",
+      "description": "Sudo Inclusion of Functionality from Untrusted Control Sphere Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+        "baseScore": 9.3
+      }
+    },
+    {
+      "id": "CVE-2025-59689",
+      "published": "2025-09-29",
+      "description": "Libraesva Email Security Gateway Command Injection Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+        "baseScore": 6.1
+      }
+    },
+    {
+      "id": "CVE-2025-10035",
+      "published": "2025-09-29",
+      "description": "Fortra GoAnywhere MFT Deserialization of Untrusted Data Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+        "baseScore": 10
+      }
+    },
+    {
+      "id": "CVE-2025-20352",
+      "published": "2025-09-29",
+      "description": "Cisco IOS and IOS XE Software SNMP Denial of Service and Remote Code Execution Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:N/I:N/A:H",
+        "baseScore": 7.7
+      }
+    },
+    {
+      "id": "CVE-2021-21311",
+      "published": "2025-09-29",
+      "description": "Adminer Server-Side Request Forgery Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:N",
+        "baseScore": 7.2
+      }
+    },
+    {
+      "id": "CVE-2025-20362",
+      "published": "2025-09-25",
+      "description": "Cisco Secure Firewall Adaptive Security (ASA) Appliance and Secure Firewall Threat Defense (FTD) Missing Authorization Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "baseScore": 6.5
+      }
+    },
+    {
+      "id": "CVE-2025-20333",
+      "published": "2025-09-25",
+      "description": "Cisco Secure Firewall Adaptive Security Appliance (ASA) and Secure Firewall Threat Defense (FTD) Buffer Overflow Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H",
+        "baseScore": 9.9
+      }
+    },
+    {
+      "id": "CVE-2025-10585",
+      "published": "2025-09-23",
+      "description": "Google Chromium V8 Type Confusion Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "baseScore": 8.8
+      }
+    },
+    {
+      "id": "CVE-2025-5086",
+      "published": "2025-09-11",
+      "description": "Dassault Syst\u00e8mes DELMIA Apriso Deserialization of Untrusted Data Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:H",
+        "baseScore": 9
       }
     }
   ]
