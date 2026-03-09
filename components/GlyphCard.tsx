@@ -2,6 +2,7 @@
 
 import { VulnSig } from "vulnsig-react";
 import { ScoreBadge } from "./ScoreBadge";
+import { useBuilder } from "./BuilderContext";
 
 interface GlyphCardProps {
   name: string;
@@ -24,8 +25,10 @@ export function GlyphCard({
   score,
   onLoadVector,
 }: GlyphCardProps) {
+  const { loadVector: loadVectorCtx, setExpanded } = useBuilder();
+
   return (
-    <div className="bg-zinc-900 border border-zinc-800 rounded-lg h-90 px-2 pt-2 pb-4 flex flex-col items-center hover:border-zinc-700 transition-colors">
+    <div className="bg-zinc-900 border border-zinc-800 rounded-lg h-90 px-4 pt-2 pb-4 flex flex-col items-center hover:border-zinc-700 transition-colors">
       <div
         className="relative"
         aria-label={`${name} vulnerability glyph, score ${score}`}
@@ -87,7 +90,21 @@ export function GlyphCard({
           <p className="text-sm text-zinc-400 mb-2 leading-relaxed">
             {description}
           </p>
-          <p className="font-mono text-xs text-zinc-500 break-all">{vector}</p>
+          <button
+            onClick={() => {
+              loadVectorCtx({
+                name: name,
+                cve: cveId ?? null,
+                vector,
+                description,
+              });
+              setExpanded(false);
+            }}
+            title="Set as active vector"
+            className="font-mono text-xs text-zinc-500 hover:text-zinc-300 break-all text-center cursor-pointer transition-colors"
+          >
+            {vector}
+          </button>
         </div>
       </div>
     </div>

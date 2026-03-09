@@ -115,39 +115,45 @@ export function BuilderBar() {
                 href={`/api/svg?vector=${encodeURIComponent(vector)}${score !== null ? `&score=${score}` : ""}`}
                 target="_blank"
                 rel="noopener noreferrer"
+                title="Direct URL"
                 className="px-3 py-1.5 text-xs font-mono text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 transition-colors border-r border-zinc-700"
               >
                 URL
               </a>
               <button
                 onClick={() => navigateToPackageSection("pkg-typescript")}
+                title="TypeScript"
                 className="px-3 py-1.5 text-xs font-mono text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 transition-colors cursor-pointer border-r border-zinc-700"
               >
-                TypeScript
+                TS
               </button>
               <button
                 onClick={() => navigateToPackageSection("pkg-react")}
+                title="React"
                 className="px-3 py-1.5 text-xs font-mono text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 transition-colors cursor-pointer border-r border-zinc-700"
               >
                 React
               </button>
               <button
                 onClick={() => navigateToPackageSection("pkg-python")}
+                title="Python"
                 className="px-3 py-1.5 text-xs font-mono text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 transition-colors cursor-pointer border-r border-zinc-700"
               >
-                Python
+                Py
               </button>
               <button
                 onClick={() => navigateToPackageSection("pkg-rust")}
+                title="Rust"
                 className="px-3 py-1.5 text-xs font-mono text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 transition-colors cursor-pointer border-r border-zinc-700"
               >
-                Rust
+                Rs
               </button>
               <button
                 onClick={() => navigateToPackageSection("pkg-rest-api")}
+                title="REST API"
                 className="px-3 py-1.5 text-xs font-mono text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800 transition-colors cursor-pointer"
               >
-                REST API
+                API
               </button>
             </div>
           </div>
