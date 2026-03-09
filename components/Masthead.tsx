@@ -6,7 +6,7 @@ import { VulnSigLogo } from "./VulnSigLogo";
 const DIM = "#939598";
 const LIT = "#d4d4d8";
 const INTERVAL = 3 * 60_000; // every 3 minutes
-const STEP = 150; // ms per phase
+const STEP = 180; // ms per phase
 
 // Phases: 0 = top+right, 1 = right+left, 2 = left+top, null = idle
 type Phase = 0 | 1 | 2 | null;
@@ -40,9 +40,9 @@ export function Masthead() {
   const [c1, c2, c3] = phase !== null ? colors[phase] : [LIT, LIT, DIM];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-[60] py-2 px-4 flex items-center justify-center gap-4 bg-zinc-950/60 backdrop-blur-sm border-b border-zinc-800/50">
+    <header className="fixed top-0 left-0 right-0 z-[60] py-2 px-4 flex items-center justify-center gap-2 bg-zinc-950/60 backdrop-blur-sm border-b border-zinc-800/40">
       <h1 className="flex items-center gap-2 text-3xl tracking-wide text-zinc-300 font-[family-name:var(--font-display)]">
-        <VulnSigLogo size={28} color1={c1} color2={c2} color3={c3} />
+        <VulnSigLogo size={22} color1={c1} color2={c2} color3={c3} />
         VulnSig
       </h1>
       <p className="text-md text-zinc-500 font-sans italic">

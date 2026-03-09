@@ -87,9 +87,7 @@ export function GlyphCard({
             </a>
           )}
           {subtitle && <p className="text-xs text-zinc-500 mb-2">{subtitle}</p>}
-          <p className="text-sm text-zinc-400 mb-2 leading-relaxed">
-            {description}
-          </p>
+          <p className="text-sm text-zinc-400 mb-2">{description}</p>
           <button
             onClick={() => {
               loadVectorCtx({
