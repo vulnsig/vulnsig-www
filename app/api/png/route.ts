@@ -7,6 +7,7 @@ export async function GET(request: NextRequest) {
   const vector = searchParams.get("vector");
   const sizeParam = searchParams.get("size");
   const scoreParam = searchParams.get("score");
+  const densityParam = searchParams.get("density");
 
   if (!vector) {
     return NextResponse.json(
@@ -50,6 +51,17 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  const density = densityParam ? parseInt(densityParam, 10) : 72;
+  if (isNaN(density) || density < 72 || density > 600) {
+    return NextResponse.json(
+      {
+        error: "Invalid density",
+        detail: "Density must be a number between 72 and 600",
+      },
+      { status: 400 },
+    );
+  }
+
   let svg: string;
   try {
     svg = renderGlyph({ vector, size, score: score ?? null });
@@ -62,7 +74,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const png = await sharp(Buffer.from(svg)).png().toBuffer();
+    const png = await sharp(Buffer.from(svg), { density }).png().toBuffer();
 
     return new Response(png, {
       headers: {
