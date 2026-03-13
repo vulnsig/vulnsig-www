@@ -201,6 +201,20 @@ export const VULNERABILITIES: Vulnerability[] = [
     description:
       "Insufficiently protected credentials in GE HealthCare EchoPAC products.",
   },
+  {
+    name: "Gallium",
+    cve: "CVE-2023-38606",
+    vector: "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:H/A:N",
+    description:
+      "An issue in the kernel that permits a malicious app to modify sensitive kernel state.",
+  },
+  {
+    name: "Photon",
+    cve: "CVE-2023-32434",
+    vector: "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+    description:
+      "An integer overflow vulnerability in the kernel that could be exploited by a malicious app to execute arbitrary code with kernel privileges.",
+  },
 ];
 
 // note: some 4.0 examples are from here:
