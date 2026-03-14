@@ -22,6 +22,8 @@ import urllib.error
 from datetime import date, timedelta, datetime, timezone
 from pathlib import Path
 
+from cve_product import write_product_map
+
 
 KEV_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
 MITRE_URL = "https://cveawg.mitre.org/api/cve/{cve_id}"
@@ -203,6 +205,8 @@ def main():
         json.dump(payload, f, indent=2)
 
     print(f"Written to: {out_path}")
+
+    write_product_map(cves, out_path)
 
 
 if __name__ == "__main__":
