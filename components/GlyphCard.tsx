@@ -1,8 +1,25 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { VulnSig } from "vulnsig-react";
 import { ScoreBadge } from "./ScoreBadge";
 import { useBuilder } from "./BuilderContext";
+
+/** Highlight the first occurrence of `term` in `text`, case-insensitive. */
+function highlightFirst(text: string, term: string): ReactNode {
+  const idx = text.toLowerCase().indexOf(term.toLowerCase());
+  if (idx === -1) return text;
+  const before = text.slice(0, idx);
+  const match = text.slice(idx, idx + term.length);
+  const after = text.slice(idx + term.length);
+  return (
+    <>
+      {before}
+      <span className="text-zinc-200 font-medium">{match}</span>
+      {after}
+    </>
+  );
+}
 
 interface GlyphCardProps {
   name: string;
@@ -10,6 +27,8 @@ interface GlyphCardProps {
   cveId?: string;
   subtitle?: string;
   description: string;
+  /** When set, the first occurrence of this product name in the description is highlighted. */
+  productName?: string;
   vector: string;
   score: number;
   onLoadVector: () => void;
@@ -21,6 +40,7 @@ export function GlyphCard({
   cveId,
   subtitle,
   description,
+  productName,
   vector,
   score,
   onLoadVector,
@@ -87,7 +107,11 @@ export function GlyphCard({
             </a>
           )}
           {subtitle && <p className="text-xs text-zinc-500 mb-2">{subtitle}</p>}
-          <p className="text-sm text-zinc-400 mb-2">{description}</p>
+          <p className="text-sm text-zinc-400 mb-2">
+            {productName
+              ? highlightFirst(description, productName)
+              : description}
+          </p>
           <button
             onClick={() => {
               loadVectorCtx({

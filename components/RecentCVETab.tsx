@@ -22,7 +22,7 @@ function formatDateTime(iso: string): string {
 
 export function RecentCVETab() {
   const { loadVector } = useBuilder();
-  const { cveData } = useData();
+  const { cveData, cveProductMap } = useData();
   const [sort, setSort] = useState<SortMode>("date-desc");
 
   const latestPublished = cveData.cves[0]?.published ?? "";
@@ -96,6 +96,7 @@ export function RecentCVETab() {
               cveId={cve.id}
               subtitle={`${formatDateTime(cve.published)} · CVSS ${cve.cvss.version}`}
               description={cve.description}
+              productName={cveProductMap[cve.id]?.product}
               vector={cve.cvss.vectorString}
               score={cve.cvss.baseScore}
               onLoadVector={() =>

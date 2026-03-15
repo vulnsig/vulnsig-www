@@ -22,6 +22,8 @@ import urllib.error
 from datetime import date, timedelta, datetime, timezone
 from pathlib import Path
 
+from recent_util import build_product_map
+
 
 KEV_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
 MITRE_URL = "https://cveawg.mitre.org/api/cve/{cve_id}"
@@ -188,16 +190,28 @@ def main():
         f"{len(cves)} kept"
     )
 
+    out_dir = Path(args.output)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out_path = out_dir / args.filename
+
+    # Load existing products from current output file (if any)
+    existing_products = {}
+    if out_path.exists():
+        try:
+            with open(out_path, encoding="utf-8") as f:
+                existing_products = json.load(f).get("products", {})
+        except (json.JSONDecodeError, OSError):
+            pass
+
+    products = build_product_map(cves, existing_products, 1000)
+
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat(),
         "windowStart": window_start.isoformat(),
         "windowEnd": window_end.isoformat(),
         "cves": cves,
+        "products": products,
     }
-
-    out_dir = Path(args.output)
-    out_dir.mkdir(parents=True, exist_ok=True)
-    out_path = out_dir / args.filename
 
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2)

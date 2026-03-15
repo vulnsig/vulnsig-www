@@ -26,6 +26,8 @@ import urllib.parse
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
+from recent_util import build_product_map
+
 NVD_BASE = "https://services.nvd.nist.gov/rest/json/cves/2.0"
 PAGE_SIZE = 2000
 REQUEST_DELAY = 0.7  # NVD recommends > 600ms between requests
@@ -200,17 +202,29 @@ def main():
     # Sort newest first
     cves.sort(key=lambda c: c["published"], reverse=True)
 
+    # Write output
+    out_dir = Path(args.output)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out_path = out_dir / args.filename
+
+    # Load existing products from current output file (if any)
+    existing_products = {}
+    if out_path.exists():
+        try:
+            with open(out_path, encoding="utf-8") as f:
+                existing_products = json.load(f).get("products", {})
+        except (json.JSONDecodeError, OSError):
+            pass
+
+    products = build_product_map(cves, existing_products, 1000)
+
     payload = {
         "generatedAt": datetime.now(timezone.utc).isoformat(),
         "windowStart": window_start,
         "windowEnd": window_end,
         "cves": cves,
+        "products": products,
     }
-
-    # Write output
-    out_dir = Path(args.output)
-    out_dir.mkdir(parents=True, exist_ok=True)
-    out_path = out_dir / args.filename
 
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2)
