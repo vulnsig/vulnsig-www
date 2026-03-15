@@ -1,8 +1,68 @@
 {
-  "generatedAt": "2026-03-09T15:46:19.117814+00:00",
-  "windowStart": "2025-09-10",
-  "windowEnd": "2026-03-09",
+  "generatedAt": "2026-03-15T02:22:32.408944+00:00",
+  "windowStart": "2025-09-15",
+  "windowEnd": "2026-03-14",
   "cves": [
+    {
+      "id": "CVE-2026-3910",
+      "published": "2026-03-13",
+      "description": "Google Chromium V8 Improper Restriction of Operations Within the Bounds of a Memory Buffer Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "baseScore": 8.8
+      }
+    },
+    {
+      "id": "CVE-2026-3909",
+      "published": "2026-03-13",
+      "description": "Google Skia Out-of-Bounds Write Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
+        "baseScore": 8.8
+      }
+    },
+    {
+      "id": "CVE-2025-68613",
+      "published": "2026-03-11",
+      "description": "n8n Improper Control of Dynamically-Managed Code Resources Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H",
+        "baseScore": 10
+      }
+    },
+    {
+      "id": "CVE-2021-22054",
+      "published": "2026-03-09",
+      "description": "Omnissa Workspace ONE Server-Side Request Forgery",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+        "baseScore": 7.5
+      }
+    },
+    {
+      "id": "CVE-2025-26399",
+      "published": "2026-03-09",
+      "description": "SolarWinds Web Help Desk Deserialization of Untrusted Data Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 9.8
+      }
+    },
+    {
+      "id": "CVE-2026-1603",
+      "published": "2026-03-09",
+      "description": "Ivanti Endpoint Manager (EPM) Authentication Bypass Vulnerability",
+      "cvss": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N",
+        "baseScore": 8.6
+      }
+    },
     {
       "id": "CVE-2017-7921",
       "published": "2026-03-05",
@@ -1221,16 +1281,6 @@
         "version": "3.1",
         "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H",
         "baseScore": 8.8
-      }
-    },
-    {
-      "id": "CVE-2025-5086",
-      "published": "2025-09-11",
-      "description": "Dassault Syst\u00e8mes DELMIA Apriso Deserialization of Untrusted Data Vulnerability",
-      "cvss": {
-        "version": "3.1",
-        "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:H",
-        "baseScore": 9
       }
     }
   ]

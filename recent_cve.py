@@ -26,6 +26,8 @@ import urllib.parse
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
+from recent_product import write_product_map
+
 NVD_BASE = "https://services.nvd.nist.gov/rest/json/cves/2.0"
 PAGE_SIZE = 2000
 REQUEST_DELAY = 0.7  # NVD recommends > 600ms between requests
@@ -216,6 +218,8 @@ def main():
         json.dump(payload, f, indent=2)
 
     print(f"Written to: {out_path}")
+
+    write_product_map(cves, out_path, 1000)
 
 
 if __name__ == "__main__":
