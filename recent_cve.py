@@ -219,7 +219,7 @@ def main():
 
     print(f"Written to: {out_path}")
 
-    write_product_map(cves, out_path)
+    write_product_map(cves, out_path, 1000)
 
 
 if __name__ == "__main__":

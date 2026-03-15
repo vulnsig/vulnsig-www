@@ -30,9 +30,14 @@ import os
 import sys
 import urllib.request
 import urllib.error
-from datetime import datetime, timezone
 from pathlib import Path
-from typing import Optional
+from typing import Optional, TypedDict
+
+
+class CveEntry(TypedDict, total=False):
+    id: str
+    description: str
+    published: str
 
 
 ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages"
@@ -42,19 +47,24 @@ BATCH_SIZE = 20
 
 # Sentinel used for entries migrated from the old flat-string format so they
 # sort as the very oldest and are evicted first when max_entries is applied.
-_EPOCH = "1970-01-01T00:00:00+00:00"
+EPOCH = "1970-01-01T00:00:00+00:00"
 
-SYSTEM_PROMPT = (
-    "You are a cybersecurity expert. For each CVE description provided, "
-    "identify the single primary product affected (vendor and product name, "
-    "e.g. 'Apache Log4j', 'Microsoft Windows', 'Cisco IOS XE'). "
-    "Respond with a JSON object mapping each CVE ID to its primary product "
-    "name as a string. Use null if the product cannot be determined. "
-    "Respond with only the JSON object and nothing else."
-)
+SYSTEM_PROMPT = """You are a CVE analyst. For each CVE provided, extract the primary software product or tool that the vulnerability affects. Return exactly 1 to 2 words representing the most commonly recognized name for that product.
+
+Normalize variations to a single canonical name. For example:
+- "Apache HTTP Server", "httpd", "Apache httpd 2.4.x" → "Apache httpd"
+- "Google Chromium", "Chrome browser" → "Chrome"
+- "Microsoft Windows Win32k" → "Windows"
+- "OpenSSL libssl" → "OpenSSL"
+
+If the CVE description does not clearly identify a specific product (e.g., it describes a generic protocol issue or a vulnerability in an unnamed library), return "Unknown".
+
+Respond with JSON only. No preamble, no markdown fences:
+[{ "id": "CVE-2026-XXXXX", "product": "Product Name" }, ...]
+"""
 
 
-def _product_path(output_path: Path) -> Path:
+def product_path(output_path: Path) -> Path:
     """Derive the product-map file path from the main output path.
 
     Example: 'data/kev-recent.json' → 'data/kev-recent-product.json'
@@ -62,7 +72,7 @@ def _product_path(output_path: Path) -> Path:
     return output_path.with_name(output_path.stem + "-product.json")
 
 
-def _load_existing(product_path: Path) -> dict:
+def load_existing(product_path: Path) -> dict:
     """Load an existing CVE→entry mapping from disk, or return empty dict.
 
     Supports both the current format (values are ``{"product": ..., "added": ...}``)
@@ -81,7 +91,7 @@ def _load_existing(product_path: Path) -> dict:
                         result[cve_id] = val
                     else:
                         # Legacy flat-string or null value
-                        result[cve_id] = {"product": val, "added": _EPOCH}
+                        result[cve_id] = {"product": val, "added": EPOCH}
                 return result
         except (json.JSONDecodeError, OSError) as exc:
             print(
@@ -91,18 +101,14 @@ def _load_existing(product_path: Path) -> dict:
     return {}
 
 
-def _call_anthropic(batch: list, api_key: str) -> dict:
+def call_anthropic(batch: list, api_key: str) -> dict:
     """Call the Anthropic Messages API for a batch of CVEs.
 
     `batch` is a list of dicts with 'id' and 'description'.
     Returns a dict mapping CVE ID → product name (str or None).
     """
-    user_lines = "\n".join(
-        f"{item['id']}: {item['description']}" for item in batch
-    )
-    user_content = (
-        "Map these CVEs to their primary product names:\n\n" + user_lines
-    )
+    user_lines = "\n".join(f"{item['id']}: {item['description']}" for item in batch)
+    user_content = "Map these CVEs to their primary product names:\n\n" + user_lines
 
     payload = {
         "model": ANTHROPIC_MODEL,
@@ -145,24 +151,46 @@ def _call_anthropic(batch: list, api_key: str) -> dict:
         print("  Warning: empty response from Anthropic", file=sys.stderr)
         return {}
 
+    # Strip markdown code fences if present
+    stripped = text.strip()
+    if stripped.startswith("```"):
+        # Remove opening fence (```json or ```)
+        stripped = stripped.split("\n", 1)[-1] if "\n" in stripped else ""
+        if stripped.endswith("```"):
+            stripped = stripped[:-3].strip()
+        text = stripped
+
+    def to_dict(obj: object) -> dict:
+        """Convert parsed JSON to a CVE-ID → product dict."""
+        if isinstance(obj, dict):
+            return obj
+        if isinstance(obj, list):
+            return {
+                item["id"]: item["product"]
+                for item in obj
+                if isinstance(item, dict) and "id" in item and "product" in item
+            }
+        return {}
+
     # Parse the JSON mapping returned by the model
     try:
-        mapping = json.loads(text)
-        if isinstance(mapping, dict):
-            return mapping
+        result = to_dict(json.loads(text))
+        if result:
+            return result
     except json.JSONDecodeError:
         pass
 
-    # Fallback: locate a JSON object within the response text
-    start = text.find("{")
-    end = text.rfind("}") + 1
-    if start >= 0 and end > start:
-        try:
-            mapping = json.loads(text[start:end])
-            if isinstance(mapping, dict):
-                return mapping
-        except json.JSONDecodeError:
-            pass
+    # Fallback: locate a JSON array or object within the response text
+    for open_ch, close_ch in [("[", "]"), ("{", "}")]:
+        start = text.find(open_ch)
+        end = text.rfind(close_ch) + 1
+        if start >= 0 and end > start:
+            try:
+                result = to_dict(json.loads(text[start:end]))
+                if result:
+                    return result
+            except json.JSONDecodeError:
+                pass
 
     print(
         f"  Warning: could not parse product mapping from response: {text[:200]}",
@@ -172,7 +200,7 @@ def _call_anthropic(batch: list, api_key: str) -> dict:
 
 
 def write_product_map(
-    cves: list,
+    cves: list[CveEntry],
     output_path: Path,
     max_entries: Optional[int] = None,
 ) -> Optional[Path]:
@@ -195,13 +223,11 @@ def write_product_map(
         )
         return None
 
-    product_path = _product_path(Path(output_path))
-    existing = _load_existing(product_path)
+    pp = product_path(Path(output_path))
+    existing = load_existing(pp)
 
     new_cves = [c for c in cves if c["id"] not in existing]
-    print(
-        f"Product map: {len(existing)} cached, {len(new_cves)} new CVEs to look up"
-    )
+    print(f"Product map: {len(existing)} cached, {len(new_cves)} new CVEs to look up")
 
     total_batches = (len(new_cves) + BATCH_SIZE - 1) // BATCH_SIZE if new_cves else 0
 
@@ -214,10 +240,13 @@ def write_product_map(
             flush=True,
         )
         try:
-            mapping = _call_anthropic(batch, api_key)
-            now = datetime.now(timezone.utc).isoformat()
+            mapping = call_anthropic(batch, api_key)
+            pub_by_id = {c["id"]: c.get("published", "") for c in batch}
             for cve_id, product_name in mapping.items():
-                existing[cve_id] = {"product": product_name, "added": now}
+                existing[cve_id] = {
+                    "product": product_name,
+                    "added": pub_by_id.get(cve_id, ""),
+                }
             print(f"got {len(mapping)} products")
         except Exception as exc:
             print(f"failed ({exc})", file=sys.stderr)
@@ -233,8 +262,8 @@ def write_product_map(
         existing = dict(sorted_items[:max_entries])
         print(f"  Trimmed product map to {max_entries} newest entries")
 
-    with open(product_path, "w", encoding="utf-8") as f:
+    with open(pp, "w", encoding="utf-8") as f:
         json.dump(existing, f, indent=2)
 
-    print(f"Product map written to: {product_path}")
-    return product_path
+    print(f"Product map written to: {pp}")
+    return pp
