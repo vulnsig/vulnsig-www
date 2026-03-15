@@ -108,7 +108,9 @@ export function GlyphCard({
           )}
           {subtitle && <p className="text-xs text-zinc-500 mb-2">{subtitle}</p>}
           <p className="text-sm text-zinc-400 mb-2">
-            {productName ? highlightFirst(description, productName) : description}
+            {productName
+              ? highlightFirst(description, productName)
+              : description}
           </p>
           <button
             onClick={() => {
