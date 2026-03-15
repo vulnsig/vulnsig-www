@@ -1,20 +1,18 @@
 #!/usr/bin/env python3
 """
-cve_product.py
+recent_product.py
 
 Maps CVE IDs to primary product names using the Anthropic API (claude-haiku).
 
 Usage (as a module):
-    from cve_product import write_product_map
+    from recent_product import build_product_map
 
-    write_product_map(cves, output_path)
-    write_product_map(cves, output_path, max_entries=2000)
+    products = build_product_map(cves, existing_products)
+    products = build_product_map(cves, existing_products, max_entries=2000)
 
 Where `cves` is a list of dicts with at least 'id' and 'description' keys,
-and `output_path` is a pathlib.Path to the main JSON output file.
-
-The product map is written to a sibling file with '-product' inserted before
-the '.json' suffix (e.g. 'data/kev-recent.json' → 'data/kev-recent-product.json').
+and `existing_products` is a dict of previously cached product entries
+(typically loaded from the main output file's "products" key).
 
 Each entry in the product map is stored as:
     {"CVE-2024-1234": {"product": "Apache Struts", "added": "2026-03-14T20:47:26.110Z"}}
@@ -30,7 +28,6 @@ import os
 import sys
 import urllib.request
 import urllib.error
-from pathlib import Path
 from typing import Optional, TypedDict
 
 
@@ -64,41 +61,21 @@ Respond with JSON only. No preamble, no markdown fences:
 """
 
 
-def product_path(output_path: Path) -> Path:
-    """Derive the product-map file path from the main output path.
+def normalize_products(data: dict) -> dict:
+    """Normalize a product map, handling both current and legacy formats.
 
-    Example: 'data/kev-recent.json' → 'data/kev-recent-product.json'
-    """
-    return output_path.with_name(output_path.stem + "-product.json")
-
-
-def load_existing(product_path: Path) -> dict:
-    """Load an existing CVE→entry mapping from disk, or return empty dict.
-
-    Supports both the current format (values are ``{"product": ..., "added": ...}``)
+    Supports the current format (values are ``{"product": ..., "added": ...}``)
     and the legacy flat format (values are plain strings or ``null``).  Legacy
     entries are promoted to the new format with ``added`` set to the epoch so
     they are evicted first when ``max_entries`` is applied.
     """
-    if product_path.exists():
-        try:
-            with open(product_path, encoding="utf-8") as f:
-                data = json.load(f)
-            if isinstance(data, dict):
-                result = {}
-                for cve_id, val in data.items():
-                    if isinstance(val, dict) and "product" in val:
-                        result[cve_id] = val
-                    else:
-                        # Legacy flat-string or null value
-                        result[cve_id] = {"product": val, "added": EPOCH}
-                return result
-        except (json.JSONDecodeError, OSError) as exc:
-            print(
-                f"  Warning: could not read {product_path}: {exc}",
-                file=sys.stderr,
-            )
-    return {}
+    result = {}
+    for cve_id, val in data.items():
+        if isinstance(val, dict) and "product" in val:
+            result[cve_id] = val
+        else:
+            result[cve_id] = {"product": val, "added": EPOCH}
+    return result
 
 
 def call_anthropic(batch: list, api_key: str) -> dict:
@@ -199,32 +176,30 @@ def call_anthropic(batch: list, api_key: str) -> dict:
     return {}
 
 
-def write_product_map(
+def build_product_map(
     cves: list[CveEntry],
-    output_path: Path,
+    existing_products: dict,
     max_entries: Optional[int] = None,
-) -> Optional[Path]:
-    """Build and write a CVE-to-product map alongside *output_path*.
+) -> dict:
+    """Build a CVE-to-product map, returning the dict directly.
 
-    - Loads any existing mapping from the ``<stem>-product.json`` file.
-    - Calls the Anthropic API only for CVEs not already in the cache.
+    - Uses *existing_products* as a cache of previously resolved entries.
+    - Calls the Anthropic API only for CVEs not already cached.
     - If *max_entries* is set, drops the oldest entries (by ``added``
       timestamp) so the map never exceeds that count.
-    - Writes the updated mapping back to disk.
 
-    Returns the Path of the product-map file, or None when
-    ``ANTHROPIC_API_KEY`` is not set.
+    Returns the product map dict (possibly unchanged if the API key is
+    missing or all CVEs are already cached).
     """
+    existing = normalize_products(existing_products)
+
     api_key = os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
         print(
             "  ANTHROPIC_API_KEY not set — skipping product map.",
             file=sys.stderr,
         )
-        return None
-
-    pp = product_path(Path(output_path))
-    existing = load_existing(pp)
+        return existing
 
     new_cves = [c for c in cves if c["id"] not in existing]
     print(f"Product map: {len(existing)} cached, {len(new_cves)} new CVEs to look up")
@@ -250,7 +225,6 @@ def write_product_map(
             print(f"got {len(mapping)} products")
         except Exception as exc:
             print(f"failed ({exc})", file=sys.stderr)
-            # Continue with next batch; unresolved CVEs remain absent from map
 
     # Trim to max_entries, keeping the newest by "added" timestamp
     if max_entries is not None and len(existing) > max_entries:
@@ -262,8 +236,4 @@ def write_product_map(
         existing = dict(sorted_items[:max_entries])
         print(f"  Trimmed product map to {max_entries} newest entries")
 
-    with open(pp, "w", encoding="utf-8") as f:
-        json.dump(existing, f, indent=2)
-
-    print(f"Product map written to: {pp}")
-    return pp
+    return existing
