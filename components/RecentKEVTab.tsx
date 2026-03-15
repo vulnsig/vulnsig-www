@@ -18,7 +18,7 @@ function formatDate(iso: string): string {
 
 export function RecentKEVTab() {
   const { loadVector } = useBuilder();
-  const { kevData } = useData();
+  const { kevData, kevProductMap } = useData();
   const [sort, setSort] = useState<SortMode>("date-desc");
 
   const latestPublished = kevData.cves[0]?.published ?? "";
@@ -92,6 +92,7 @@ export function RecentKEVTab() {
               cveId={kev.id}
               subtitle={`${formatDate(kev.published)} · CVSS ${kev.cvss.version}`}
               description={kev.description}
+              productName={kevProductMap[kev.id]?.product}
               vector={kev.cvss.vectorString}
               score={kev.cvss.baseScore}
               onLoadVector={() =>
