@@ -22,7 +22,7 @@ import urllib.error
 from datetime import date, timedelta, datetime, timezone
 from pathlib import Path
 
-from recent_product import build_product_map
+from recent_util import build_product_map
 
 
 KEV_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"

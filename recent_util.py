@@ -5,7 +5,7 @@ recent_product.py
 Maps CVE IDs to primary product names using the Anthropic API (claude-haiku).
 
 Usage (as a module):
-    from recent_product import build_product_map
+    from recent_util import build_product_map
 
     products = build_product_map(cves, existing_products)
     products = build_product_map(cves, existing_products, max_entries=2000)
