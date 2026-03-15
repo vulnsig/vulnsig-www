@@ -26,7 +26,7 @@ import urllib.parse
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
-from cve_product import write_product_map
+from recent_product import write_product_map
 
 NVD_BASE = "https://services.nvd.nist.gov/rest/json/cves/2.0"
 PAGE_SIZE = 2000
