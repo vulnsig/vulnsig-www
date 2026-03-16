@@ -38,7 +38,7 @@ def parse_args():
     parser.add_argument(
         "--hours",
         type=float,
-        default=48.0,
+        default=72.0,
         help="How many hours back to search (default: 48)",
     )
     parser.add_argument(
@@ -73,7 +73,6 @@ def build_window(hours):
 def fetch_page(params, start_index, api_key):
     query = {**params, "startIndex": start_index, "resultsPerPage": PAGE_SIZE}
     url = f"{NVD_BASE}?{urllib.parse.urlencode(query)}"
-
     req = urllib.request.Request(url)
     if api_key:
         req.add_header("apiKey", api_key)
