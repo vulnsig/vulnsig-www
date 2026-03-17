@@ -26,6 +26,7 @@ Requires: ANTHROPIC_API_KEY environment variable.
 import json
 import os
 import sys
+import time
 import urllib.request
 import urllib.error
 from typing import Optional, TypedDict
@@ -46,11 +47,10 @@ BATCH_SIZE = 20
 # sort as the very oldest and are evicted first when max_entries is applied.
 EPOCH = "1970-01-01T00:00:00+00:00"
 
-SYSTEM_PROMPT = """You are a CVE analyst. For each CVE provided, extract the primary software product or tool that the vulnerability affects. The best name is often found in the first sentence of the description. Favor returning 1 to 2 words representing the most commonly recognized name for the product. If the name is not obvious or multiple products are referenced, select the most commonly recognized vendor or company name.
+SYSTEM_PROMPT = """You are a CVE analyst. For each CVE provided, extract the primary software product or tool that the vulnerability affects. The best name is often found in the first sentence of the description. Favor returning 1 to 2 words representing the most commonly recognized name for the product. If the name is not obvious or multiple products are referenced, select the most commonly recognized vendor or company name. Retain the ordering of the words in the name as presented in the description.
 
-Normalize variations to a single canonical name. For example:
-- "Apache HTTP Server", "httpd", "Apache httpd 2.4.x" → "Apache httpd"
-- "Google Chromium", "Chrome browser" → "Chrome"
+Examples:
+- "Apache httpd 2.4.x" → "Apache httpd"
 - "Microsoft Windows Win32k" → "Windows"
 - "OpenSSL libssl" → "OpenSSL"
 - "A vulnerability was identified in D-Link DNS-120, DNR-202L, DNS-315L, DNS-320" → "D-Link"
@@ -58,6 +58,9 @@ Normalize variations to a single canonical name. For example:
 - "A security flaw has been discovered in Tecnick TCExam up to 16.6.0." → "Tecnick TCExam"
 - "An authenticated user with the read role may read limited amounts of uninitialized stack memory via specially-crafted issuances of the filemd5 command." → "filemd5"
 - "YAML::Syck versions through 1.36 for Perl has several potential security vulnerabilities including a high-severity heap buffer overflow in the YAML emitter." → "YAML::Syck"
+- "GCB/FCB Audit Software developed by DrangSoft has a Missing Authentication vulnerability" → "GCB/FCB Audit Software"
+- "NULL Pointer Dereference vulnerability in Softing Industrial Automation GmbH smartLink SW-HT (Webserver modules)" → "smartLink SW-HT"
+- "An Incorrect Access Control vulnerability exists in INDEX-EDUCATION PRONOTE prior to 2025.2.8." → "INDEX-EDUCATION PRONOTE"
 
 If the CVE description does not clearly identify a specific product, tool, vendor, or company name (e.g., it describes a generic protocol issue or a vulnerability in an unnamed library), return "Unknown".
 
@@ -219,17 +222,26 @@ def build_product_map(
             end=" ",
             flush=True,
         )
-        try:
-            mapping = call_anthropic(batch, api_key)
-            pub_by_id = {c["id"]: c.get("published", "") for c in batch}
-            for cve_id, product_name in mapping.items():
-                existing[cve_id] = {
-                    "product": product_name,
-                    "added": pub_by_id.get(cve_id, ""),
-                }
-            print(f"got {len(mapping)} products")
-        except Exception as exc:
-            print(f"failed ({exc})", file=sys.stderr)
+        for attempt in range(4):
+            try:
+                mapping = call_anthropic(batch, api_key)
+                pub_by_id = {c["id"]: c.get("published", "") for c in batch}
+                for cve_id, product_name in mapping.items():
+                    existing[cve_id] = {
+                        "product": product_name,
+                        "added": pub_by_id.get(cve_id, ""),
+                    }
+                unknown = sum(1 for v in mapping.values() if v.strip().lower() == "unknown")
+                print(f"got {len(mapping)} products ({len(mapping) - unknown} named, {unknown} unknown)")
+                break
+            except Exception as exc:
+                if attempt < 3 and "overloaded" in str(exc).lower():
+                    wait = 10 * (attempt + 1)
+                    print(f"overloaded, retrying in {wait}s...", flush=True)
+                    time.sleep(wait)
+                else:
+                    print(f"failed ({exc})", file=sys.stderr)
+                    break
 
     # Trim to max_entries, keeping the newest by "added" timestamp
     if max_entries is not None and len(existing) > max_entries:
