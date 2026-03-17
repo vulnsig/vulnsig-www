@@ -22,11 +22,21 @@ export interface CveDataset {
   windowStart: string;
   windowEnd: string;
   cves: CveEntry[];
+  products?: ProductMap;
 }
+
+export interface ProductEntry {
+  product: string;
+  added: string;
+}
+
+export type ProductMap = Record<string, ProductEntry>;
 
 interface DataContextValue {
   cveData: CveDataset;
   kevData: CveDataset;
+  cveProductMap: ProductMap;
+  kevProductMap: ProductMap;
 }
 
 const DataContext = createContext<DataContextValue | null>(null);
@@ -84,8 +94,13 @@ export function DataProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
+  const cveProductMap = cveData.products ?? {};
+  const kevProductMap = kevData.products ?? {};
+
   return (
-    <DataContext.Provider value={{ cveData, kevData }}>
+    <DataContext.Provider
+      value={{ cveData, kevData, cveProductMap, kevProductMap }}
+    >
       {children}
     </DataContext.Provider>
   );
