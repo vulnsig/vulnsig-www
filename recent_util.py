@@ -46,15 +46,20 @@ BATCH_SIZE = 20
 # sort as the very oldest and are evicted first when max_entries is applied.
 EPOCH = "1970-01-01T00:00:00+00:00"
 
-SYSTEM_PROMPT = """You are a CVE analyst. For each CVE provided, extract the primary software product or tool that the vulnerability affects. Return exactly 1 to 2 words representing the most commonly recognized name for that product.
+SYSTEM_PROMPT = """You are a CVE analyst. For each CVE provided, extract the primary software product or tool that the vulnerability affects. The best name is often found in the first sentence of the description. Favor returning 1 to 2 words representing the most commonly recognized name for the product. If the name is not obvious or multiple products are referenced, select the most commonly recognized vendor or company name.
 
 Normalize variations to a single canonical name. For example:
 - "Apache HTTP Server", "httpd", "Apache httpd 2.4.x" → "Apache httpd"
 - "Google Chromium", "Chrome browser" → "Chrome"
 - "Microsoft Windows Win32k" → "Windows"
 - "OpenSSL libssl" → "OpenSSL"
+- "A vulnerability was identified in D-Link DNS-120, DNR-202L, DNS-315L, DNS-320" → "D-Link"
+- "A vulnerability was identified in bazinga012 mcp_code_executor up to 0.3.0." → "mcp_code_executor"
+- "A security flaw has been discovered in Tecnick TCExam up to 16.6.0." → "Tecnick TCExam"
+- "An authenticated user with the read role may read limited amounts of uninitialized stack memory via specially-crafted issuances of the filemd5 command." → "filemd5"
+- "YAML::Syck versions through 1.36 for Perl has several potential security vulnerabilities including a high-severity heap buffer overflow in the YAML emitter." → "YAML::Syck"
 
-If the CVE description does not clearly identify a specific product (e.g., it describes a generic protocol issue or a vulnerability in an unnamed library), return "Unknown".
+If the CVE description does not clearly identify a specific product, tool, vendor, or company name (e.g., it describes a generic protocol issue or a vulnerability in an unnamed library), return "Unknown".
 
 Respond with JSON only. No preamble, no markdown fences:
 [{ "id": "CVE-2026-XXXXX", "product": "Product Name" }, ...]

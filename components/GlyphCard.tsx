@@ -107,7 +107,7 @@ export function GlyphCard({
             </a>
           )}
           {subtitle && <p className="text-xs text-zinc-500 mb-2">{subtitle}</p>}
-          <p className="text-sm text-zinc-400 mb-2">
+          <p className="text-sm text-zinc-400 mb-2 break-words">
             {productName
               ? highlightFirst(description, productName)
               : description}
