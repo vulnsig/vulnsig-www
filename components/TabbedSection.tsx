@@ -11,9 +11,9 @@ import { QuizTab } from "./QuizTab";
 import { useBuilder } from "./BuilderContext";
 
 const TABS = [
-  { id: "gallery", label: "Gallery" },
   { id: "cves", label: "CVEs" },
   { id: "kevs", label: "KEVs" },
+  { id: "gallery", label: "Gallery" },
   { id: "quiz", label: "Quiz" },
   { id: "legend", label: "Legend" },
   { id: "tools", label: "Tools" },
@@ -85,9 +85,9 @@ export function TabbedSection() {
             aria-labelledby={tab.id}
             hidden={activeTab !== tab.id}
           >
-            {tab.id === "gallery" && <GalleryTab />}
             {tab.id === "cves" && <RecentCVETab />}
             {tab.id === "kevs" && <RecentKEVTab />}
+            {tab.id === "gallery" && <GalleryTab />}
             {tab.id === "quiz" && <QuizTab />}
             {tab.id === "legend" && <LegendTab />}
             {tab.id === "tools" && <PackagesTab />}

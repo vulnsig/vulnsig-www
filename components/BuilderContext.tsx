@@ -105,7 +105,7 @@ export function BuilderProvider({ children }: { children: ReactNode }) {
     [router],
   );
   const [activeTab, setActiveTabState] = useState(
-    () => searchParams.get("tab") ?? "gallery",
+    () => searchParams.get("tab") ?? "cves",
   );
 
   const setActiveTab = useCallback(
@@ -122,7 +122,7 @@ export function BuilderProvider({ children }: { children: ReactNode }) {
 
   // Sync tab from URL on back/forward
   useEffect(() => {
-    const urlTab = searchParams.get("tab") ?? "gallery";
+    const urlTab = searchParams.get("tab") ?? "cves";
     if (urlTab !== activeTab) setActiveTabState(urlTab);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
