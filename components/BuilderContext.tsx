@@ -10,6 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { encodeVector, decodeVector } from "@/lib/vectorUrl";
 import { VULNERABILITIES, type Vulnerability } from "@/data/vulnerabilities";
 import { useData, type CveDataset } from "./DataContext";
 
@@ -88,7 +89,7 @@ export function BuilderProvider({
       setVectorRaw(v);
       const params = new URLSearchParams(window.location.search);
       if (v) {
-        params.set("vector", v);
+        params.set("vector", encodeVector(v));
         params.delete("cve");
         if (push) {
           router.push(`${window.location.pathname}?${params}`, {
@@ -145,11 +146,13 @@ export function BuilderProvider({
   useEffect(() => {
     const urlVector = searchParams.get("vector");
     const urlCve = searchParams.get("cve");
-    if (!urlVector || urlVector === vector) return;
+    if (!urlVector) return;
+    const decoded = decodeVector(urlVector);
+    if (decoded === vector) return;
     const vuln = urlCve
-      ? findVulnByCve(urlCve, urlVector, cveData, kevData)
+      ? findVulnByCve(urlCve, decoded, cveData, kevData)
       : null;
-    setVectorRaw(vuln?.vector ?? urlVector);
+    setVectorRaw(vuln?.vector ?? decoded);
     setSelectedVuln(vuln);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams, cveData, kevData]);
@@ -180,7 +183,7 @@ export function BuilderProvider({
       setExpanded(true);
       // Always navigate to root so landing-page params (v, s, d) are cleared
       const params = new URLSearchParams();
-      params.set("vector", vuln.vector);
+      params.set("vector", encodeVector(vuln.vector));
       if (vuln.cve) params.set("cve", vuln.cve);
       router.push(`/?${params}`, { scroll: false });
       // Scroll to the hero glyph

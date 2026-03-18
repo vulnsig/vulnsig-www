@@ -1,3 +1,5 @@
+import { encodeVector } from "./vectorUrl";
+
 // A period is "internal" (not a sentence boundary) when immediately followed
 // by a non-whitespace character, e.g. "4.x", "v2.0", "e.g.".
 const SENTENCE_RE = /(?:[^.!?]|\.(?=\S))+[.!?]+/g;
@@ -24,7 +26,11 @@ export function buildLandingUrl(
 ): string {
   const sentence = getShareSentence(description, productName);
   const d = sentence.length > 150 ? sentence.slice(0, 150) + "…" : sentence;
-  const params = new URLSearchParams({ v: vector, s: String(score), d });
+  const params = new URLSearchParams({
+    v: encodeVector(vector),
+    s: String(score),
+    d,
+  });
   return `https://vulnsig.io/cve/${cveId}?${params}`;
 }
 

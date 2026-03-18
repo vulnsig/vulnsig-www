@@ -86,7 +86,9 @@ describe("buildLandingUrl", () => {
     );
     const parsed = new URL(url);
     expect(parsed.pathname).toBe("/cve/CVE-2025-1234");
-    expect(parsed.searchParams.get("v")).toBe(vector);
+    expect(parsed.searchParams.get("v")).toBe(
+      "CVSS.3.1-AV.N-AC.L-PR.N-UI.N-S.U-C.H-I.H-A.H",
+    );
     expect(parsed.searchParams.get("s")).toBe("9.8");
     expect(parsed.searchParams.get("d")).toBe(
       "RCE in libxml2 allows attackers to execute code.",

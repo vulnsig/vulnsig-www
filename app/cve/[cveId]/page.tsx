@@ -9,6 +9,7 @@ import { BuilderBar } from "@/components/BuilderBar";
 import { TabbedSection } from "@/components/TabbedSection";
 import { HeroSectionCve } from "@/components/HeroSectionCve";
 import { Footer } from "@/components/Footer";
+import { decodeVector } from "@/lib/vectorUrl";
 
 interface PageProps {
   params: Promise<{ cveId: string }>;
@@ -21,13 +22,14 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { cveId } = await params;
   const { v, s, d } = await searchParams;
+  const vector = v ? decodeVector(v) : undefined;
   const title = s ? `${cveId} — CVSS ${s}` : cveId;
   const description = d ?? "";
-  const imageUrl = v
+  const imageUrl = vector
     ? `https://vulnsig.io/api/png?${new URLSearchParams({
-        vector: v,
+        vector,
         ...(s ? { score: s } : {}),
-        size: "1024",
+        size: "512",
       })}`
     : undefined;
 
@@ -45,8 +47,8 @@ export async function generateMetadata({
             images: [
               {
                 url: imageUrl,
-                width: 1024,
-                height: 1024,
+                width: 512,
+                height: 512,
                 alt: `${cveId} vulnerability glyph`,
               },
             ],
@@ -71,19 +73,20 @@ export default async function CveLandingPage({
 
   if (!v) redirect("/");
 
+  const vector = decodeVector(v);
   const score = s ? parseFloat(s) : undefined;
   const sentence = d || undefined;
 
   return (
     <Suspense>
       <DataProvider>
-        <BuilderProvider initialVector={v} initialExpanded={true}>
+        <BuilderProvider initialVector={vector} initialExpanded={true}>
           <div className="min-h-screen relative z-2">
             <Masthead />
             <ClientOnly>
               <HeroSectionCve
                 cveId={cveId}
-                vector={v}
+                vector={vector}
                 score={score}
                 sentence={sentence}
               />
