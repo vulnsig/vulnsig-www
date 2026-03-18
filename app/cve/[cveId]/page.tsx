@@ -27,8 +27,7 @@ export async function generateMetadata({
     ? `https://vulnsig.io/api/png?${new URLSearchParams({
         vector: v,
         ...(s ? { score: s } : {}),
-        size: "512",
-        density: "2",
+        size: "1024",
       })}`
     : undefined;
 
@@ -42,7 +41,16 @@ export async function generateMetadata({
       siteName: "vulnsig",
       type: "website",
       ...(imageUrl
-        ? { images: [{ url: imageUrl, width: 1024, height: 1024 }] }
+        ? {
+            images: [
+              {
+                url: imageUrl,
+                width: 1024,
+                height: 1024,
+                alt: `${cveId} vulnerability glyph`,
+              },
+            ],
+          }
         : {}),
     },
     twitter: {
