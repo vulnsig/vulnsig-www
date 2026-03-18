@@ -55,11 +55,13 @@ async function fetchDataset(url: string): Promise<CveDataset> {
 }
 
 export function DataProvider({ children }: { children: ReactNode }) {
-  const [cveData, setCveData] = useState<CveDataset>(
-    cveDataStatic as CveDataset,
+  // When URLs are configured, start null so we never flash stale static data.
+  // When no URLs are configured (local dev / tests), use static immediately.
+  const [cveData, setCveData] = useState<CveDataset | null>(
+    CVE_DATA_URL ? null : (cveDataStatic as CveDataset),
   );
-  const [kevData, setKevData] = useState<CveDataset>(
-    kevDataStatic as CveDataset,
+  const [kevData, setKevData] = useState<CveDataset | null>(
+    KEV_DATA_URL ? null : (kevDataStatic as CveDataset),
   );
 
   useEffect(() => {
@@ -74,6 +76,8 @@ export function DataProvider({ children }: { children: ReactNode }) {
           if (!cancelled) setCveData(data);
         } catch (e) {
           console.warn("[DataContext] CVE data refresh failed:", e);
+          if (!cancelled)
+            setCveData((prev) => prev ?? (cveDataStatic as CveDataset));
         }
       }
       if (KEV_DATA_URL) {
@@ -82,6 +86,8 @@ export function DataProvider({ children }: { children: ReactNode }) {
           if (!cancelled) setKevData(data);
         } catch (e) {
           console.warn("[DataContext] KEV data refresh failed:", e);
+          if (!cancelled)
+            setKevData((prev) => prev ?? (kevDataStatic as CveDataset));
         }
       }
     }
@@ -93,6 +99,8 @@ export function DataProvider({ children }: { children: ReactNode }) {
       clearInterval(id);
     };
   }, []);
+
+  if (!cveData || !kevData) return null;
 
   const cveProductMap = cveData.products ?? {};
   const kevProductMap = kevData.products ?? {};
