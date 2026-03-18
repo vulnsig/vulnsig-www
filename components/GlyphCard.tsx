@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { VulnSig } from "vulnsig-react";
 import { ScoreBadge } from "./ScoreBadge";
 import { useBuilder } from "./BuilderContext";
+import { ShareButton } from "./ShareButton";
 
 /** Highlight the first occurrence of `term` in `text`, case-insensitive. */
 function highlightFirst(text: string, term: string): ReactNode {
@@ -54,36 +55,47 @@ export function GlyphCard({
         aria-label={`${name} vulnerability glyph, score ${score}`}
       >
         <VulnSig vector={vector} size={100} score={score} />
-        <button
-          onClick={onLoadVector}
-          title="Try in builder"
-          className="absolute top-1/2 -translate-y-1/2 -right-6 pl-4 text-zinc-600 hover:text-zinc-300 transition-colors cursor-pointer"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+        <div className="absolute top-1/2 -translate-y-1/2 left-full ml-2 flex flex-row items-center gap-2">
+          <button
+            onClick={onLoadVector}
+            title="Try in builder"
+            className="text-zinc-600 hover:text-zinc-300 transition-colors cursor-pointer"
           >
-            {/* Top-left */}
-            <polyline points="4,10 4,4 10,4" />
-            <line x1="4" y1="4" x2="11" y2="11" />
-            {/* Top-right */}
-            <polyline points="14,4 20,4 20,10" />
-            <line x1="20" y1="4" x2="13" y2="11" />
-            {/* Bottom-right */}
-            <polyline points="20,14 20,20 14,20" />
-            <line x1="20" y1="20" x2="13" y2="13" />
-            {/* Bottom-left */}
-            <polyline points="10,20 4,20 4,14" />
-            <line x1="4" y1="20" x2="11" y2="13" />
-          </svg>
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              {/* Top-left */}
+              <polyline points="4,10 4,4 10,4" />
+              <line x1="4" y1="4" x2="11" y2="11" />
+              {/* Top-right */}
+              <polyline points="14,4 20,4 20,10" />
+              <line x1="20" y1="4" x2="13" y2="11" />
+              {/* Bottom-right */}
+              <polyline points="20,14 20,20 14,20" />
+              <line x1="20" y1="20" x2="13" y2="13" />
+              {/* Bottom-left */}
+              <polyline points="10,20 4,20 4,14" />
+              <line x1="4" y1="20" x2="11" y2="13" />
+            </svg>
+          </button>
+          {cveId && (
+            <ShareButton
+              cveId={cveId}
+              vector={vector}
+              score={score}
+              description={description}
+              productName={productName}
+            />
+          )}
+        </div>
       </div>
 
       <div className="text-center w-full flex-1 min-h-0 flex flex-col">

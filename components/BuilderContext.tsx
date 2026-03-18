@@ -59,16 +59,28 @@ interface BuilderContextValue {
 
 const BuilderContext = createContext<BuilderContextValue | null>(null);
 
-export function BuilderProvider({ children }: { children: ReactNode }) {
+export function BuilderProvider({
+  children,
+  initialVector,
+  initialExpanded = false,
+}: {
+  children: ReactNode;
+  initialVector?: string;
+  initialExpanded?: boolean;
+}) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { cveData, kevData } = useData();
 
-  const [selectedVuln, setSelectedVuln] = useState<Vulnerability | null>(
-    () => VULNERABILITIES[Math.floor(Math.random() * VULNERABILITIES.length)],
-  );
-  const [vector, setVectorRaw] = useState(() => selectedVuln?.vector ?? "");
-  const [expanded, setExpanded] = useState(false);
+  const [selectedVuln, setSelectedVuln] = useState<Vulnerability | null>(() => {
+    if (initialVector !== undefined) return null;
+    return VULNERABILITIES[Math.floor(Math.random() * VULNERABILITIES.length)];
+  });
+  const [vector, setVectorRaw] = useState(() => {
+    if (initialVector !== undefined) return initialVector;
+    return selectedVuln?.vector ?? "";
+  });
+  const [expanded, setExpanded] = useState(initialExpanded);
 
   const setVector = useCallback(
     (v: string, push = false) => {
@@ -166,12 +178,11 @@ export function BuilderProvider({ children }: { children: ReactNode }) {
       setSelectedVuln(vuln);
       setVectorRaw(vuln.vector);
       setExpanded(true);
-      // Use the Next.js router so back/forward updates useSearchParams correctly
-      const params = new URLSearchParams(window.location.search);
+      // Always navigate to root so landing-page params (v, s, d) are cleared
+      const params = new URLSearchParams();
       params.set("vector", vuln.vector);
       if (vuln.cve) params.set("cve", vuln.cve);
-      else params.delete("cve");
-      router.push(`${window.location.pathname}?${params}`, { scroll: false });
+      router.push(`/?${params}`, { scroll: false });
       // Scroll to the hero glyph
       setTimeout(() => {
         if (heroRef.current) {
