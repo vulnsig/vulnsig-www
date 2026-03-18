@@ -18,7 +18,8 @@ function formatDate(iso: string): string {
 
 export function RecentKEVTab() {
   const { loadVector } = useBuilder();
-  const { kevData, kevProductMap } = useData();
+  const { kevData, kevProductMap, loading } = useData();
+
   const [sort, setSort] = useState<SortMode>("date-desc");
 
   const latestPublished = kevData.cves[0]?.published ?? "";
@@ -38,6 +39,14 @@ export function RecentKEVTab() {
         return items.sort((a, b) => a.cvss.baseScore - b.cvss.baseScore);
     }
   }, [sort, kevData.cves]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-24 text-zinc-500 text-sm">
+        Loading…
+      </div>
+    );
+  }
 
   return (
     <div>

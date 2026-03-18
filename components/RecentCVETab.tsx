@@ -22,7 +22,8 @@ function formatDateTime(iso: string): string {
 
 export function RecentCVETab() {
   const { loadVector } = useBuilder();
-  const { cveData, cveProductMap } = useData();
+  const { cveData, cveProductMap, loading } = useData();
+
   const [sort, setSort] = useState<SortMode>("date-desc");
 
   const latestPublished = cveData.cves[0]?.published ?? "";
@@ -42,6 +43,14 @@ export function RecentCVETab() {
         return items.sort((a, b) => a.cvss.baseScore - b.cvss.baseScore);
     }
   }, [sort, cveData.cves]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-24 text-zinc-500 text-sm">
+        Loading…
+      </div>
+    );
+  }
 
   return (
     <div>

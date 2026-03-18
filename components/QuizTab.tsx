@@ -113,6 +113,21 @@ export function QuizTab() {
   } | null>(null);
   const [showVector, setShowVector] = useState(false);
   const [score, setScore] = useState({ correct: 0, total: 0 });
+  const [questionInitialized, setQuestionInitialized] = useState(false);
+
+  // Derived state during render: when distractorPool first becomes available,
+  // generate the initial question. React re-renders immediately and efficiently.
+  // This avoids calling setState inside a useEffect (cascading render concern).
+  if (!questionInitialized && distractorPool.length > 0) {
+    setQuestionInitialized(true);
+    setQuestion(
+      generateQuestion(
+        questionPool,
+        distractorPool,
+        DIFFICULTY_CHOICES[difficulty],
+      ),
+    );
+  }
 
   useEffect(() => {
     if (!lastMessage || lastMessage.correct || lastMessage.fading) return;

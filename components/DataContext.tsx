@@ -37,7 +37,15 @@ interface DataContextValue {
   kevData: CveDataset;
   cveProductMap: ProductMap;
   kevProductMap: ProductMap;
+  loading: boolean;
 }
+
+const EMPTY_DATASET: CveDataset = {
+  generatedAt: "",
+  windowStart: "",
+  windowEnd: "",
+  cves: [],
+};
 
 const DataContext = createContext<DataContextValue | null>(null);
 
@@ -55,14 +63,16 @@ async function fetchDataset(url: string): Promise<CveDataset> {
 }
 
 export function DataProvider({ children }: { children: ReactNode }) {
-  // When URLs are configured, start null so we never flash stale static data.
-  // When no URLs are configured (local dev / tests), use static immediately.
-  const [cveData, setCveData] = useState<CveDataset | null>(
-    CVE_DATA_URL ? null : (cveDataStatic as CveDataset),
+  // When URLs are configured, start with an empty dataset so the hero and
+  // builder render immediately while the tab content shows a loading state.
+  // When no URLs are configured (local dev / tests), use static data immediately.
+  const [cveData, setCveData] = useState<CveDataset>(
+    CVE_DATA_URL ? EMPTY_DATASET : (cveDataStatic as CveDataset),
   );
-  const [kevData, setKevData] = useState<CveDataset | null>(
-    KEV_DATA_URL ? null : (kevDataStatic as CveDataset),
+  const [kevData, setKevData] = useState<CveDataset>(
+    KEV_DATA_URL ? EMPTY_DATASET : (kevDataStatic as CveDataset),
   );
+  const [loading, setLoading] = useState(!!(CVE_DATA_URL || KEV_DATA_URL));
 
   useEffect(() => {
     if (!CVE_DATA_URL && !KEV_DATA_URL) return;
@@ -92,7 +102,9 @@ export function DataProvider({ children }: { children: ReactNode }) {
       }
     }
 
-    refresh();
+    refresh().finally(() => {
+      if (!cancelled) setLoading(false);
+    });
     const id = setInterval(refresh, REFRESH_MS);
     return () => {
       cancelled = true;
@@ -100,14 +112,12 @@ export function DataProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  if (!cveData || !kevData) return null;
-
   const cveProductMap = cveData.products ?? {};
   const kevProductMap = kevData.products ?? {};
 
   return (
     <DataContext.Provider
-      value={{ cveData, kevData, cveProductMap, kevProductMap }}
+      value={{ cveData, kevData, cveProductMap, kevProductMap, loading }}
     >
       {children}
     </DataContext.Provider>
