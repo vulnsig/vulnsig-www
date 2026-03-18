@@ -19,15 +19,14 @@ const atomicAge = Atomic_Age({
 });
 
 export const metadata: Metadata = {
-  title: "vulnsig: CVSS is more than a score",
-  description:
-    "vulnsig encodes CVSS 4.0 metrics into an expressive and compact visual glyph.",
+  title: "VulnSig",
+  description: "VulnSig encodes CVSS metrics into an expressive visual glyph.",
   openGraph: {
-    title: "vulnsig: CVSS is more than a score",
+    title: "VulnSig",
     description:
-      "vulnsig encodes CVSS 4.0 metrics into an expressive and compact visual glyph.",
+      "VulnSig encodes CVSS metrics into an expressive visual glyph.",
     url: "https://vulnsig.io",
-    siteName: "vulnsig",
+    siteName: "VulnSig",
     type: "website",
   },
 };
