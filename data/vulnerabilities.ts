@@ -66,7 +66,7 @@ export const VULNERABILITIES: Vulnerability[] = [
     cve: "CVE-2014-6271",
     vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
     description:
-      "Bash remote code execution via environment variables. Nearly maximum impact but requires specific preconditions — the segmented ring distinguishes it from Log4Shell.",
+      "Bash remote code execution via environment variables. Nearly maximum impact but requires specific preconditions. The segmented ring distinguishes it from Log4Shell.",
   },
   {
     name: "POODLE",
@@ -80,7 +80,7 @@ export const VULNERABILITIES: Vulnerability[] = [
     cve: "CVE-2017-5754",
     vector: "CVSS:3.0/AV:L/AC:H/PR:L/UI:N/S:C/C:H/I:N/A:N",
     description:
-      "CPU memory isolation bypass. Similar profile to Spectre — local, high complexity, preconditions required; downstream system impact on confidentiality.",
+      "CPU memory isolation bypass. Similar profile to Spectre: local, high complexity, preconditions required; downstream system impact on confidentiality.",
   },
   {
     name: "Sudo Baron Samedit",
@@ -94,7 +94,7 @@ export const VULNERABILITIES: Vulnerability[] = [
     cve: "CVE-2025-29927",
     vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
     description:
-      "Next.js uses an internal header x-middleware-subrequest to prevent recursive requests from triggering infinite loops. The security vulnerability shows it's possible to skip running Middleware, which could allow requests to bypass critical checks—such as authorization cookie validation—before reaching routes.",
+      "Next.js uses an internal header x-middleware-subrequest to prevent recursive requests from triggering infinite loops. The security vulnerability shows it's possible to skip running Middleware, which could allow requests to bypass critical checks, such as authorization cookie validation, before reaching routes.",
   },
   {
     name: "regreSSHion",

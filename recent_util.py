@@ -204,7 +204,7 @@ def build_product_map(
     api_key = os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
         print(
-            "  ANTHROPIC_API_KEY not set — skipping product map.",
+            "  ANTHROPIC_API_KEY not set: skipping product map.",
             file=sys.stderr,
         )
         return existing

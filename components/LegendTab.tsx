@@ -147,9 +147,9 @@ export function LegendTab() {
           description={
             <>
               Privileges Required describes the level of access needed before
-              exploitation. <ValueTag label="N" /> None shows a thin outline —
-              no authentication needed. <ValueTag label="L" /> Low shows a
-              medium stroke. <ValueTag label="H" /> High shows a thick outline —
+              exploitation. <ValueTag label="N" /> None shows a thin outline: no
+              authentication needed. <ValueTag label="L" /> Low shows a medium
+              stroke. <ValueTag label="H" /> High shows a thick outline:
               significant privileges required.
             </>
           }
@@ -244,12 +244,12 @@ export function LegendTab() {
           }
           examples={[
             {
-              label: "AT:N — Solid",
+              label: "AT:N: Solid",
               vector:
                 "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:A/VC:H/VI:L/VA:H/SC:N/SI:N/SA:N",
             },
             {
-              label: "AT:P — Segmented",
+              label: "AT:P: Segmented",
               vector:
                 "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:A/VC:H/VI:L/VA:H/SC:N/SI:N/SA:N",
             },

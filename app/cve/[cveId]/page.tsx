@@ -23,7 +23,7 @@ export async function generateMetadata({
   const { cveId } = await params;
   const { v, s, d } = await searchParams;
   const vector = v ? decodeVector(v) : undefined;
-  const title = s ? `${cveId} — CVSS ${s}` : cveId;
+  const title = s ? `${cveId}: CVSS ${s}` : cveId;
   const description = d ?? "";
   const imageUrl = vector
     ? `https://vulnsig.io/api/png?${new URLSearchParams({

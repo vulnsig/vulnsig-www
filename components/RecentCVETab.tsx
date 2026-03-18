@@ -9,7 +9,7 @@ import { GlyphCard } from "./GlyphCard";
 type SortMode = "date-desc" | "date-asc" | "score-desc" | "score-asc";
 
 function formatDateTime(iso: string): string {
-  // NVD timestamps lack a timezone suffix but are UTC — append Z to parse correctly
+  // NVD timestamps lack a timezone suffix but are UTC: append Z to parse correctly
   const utcIso = iso.endsWith("Z") || /T.*[+-]/.test(iso) ? iso : `${iso}Z`;
   return new Date(utcIso).toLocaleString("en-US", {
     year: "numeric",

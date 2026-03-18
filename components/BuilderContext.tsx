@@ -140,7 +140,7 @@ export function BuilderProvider({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
-  // Sync vector state from URL — handles initial load, back, and forward.
+  // Sync vector state from URL: handles initial load, back, and forward.
   // Skip when the vector already matches to avoid a redundant re-render
   // after loadVector / setVector update state and the URL simultaneously.
   useEffect(() => {

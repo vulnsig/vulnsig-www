@@ -93,7 +93,7 @@ def fetch_json(url):
 def extract_cvss(containers):
     """
     Search CNA and all ADP containers for the highest-priority CVSS entry.
-    Returns dict with version, vectorString, baseScore — or None.
+    Returns dict with version, vectorString, baseScore, or None.
     """
     metric_entries = []
 
@@ -170,7 +170,7 @@ def main():
             cvss = None
 
         if not cvss:
-            print("no CVSS — skipped")
+            print("no CVSS: skipped")
             skipped += 1
             continue
 

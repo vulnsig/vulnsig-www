@@ -107,7 +107,7 @@ def extract_cvss(metrics):
                 "baseScore": data.get("baseScore"),
             }
 
-    # CVSS v3.1 — prefer "Primary" source (NVD) over CNA
+    # CVSS v3.1: prefer "Primary" source (NVD) over CNA
     v31_entries = metrics.get("cvssMetricV31", [])
     v31 = next(
         (m for m in v31_entries if m.get("type") == "Primary"),

@@ -39,7 +39,7 @@ export function buildShareText(
   score: number,
   sentence: string,
 ): string {
-  return `${cveId} (CVSS ${score}) — ${sentence}`;
+  return `${cveId} (CVSS ${score}): ${sentence}`;
 }
 
 export function buildPlatformUrls(
@@ -52,8 +52,8 @@ export function buildPlatformUrls(
     twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(landingUrl)}`,
     linkedin: `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(landingUrl)}&title=${encodeURIComponent(cveId)}&summary=${encodeURIComponent(sentence)}`,
     bluesky: `https://bsky.app/intent/compose?text=${encodeURIComponent(`${shareText} ${landingUrl}`)}`,
-    reddit: `https://reddit.com/submit?url=${encodeURIComponent(landingUrl)}&title=${encodeURIComponent(`${cveId} — ${sentence}`)}`,
-    email: `mailto:?subject=${encodeURIComponent(`${cveId} — VulnSig`)}&body=${encodeURIComponent(`${shareText}\n\n${landingUrl}`)}`,
+    reddit: `https://reddit.com/submit?url=${encodeURIComponent(landingUrl)}&title=${encodeURIComponent(`${cveId} ${sentence}`)}`,
+    email: `mailto:?subject=${encodeURIComponent(`${cveId} via VulnSig`)}&body=${encodeURIComponent(`${shareText}\n\n${landingUrl}`)}`,
   };
 }
 

@@ -45,7 +45,7 @@ export function BuilderBar() {
   }
 
   function handleInputBlur() {
-    // Reset to current vector if input is invalid — use ref for latest value
+    // Reset to current vector if input is invalid: use ref for latest value
     setInputValue(vectorRef.current);
   }
 

@@ -98,7 +98,7 @@ pre code {
   font-family: var(--font-mono), ui-monospace, monospace;
 }
 
-/* Prism syntax highlighting — zinc palette */
+/* Prism syntax highlighting, zinc palette */
 .token.comment,
 .token.prolog,
 .token.doctype,

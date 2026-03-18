@@ -66,7 +66,7 @@ describe("getShareSentence", () => {
 describe("buildShareText", () => {
   it("formats the share text correctly", () => {
     expect(buildShareText("CVE-2025-1234", 9.8, "RCE in libxml2.")).toBe(
-      "CVE-2025-1234 (CVSS 9.8) — RCE in libxml2.",
+      "CVE-2025-1234 (CVSS 9.8): RCE in libxml2.",
     );
   });
 });
@@ -115,7 +115,7 @@ describe("buildLandingUrl", () => {
 // buildPlatformUrls
 // ---------------------------------------------------------------------------
 describe("buildPlatformUrls", () => {
-  const shareText = "CVE-2025-1234 (CVSS 9.8) — RCE in libxml2.";
+  const shareText = "CVE-2025-1234 (CVSS 9.8) RCE in libxml2.";
   const landingUrl =
     "https://vulnsig.io/cve/CVE-2025-1234?v=CVSS%3A3.1&s=9.8&d=RCE";
   const urls = buildPlatformUrls(

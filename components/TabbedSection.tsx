@@ -41,7 +41,7 @@ export function TabbedSection() {
 
   return (
     <section className="w-full">
-      {/* Tab bar — full width background, content constrained to max-w-6xl */}
+      {/* Tab bar: full width background, content constrained to max-w-6xl */}
       <div
         className="w-full bg-zinc-900 border-b border-zinc-800"
         style={{
