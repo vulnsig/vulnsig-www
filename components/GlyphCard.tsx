@@ -103,20 +103,24 @@ export function GlyphCard({
           <h3
             className={`font-semibold text-sm ${nameMono ? "font-mono" : ""}`}
           >
-            {name}
+            {cveId ? (
+              <a
+                href={`https://nvd.nist.gov/vuln/detail/${cveId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-zinc-300 transition-colors"
+              >
+                {name}
+              </a>
+            ) : (
+              name
+            )}
           </h3>
           <ScoreBadge score={score} size="sm" />
         </div>
         <div className="overflow-y-auto flex-1 min-h-0">
-          {cveId && (
-            <a
-              href={`https://nvd.nist.gov/vuln/detail/${cveId}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block font-mono text-xs text-zinc-500 hover:text-zinc-300 transition-colors mb-2"
-            >
-              {cveId}
-            </a>
+          {cveId && cveId !== name && (
+            <p className="font-mono text-xs text-zinc-500 mb-2">{cveId}</p>
           )}
           {subtitle && <p className="text-xs text-zinc-500 mb-2">{subtitle}</p>}
           <p className="text-sm text-zinc-400 mb-2 break-words">
