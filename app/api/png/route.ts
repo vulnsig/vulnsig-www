@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { renderGlyph } from "vulnsig";
 import sharp from "sharp";
+import { decodeVector } from "@/lib/vectorUrl";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
-  const vector = searchParams.get("vector");
+  const vector = decodeVector(searchParams.get("vector") ?? "") || null;
   const sizeParam = searchParams.get("size");
   const scoreParam = searchParams.get("score");
   const densityParam = searchParams.get("density");

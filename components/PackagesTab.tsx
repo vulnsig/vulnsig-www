@@ -11,6 +11,7 @@ import "prismjs/components/prism-rust";
 import { useMemo, useState, useCallback } from "react";
 import { useBuilder } from "./BuilderContext";
 import { calculateScore } from "vulnsig";
+import { encodeVector } from "@/lib/vectorUrl";
 
 const LANG_MAP: Record<string, string> = {
   "TypeScript (Core library)": "tsx",
@@ -113,7 +114,7 @@ function ExternalLink({
 export function PackagesTab() {
   const { vector } = useBuilder();
   const score = calculateScore(vector);
-  const encodedVector = encodeURIComponent(vector);
+  const encodedVector = encodeVector(vector);
 
   return (
     <div className="space-y-16">
