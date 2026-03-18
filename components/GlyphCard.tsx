@@ -55,38 +55,38 @@ export function GlyphCard({
         aria-label={`${name} vulnerability glyph, score ${score}`}
       >
         <VulnSig vector={vector} size={100} score={score} />
-        <div className="absolute top-1/2 -translate-y-1/2 left-full ml-2 flex flex-row items-center gap-2">
-          <button
-            onClick={onLoadVector}
-            title="Try in builder"
-            className="text-zinc-600 hover:text-zinc-300 transition-colors cursor-pointer"
+        <button
+          onClick={onLoadVector}
+          title="Try in builder"
+          className="absolute top-1/2 -translate-y-1/2 right-full mr-2 text-zinc-600 hover:text-zinc-300 transition-colors cursor-pointer"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              {/* Top-left */}
-              <polyline points="4,10 4,4 10,4" />
-              <line x1="4" y1="4" x2="11" y2="11" />
-              {/* Top-right */}
-              <polyline points="14,4 20,4 20,10" />
-              <line x1="20" y1="4" x2="13" y2="11" />
-              {/* Bottom-right */}
-              <polyline points="20,14 20,20 14,20" />
-              <line x1="20" y1="20" x2="13" y2="13" />
-              {/* Bottom-left */}
-              <polyline points="10,20 4,20 4,14" />
-              <line x1="4" y1="20" x2="11" y2="13" />
-            </svg>
-          </button>
-          {cveId && (
+            {/* Top-left */}
+            <polyline points="4,10 4,4 10,4" />
+            <line x1="4" y1="4" x2="11" y2="11" />
+            {/* Top-right */}
+            <polyline points="14,4 20,4 20,10" />
+            <line x1="20" y1="4" x2="13" y2="11" />
+            {/* Bottom-right */}
+            <polyline points="20,14 20,20 14,20" />
+            <line x1="20" y1="20" x2="13" y2="13" />
+            {/* Bottom-left */}
+            <polyline points="10,20 4,20 4,14" />
+            <line x1="4" y1="20" x2="11" y2="13" />
+          </svg>
+        </button>
+        {cveId && (
+          <div className="absolute top-1/2 -translate-y-1/2 left-full ml-2">
             <ShareButton
               cveId={cveId}
               vector={vector}
@@ -94,8 +94,8 @@ export function GlyphCard({
               description={description}
               productName={productName}
             />
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
       <div className="text-center w-full flex-1 min-h-0 flex flex-col">
