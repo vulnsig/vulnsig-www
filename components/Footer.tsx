@@ -28,6 +28,14 @@ export function Footer() {
           >
             PyPI
           </a>
+          <a
+            href="https://crates.io/crates/vulnsig"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-zinc-400 transition-colors"
+          >
+            crates.io
+          </a>
         </div>
       </div>
     </footer>
