@@ -77,6 +77,12 @@ export function AboutTab() {
               <span className="text-zinc-600 ml-2"> Python library</span>
             </li>
             <li>
+              <ExternalLink href="https://github.com/vulnsig/vulnsig-rs">
+                github.com/vulnsig/vulnsig-rs
+              </ExternalLink>
+              <span className="text-zinc-600 ml-2"> Rust library</span>
+            </li>
+            <li>
               <ExternalLink href="https://www.npmjs.com/package/vulnsig">
                 npm: vulnsig
               </ExternalLink>
@@ -87,6 +93,10 @@ export function AboutTab() {
               <span className="text-zinc-600 mx-2">·</span>
               <ExternalLink href="https://pypi.org/project/vulnsig">
                 PyPI: vulnsig
+              </ExternalLink>
+              <span className="text-zinc-600 mx-2">·</span>
+              <ExternalLink href="https://crates.io/crates/vulnsig">
+                crates.io: vulnsig
               </ExternalLink>
             </li>
           </ul>
