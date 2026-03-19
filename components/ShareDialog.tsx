@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { SocialIcon } from "react-social-icons";
 import { VulnSig } from "vulnsig-react";
 import {
   getShareSentence,
@@ -66,7 +67,7 @@ export function ShareDialog({
   }
 
   const btnClass =
-    "flex items-center gap-2 px-3 py-2 rounded bg-zinc-800 hover:bg-zinc-700 text-sm text-zinc-200 transition-colors";
+    "p-2 rounded bg-zinc-800 hover:bg-zinc-700 transition-colors cursor-pointer";
 
   return createPortal(
     <div
@@ -117,33 +118,68 @@ export function ShareDialog({
         <div className="flex flex-wrap gap-2 mt-6">
           <button
             className={btnClass}
+            title="X / Twitter"
             onClick={() => openShareWindow(urls.twitter, 550, 420)}
           >
-            <span>X / Twitter</span>
+            <SocialIcon network="x" style={{ width: 28, height: 28 }} />
           </button>
           <button
             className={btnClass}
+            title="LinkedIn"
             onClick={() => openShareWindow(urls.linkedin, 600, 600)}
           >
-            <span>LinkedIn</span>
+            <SocialIcon network="linkedin" style={{ width: 28, height: 28 }} />
           </button>
           <button
             className={btnClass}
+            title="Bluesky"
             onClick={() => openShareWindow(urls.bluesky, 600, 500)}
           >
-            <span>Bluesky</span>
+            <SocialIcon network="bsky.app" style={{ width: 28, height: 28 }} />
           </button>
           <button
             className={btnClass}
+            title="Threads"
+            onClick={() => openShareWindow(urls.threads, 600, 500)}
+          >
+            <SocialIcon network="threads" style={{ width: 28, height: 28 }} />
+          </button>
+          <button
+            className={btnClass}
+            title="Reddit"
             onClick={() => openShareWindow(urls.reddit, 600, 500)}
           >
-            <span>Reddit</span>
+            <SocialIcon network="reddit" style={{ width: 28, height: 28 }} />
           </button>
-          <a href={urls.email} className={btnClass}>
-            <span>Email</span>
+          <a href={urls.email} className={btnClass} title="Email">
+            <SocialIcon network="email" style={{ width: 28, height: 28 }} />
           </a>
-          <button className={btnClass} onClick={handleCopyLink}>
-            <span>{copied ? "Copied!" : "Copy Link"}</span>
+          <button
+            className={btnClass}
+            title="Copy Link"
+            onClick={handleCopyLink}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              className="m-[3px] text-zinc-400"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              {copied ? (
+                <polyline points="20 6 9 17 4 12" />
+              ) : (
+                <>
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                </>
+              )}
+            </svg>
           </button>
         </div>
       </div>
