@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Fira_Code, DM_Sans, Atomic_Age } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const firaCode = Fira_Code({
@@ -42,6 +43,18 @@ export default function RootLayout({
         className={`${firaCode.variable} ${dmSans.variable} ${atomicAge.variable} antialiased bg-zinc-950 text-zinc-100 font-sans`}
       >
         {children}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-5VENSWQGXZ"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-5VENSWQGXZ');
+          `}
+        </Script>
       </body>
     </html>
   );
