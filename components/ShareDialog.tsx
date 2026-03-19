@@ -121,39 +121,63 @@ export function ShareDialog({
             title="X / Twitter"
             onClick={() => openShareWindow(urls.twitter, 550, 420)}
           >
-            <SocialIcon network="x" style={{ width: 28, height: 28 }} />
+            <SocialIcon
+              network="x"
+              style={{ width: 28, height: 28, overflow: "visible" }}
+            />
           </button>
           <button
             className={btnClass}
             title="LinkedIn"
             onClick={() => openShareWindow(urls.linkedin, 600, 600)}
           >
-            <SocialIcon network="linkedin" style={{ width: 28, height: 28 }} />
+            <SocialIcon
+              network="linkedin"
+              style={{ width: 28, height: 28, overflow: "visible" }}
+            />
           </button>
           <button
             className={btnClass}
             title="Bluesky"
             onClick={() => openShareWindow(urls.bluesky, 600, 500)}
           >
-            <SocialIcon network="bsky.app" style={{ width: 28, height: 28 }} />
+            <SocialIcon
+              network="bsky.app"
+              style={{ width: 28, height: 28, overflow: "visible" }}
+            />
           </button>
           <button
             className={btnClass}
             title="Threads"
             onClick={() => openShareWindow(urls.threads, 600, 500)}
           >
-            <SocialIcon network="threads" style={{ width: 28, height: 28 }} />
+            <SocialIcon
+              network="threads"
+              style={{ width: 28, height: 28, overflow: "visible" }}
+            />
           </button>
           <button
             className={btnClass}
             title="Reddit"
             onClick={() => openShareWindow(urls.reddit, 600, 500)}
           >
-            <SocialIcon network="reddit" style={{ width: 28, height: 28 }} />
+            <SocialIcon
+              network="reddit"
+              style={{ width: 28, height: 28, overflow: "visible" }}
+            />
           </button>
-          <a href={urls.email} className={btnClass} title="Email">
-            <SocialIcon network="email" style={{ width: 28, height: 28 }} />
-          </a>
+          <button
+            className={btnClass}
+            title="Email"
+            onClick={() => {
+              window.location.href = urls.email;
+            }}
+          >
+            <SocialIcon
+              network="email"
+              style={{ width: 28, height: 28, overflow: "visible" }}
+            />
+          </button>
           <button
             className={btnClass}
             title="Copy Link"

@@ -50,7 +50,7 @@ export function buildPlatformUrls(
 ) {
   return {
     twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(landingUrl)}`,
-    linkedin: `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(landingUrl)}&title=${encodeURIComponent(cveId)}&summary=${encodeURIComponent(sentence)}`,
+    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(landingUrl)}`,
     bluesky: `https://bsky.app/intent/compose?text=${encodeURIComponent(`${shareText} ${landingUrl}`)}`,
     threads: `https://threads.net/intent/post?text=${encodeURIComponent(`${shareText} ${landingUrl}`)}`,
     reddit: `https://reddit.com/submit?url=${encodeURIComponent(landingUrl)}&title=${encodeURIComponent(`${cveId} ${sentence}`)}`,

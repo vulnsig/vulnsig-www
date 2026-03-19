@@ -132,12 +132,10 @@ describe("buildPlatformUrls", () => {
     expect(parsed.searchParams.get("url")).toBe(landingUrl);
   });
 
-  it("linkedin URL contains landing url, title, and summary", () => {
+  it("linkedin URL contains landing url", () => {
     const parsed = new URL(urls.linkedin);
     expect(parsed.hostname).toBe("www.linkedin.com");
     expect(parsed.searchParams.get("url")).toBe(landingUrl);
-    expect(parsed.searchParams.get("title")).toBe("CVE-2025-1234");
-    expect(parsed.searchParams.get("summary")).toBe("RCE in libxml2.");
   });
 
   it("bluesky URL embeds shareText and landingUrl together in text param", () => {
