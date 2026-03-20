@@ -10,7 +10,9 @@ interface PageProps {
 async function confirmToken(token: string): Promise<"success" | "invalid"> {
   if (!API_BASE) return "invalid";
   try {
-    const res = await fetch(`${API_BASE}/confirm?token=${encodeURIComponent(token)}`);
+    const res = await fetch(
+      `${API_BASE}/confirm?token=${encodeURIComponent(token)}`,
+    );
     return res.ok ? "success" : "invalid";
   } catch {
     return "invalid";
@@ -32,8 +34,8 @@ export default async function ConfirmPage({ searchParams }: PageProps) {
                 You are subscribed!
               </h1>
               <p className="text-sm text-zinc-400">
-                Your email has been confirmed. You will receive the next
-                VulnSig Digest.
+                Your email has been confirmed. You will receive the next VulnSig
+                Digest.
               </p>
             </>
           ) : status === "invalid" ? (

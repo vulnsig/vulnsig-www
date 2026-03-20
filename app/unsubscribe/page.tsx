@@ -10,7 +10,9 @@ interface PageProps {
 async function unsubscribeToken(token: string): Promise<"success" | "invalid"> {
   if (!API_BASE) return "invalid";
   try {
-    const res = await fetch(`${API_BASE}/unsubscribe?token=${encodeURIComponent(token)}`);
+    const res = await fetch(
+      `${API_BASE}/unsubscribe?token=${encodeURIComponent(token)}`,
+    );
     return res.ok ? "success" : "invalid";
   } catch {
     return "invalid";
