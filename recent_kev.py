@@ -22,7 +22,7 @@ import urllib.error
 from datetime import date, timedelta, datetime, timezone
 from pathlib import Path
 
-from recent_util import build_product_map
+from recent_util import build_product_map, write_jsonl
 
 
 KEV_URL = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
@@ -217,6 +217,9 @@ def main():
         json.dump(payload, f, indent=2)
 
     print(f"Written to: {out_path}")
+
+    out_path_jsonl = write_jsonl(cves, products, out_path)
+    print(f"Written to: {out_path_jsonl}")
 
 
 if __name__ == "__main__":
