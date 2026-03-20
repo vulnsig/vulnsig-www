@@ -8,6 +8,7 @@ import { AboutTab } from "./AboutTab";
 import { RecentCVETab } from "./RecentCVETab";
 import { RecentKEVTab } from "./RecentKEVTab";
 import { QuizTab } from "./QuizTab";
+import { SubscribeTab } from "./SubscribeTab";
 import { useBuilder } from "./BuilderContext";
 
 const TABS = [
@@ -18,6 +19,7 @@ const TABS = [
   { id: "legend", label: "Legend" },
   { id: "tools", label: "Tools" },
   { id: "about", label: "About" },
+  { id: "subscribe", label: "Subscribe" },
 ] as const;
 
 export function TabbedSection() {
@@ -92,6 +94,7 @@ export function TabbedSection() {
             {tab.id === "legend" && <LegendTab />}
             {tab.id === "tools" && <PackagesTab />}
             {tab.id === "about" && <AboutTab />}
+            {tab.id === "subscribe" && <SubscribeTab />}
           </div>
         ))}
       </div>
