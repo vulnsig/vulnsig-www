@@ -29,14 +29,32 @@ import sys
 import time
 import urllib.request
 import urllib.error
+from pathlib import Path
 from typing import Optional, TypedDict
+
+
+class CveEntryCVSS(TypedDict, total=True):
+    version: str
+    vectorString: str
+    baseScore: float
 
 
 class CveEntry(TypedDict, total=False):
     id: str
-    description: str
     published: str
+    lastModified: str
+    description: str
+    cvss: CveEntryCVSS
 
+
+# class CveFlat(TypedDict, total=False):
+#     id: str
+#     published: str
+#     lastModified: str
+#     description: str
+#     version: str
+#     vectorString: str
+#     baseScore: float
 
 ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages"
 ANTHROPIC_MODEL = "claude-haiku-4-5"
@@ -231,8 +249,12 @@ def build_product_map(
                         "product": product_name,
                         "added": pub_by_id.get(cve_id, ""),
                     }
-                unknown = sum(1 for v in mapping.values() if v.strip().lower() == "unknown")
-                print(f"got {len(mapping)} products ({len(mapping) - unknown} named, {unknown} unknown)")
+                unknown = sum(
+                    1 for v in mapping.values() if v.strip().lower() == "unknown"
+                )
+                print(
+                    f"got {len(mapping)} products ({len(mapping) - unknown} named, {unknown} unknown)"
+                )
                 break
             except Exception as exc:
                 if attempt < 3 and "overloaded" in str(exc).lower():
@@ -254,3 +276,25 @@ def build_product_map(
         print(f"  Trimmed product map to {max_entries} newest entries")
 
     return existing
+
+
+def write_jsonl(
+    cves: list[CveEntry], products: dict[str, dict[str, str]], raw_path: Path
+) -> Path:
+    """Build a flattened representation of all data."""
+    cve_to_product = {k: v["product"] for k, v in products.items()}
+    out_path = raw_path.with_suffix(".jsonl")
+    with open(out_path, "w", encoding="utf-8") as f:
+        for entry in cves:
+            d = dict()
+            for key in ("id", "published", "lastModified", "description"):
+                d[key] = entry.get(key, "")
+
+            cvss = entry["cvss"]
+            for key in ("version", "vectorString", "baseScore"):
+                d[key] = cvss[key]
+
+            d["product"] = cve_to_product.get(d["id"], "Unknown")
+
+            f.write(json.dumps(d) + "\n")
+    return out_path

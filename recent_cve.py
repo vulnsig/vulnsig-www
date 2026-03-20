@@ -26,7 +26,7 @@ import urllib.parse
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
-from recent_util import build_product_map
+from recent_util import build_product_map, write_jsonl
 
 NVD_BASE = "https://services.nvd.nist.gov/rest/json/cves/2.0"
 PAGE_SIZE = 2000
@@ -229,6 +229,9 @@ def main():
         json.dump(payload, f, indent=2)
 
     print(f"Written to: {out_path}")
+
+    out_path_jsonl = write_jsonl(cves, products, out_path)
+    print(f"Written to: {out_path_jsonl}")
 
 
 if __name__ == "__main__":
