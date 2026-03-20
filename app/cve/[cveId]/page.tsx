@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { DataProvider } from "@/components/DataContext";
 import { BuilderProvider } from "@/components/BuilderContext";
@@ -9,29 +9,52 @@ import { BuilderBar } from "@/components/BuilderBar";
 import { TabbedSection } from "@/components/TabbedSection";
 import { HeroSectionCve } from "@/components/HeroSectionCve";
 import { Footer } from "@/components/Footer";
-import { decodeVector } from "@/lib/vectorUrl";
+
+const API_BASE = process.env.NEXT_PUBLIC_VULNSIG_API_URL ?? "";
+
+interface CveApiResponse {
+  id: string;
+  vectorString: string;
+  baseScore: number;
+  description: string;
+  product?: string;
+  version?: string;
+  published?: string;
+  lastModified?: string;
+}
+
+async function fetchCve(cveId: string): Promise<CveApiResponse | null> {
+  if (!API_BASE) return null;
+  try {
+    const res = await fetch(`${API_BASE}/cve/${cveId}`, {
+      next: { revalidate: 3600 },
+    });
+    if (!res.ok) return null;
+    return res.json() as Promise<CveApiResponse>;
+  } catch {
+    return null;
+  }
+}
 
 interface PageProps {
   params: Promise<{ cveId: string }>;
-  searchParams: Promise<{ v?: string; s?: string; d?: string }>;
+  searchParams: Promise<Record<string, string | undefined>>;
 }
 
 export async function generateMetadata({
   params,
-  searchParams,
 }: PageProps): Promise<Metadata> {
   const { cveId } = await params;
-  const { v, s, d } = await searchParams;
-  const vector = v ? decodeVector(v) : undefined;
-  const title = s ? `${cveId}: CVSS ${s}` : cveId;
-  const description = d ?? "";
-  const imageUrl = vector
-    ? `https://vulnsig.io/api/png?${new URLSearchParams({
-        vector,
-        ...(s ? { score: s } : {}),
-        size: "512",
-      })}`
-    : undefined;
+  const cve = await fetchCve(cveId);
+  if (!cve) return { title: cveId };
+
+  const title = `${cveId}: CVSS ${cve.baseScore}`;
+  const description = cve.description;
+  const imageUrl = `https://vulnsig.io/api/png?${new URLSearchParams({
+    vector: cve.vectorString,
+    score: String(cve.baseScore),
+    size: "512",
+  })}`;
 
   return {
     title,
@@ -42,53 +65,45 @@ export async function generateMetadata({
       url: `https://vulnsig.io/cve/${cveId}`,
       siteName: "vulnsig",
       type: "website",
-      ...(imageUrl
-        ? {
-            images: [
-              {
-                url: imageUrl,
-                width: 512,
-                height: 512,
-                alt: `${cveId} vulnerability glyph`,
-              },
-            ],
-          }
-        : {}),
+      images: [
+        {
+          url: imageUrl,
+          width: 512,
+          height: 512,
+          alt: `${cveId} vulnerability glyph`,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      ...(imageUrl ? { images: [imageUrl] } : {}),
+      images: [imageUrl],
     },
   };
 }
 
-export default async function CveLandingPage({
-  params,
-  searchParams,
-}: PageProps) {
+export default async function CveLandingPage({ params }: PageProps) {
   const { cveId } = await params;
-  const { v, s, d } = await searchParams;
+  const cve = await fetchCve(cveId);
 
-  if (!v) redirect("/");
-
-  const vector = decodeVector(v);
-  const score = s ? parseFloat(s) : undefined;
-  const sentence = d || undefined;
+  if (!cve) notFound();
 
   return (
     <Suspense>
       <DataProvider>
-        <BuilderProvider initialVector={vector} initialExpanded={true}>
+        <BuilderProvider
+          initialVector={cve.vectorString}
+          initialExpanded={true}
+        >
           <div className="min-h-screen relative z-2">
             <Masthead />
             <ClientOnly>
               <HeroSectionCve
                 cveId={cveId}
-                vector={vector}
-                score={score}
-                sentence={sentence}
+                vector={cve.vectorString}
+                score={cve.baseScore}
+                sentence={cve.description}
               />
               <BuilderBar />
               <TabbedSection />

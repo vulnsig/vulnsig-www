@@ -46,13 +46,7 @@ export function ShareDialog({
   if (!open) return null;
 
   const sentence = getShareSentence(description, productName);
-  const landingUrl = buildLandingUrl(
-    cveId,
-    vector,
-    score,
-    description,
-    productName,
-  );
+  const landingUrl = buildLandingUrl(cveId);
   const shareText = buildShareText(cveId, score, sentence);
   const urls = buildPlatformUrls(shareText, landingUrl, cveId, sentence);
 

@@ -75,39 +75,12 @@ describe("buildShareText", () => {
 // buildLandingUrl
 // ---------------------------------------------------------------------------
 describe("buildLandingUrl", () => {
-  const vector = "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H";
-
-  it("builds a URL with v, s, and d params", () => {
-    const url = buildLandingUrl(
-      "CVE-2025-1234",
-      vector,
-      9.8,
-      "RCE in libxml2 allows attackers to execute code.",
-    );
+  it("builds a clean URL with only the CVE ID", () => {
+    const url = buildLandingUrl("CVE-2025-1234");
+    expect(url).toBe("https://vulnsig.io/cve/CVE-2025-1234");
     const parsed = new URL(url);
     expect(parsed.pathname).toBe("/cve/CVE-2025-1234");
-    expect(parsed.searchParams.get("v")).toBe(
-      "CVSS.3.1-AV.N-AC.L-PR.N-UI.N-S.U-C.H-I.H-A.H",
-    );
-    expect(parsed.searchParams.get("s")).toBe("9.8");
-    expect(parsed.searchParams.get("d")).toBe(
-      "RCE in libxml2 allows attackers to execute code.",
-    );
-  });
-
-  it("truncates d to 150 chars with ellipsis", () => {
-    const long = "A".repeat(200) + ".";
-    const url = buildLandingUrl("CVE-2025-9999", vector, 5.0, long);
-    const d = new URL(url).searchParams.get("d")!;
-    expect(d.length).toBeLessThanOrEqual(151); // 150 chars + ellipsis char
-    expect(d.endsWith("…")).toBe(true);
-  });
-
-  it("uses the productName to pick the right sentence for d", () => {
-    const desc = "Unrelated issue. A flaw in OpenSSL allows bypass.";
-    const url = buildLandingUrl("CVE-2025-1234", vector, 7.5, desc, "OpenSSL");
-    const d = new URL(url).searchParams.get("d");
-    expect(d).toBe("A flaw in OpenSSL allows bypass.");
+    expect(parsed.search).toBe("");
   });
 });
 
@@ -116,8 +89,7 @@ describe("buildLandingUrl", () => {
 // ---------------------------------------------------------------------------
 describe("buildPlatformUrls", () => {
   const shareText = "CVE-2025-1234 (CVSS 9.8) RCE in libxml2.";
-  const landingUrl =
-    "https://vulnsig.io/cve/CVE-2025-1234?v=CVSS%3A3.1&s=9.8&d=RCE";
+  const landingUrl = "https://vulnsig.io/cve/CVE-2025-1234";
   const urls = buildPlatformUrls(
     shareText,
     landingUrl,
