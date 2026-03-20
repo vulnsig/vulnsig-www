@@ -103,7 +103,7 @@ export default async function CveLandingPage({ params }: PageProps) {
                 cveId={cveId}
                 vector={cve.vectorString}
                 score={cve.baseScore}
-                sentence={cve.description}
+                description={cve.description}
               />
               <BuilderBar />
               <TabbedSection />
