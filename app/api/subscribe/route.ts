@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
 
   const body = await request.json();
 
-  const res = await fetch(`${API_BASE}subscribe`, {
+  const res = await fetch(`${API_BASE}/subscribe`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
