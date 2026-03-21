@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Masthead } from "@/components/Masthead";
 import { Footer } from "@/components/Footer";
 
@@ -45,12 +46,12 @@ export default async function ConfirmPage({ searchParams }: PageProps) {
               </h1>
               <p className="text-sm text-zinc-400">
                 This confirmation link is no longer valid. Please{" "}
-                <a
+                <Link
                   href="/?tab=subscribe"
                   className="text-zinc-300 hover:text-zinc-100 underline underline-offset-2 decoration-zinc-600 hover:decoration-zinc-400 transition-colors"
                 >
                   subscribe again
-                </a>
+                </Link>
                 .
               </p>
             </>
