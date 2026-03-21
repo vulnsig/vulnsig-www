@@ -8,14 +8,14 @@ interface HeroSectionCveProps {
   cveId: string;
   vector: string;
   score: number | undefined;
-  sentence: string | undefined;
+  description: string | undefined;
 }
 
 export function HeroSectionCve({
   cveId,
   vector: vectorProp,
   score: scoreProp,
-  sentence,
+  description,
 }: HeroSectionCveProps) {
   const { heroRef, vector } = useBuilder();
 
@@ -36,7 +36,7 @@ export function HeroSectionCve({
 
             {/* Right half: CVE info, left-justified */}
             <div className="flex-1">
-              <div className="min-w-0 pl-6">
+              <div className="min-w-0 pl-0 pr-4">
                 <p className="font-semibold text-sm text-zinc-200">
                   <a
                     href={`https://nvd.nist.gov/vuln/detail/${cveId}`}
@@ -47,9 +47,9 @@ export function HeroSectionCve({
                     {cveId}
                   </a>
                 </p>
-                {sentence && (
+                {description && (
                   <p className="text-sm text-zinc-400 mt-4 leading-relaxed break-words">
-                    {sentence}
+                    {description}
                   </p>
                 )}
               </div>
