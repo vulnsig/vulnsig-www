@@ -15,8 +15,8 @@ const TABS = [
   { id: "cves", label: "CVEs" },
   { id: "kevs", label: "KEVs" },
   { id: "gallery", label: "Gallery" },
-  { id: "quiz", label: "Quiz" },
   { id: "legend", label: "Legend" },
+  { id: "quiz", label: "Quiz" },
   { id: "tools", label: "Tools" },
   { id: "about", label: "About" },
   { id: "subscribe", label: "Subscribe" },
@@ -65,7 +65,7 @@ export function TabbedSection() {
               aria-controls={`panel-${tab.id}`}
               tabIndex={activeTab === tab.id ? 0 : -1}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 basis-1/4 sm:basis-0 px-2 text-sm font-[family-name:var(--font-mono)] font-semibold uppercase transition-colors cursor-pointer ${
+              className={`flex-1 basis-1/4 sm:basis-0 px-1 text-sm font-[family-name:var(--font-mono)] font-semibold uppercase transition-colors cursor-pointer ${
                 activeTab === tab.id
                   ? "text-zinc-100"
                   : "text-zinc-500 hover:text-zinc-300"
@@ -90,8 +90,8 @@ export function TabbedSection() {
             {tab.id === "cves" && <RecentCVETab />}
             {tab.id === "kevs" && <RecentKEVTab />}
             {tab.id === "gallery" && <GalleryTab />}
-            {tab.id === "quiz" && <QuizTab />}
             {tab.id === "legend" && <LegendTab />}
+            {tab.id === "quiz" && <QuizTab />}
             {tab.id === "tools" && <PackagesTab />}
             {tab.id === "about" && <AboutTab />}
             {tab.id === "subscribe" && <SubscribeTab />}
