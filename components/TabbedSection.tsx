@@ -65,7 +65,7 @@ export function TabbedSection() {
               aria-controls={`panel-${tab.id}`}
               tabIndex={activeTab === tab.id ? 0 : -1}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 basis-1/4 sm:basis-0 px-4 text-sm font-[family-name:var(--font-mono)] font-semibold uppercase transition-colors cursor-pointer ${
+              className={`flex-1 basis-1/4 sm:basis-0 px-2 text-sm font-[family-name:var(--font-mono)] font-semibold uppercase transition-colors cursor-pointer ${
                 activeTab === tab.id
                   ? "text-zinc-100"
                   : "text-zinc-500 hover:text-zinc-300"
