@@ -1,13 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const API_BASE = process.env.NEXT_PUBLIC_VULNSIG_API_URL ?? "";
-// NOTE: set via Amplify console Environment Variables (not Secrets tab)
+// NOTE: set via Amplify console Environment Variables (not Secrets tab);
+// inlined at build time via next.config.ts `env` so it is available in the SSR Lambda.
 const API_SECRET = process.env.API_SECRET ?? "";
 
-console.log("[subscribe] module init — API_BASE set:", !!API_BASE, "API_SECRET set:", !!API_SECRET);
-
 export async function POST(request: NextRequest) {
-  console.log("[subscribe] POST — API_BASE set:", !!API_BASE, "API_SECRET set:", !!API_SECRET);
   if (!API_BASE || !API_SECRET) {
     return NextResponse.json(
       { error: "Subscribe API is not configured" },

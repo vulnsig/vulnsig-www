@@ -3,6 +3,7 @@
 import { VulnSig } from "vulnsig-react";
 import { calculateScore } from "vulnsig";
 import { useBuilder } from "./BuilderContext";
+import { ShareButton } from "./ShareButton";
 
 interface HeroSectionCveProps {
   cveId: string;
@@ -37,16 +38,26 @@ export function HeroSectionCve({
             {/* Right half: CVE info, left-justified */}
             <div className="flex-1">
               <div className="min-w-0 pl-0 pr-4">
-                <p className="font-semibold text-sm text-zinc-200">
-                  <a
-                    href={`https://nvd.nist.gov/vuln/detail/${cveId}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-zinc-300 transition-colors"
-                  >
-                    {cveId}
-                  </a>
-                </p>
+                <div className="flex items-center gap-4">
+                  <p className="font-semibold text-sm text-zinc-200">
+                    <a
+                      href={`https://nvd.nist.gov/vuln/detail/${cveId}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-zinc-300 transition-colors"
+                    >
+                      {cveId}
+                    </a>
+                  </p>
+                  {description && (
+                    <ShareButton
+                      cveId={cveId}
+                      vector={activeVector}
+                      score={score}
+                      description={description}
+                    />
+                  )}
+                </div>
                 {description && (
                   <p className="text-sm text-zinc-400 mt-4 leading-relaxed break-words">
                     {description}
