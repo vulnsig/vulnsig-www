@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { VulnSigLogo } from "./VulnSigLogo";
 
 const DIM = "#939598";
@@ -41,10 +42,13 @@ export function Masthead() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-[60] py-2 px-4 flex items-center justify-center gap-2 bg-zinc-950/60 backdrop-blur-sm border-b border-zinc-800/40">
-      <h1 className="flex items-center gap-2 text-3xl tracking-wide text-zinc-300 font-[family-name:var(--font-display)]">
+      <Link
+        href="/"
+        className="flex items-center gap-2 text-3xl tracking-wide text-zinc-300 font-[family-name:var(--font-display)]"
+      >
         <VulnSigLogo size={22} color1={c1} color2={c2} color3={c3} />
         VulnSig
-      </h1>
+      </Link>
       <p className="text-md text-zinc-500 font-sans italic">
         more than a score
       </p>
