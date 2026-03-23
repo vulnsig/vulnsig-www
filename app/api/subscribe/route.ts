@@ -1,15 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import getConfig from "next/config";
 
 const API_BASE = process.env.NEXT_PUBLIC_VULNSIG_API_URL ?? "";
 
-function getApiSecret(): string {
-  const { serverRuntimeConfig } = getConfig() ?? {};
-  return serverRuntimeConfig?.apiSecret ?? "";
-}
+// NOTE: in Amplify deployment this secret is configured through:
+// Parameter store: /amplify/d1wh4d6m5jcz28/main/API_SECRET
 
 export async function POST(request: NextRequest) {
-  const API_SECRET = getApiSecret();
+  const API_SECRET = process.env.API_SECRET ?? "";
   if (!API_BASE || !API_SECRET) {
     return NextResponse.json(
       { error: "Subscribe API is not configured" },
