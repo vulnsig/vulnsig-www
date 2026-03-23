@@ -4,6 +4,9 @@ const API_BASE = process.env.NEXT_PUBLIC_VULNSIG_API_URL ?? "";
 const API_SECRET = process.env.API_SECRET ?? "";
 
 export async function POST(request: NextRequest) {
+  console.log("[subscribe] API_BASE set:", !!API_BASE);
+  console.log("[subscribe] API_SECRET set:", !!API_SECRET);
+  console.log("[subscribe] env keys:", Object.keys(process.env).filter(k => k.startsWith("API") || k.startsWith("NEXT")));
   if (!API_BASE || !API_SECRET) {
     return NextResponse.json(
       { error: "Subscribe API is not configured" },
