@@ -59,7 +59,7 @@ export function HeroSectionCve({
                   )}
                 </div>
                 {description && (
-                  <p className="text-sm text-zinc-400 mt-4 leading-relaxed break-words">
+                  <p className="text-sm text-zinc-400 mt-4 leading-relaxed [overflow-wrap:anywhere]">
                     {description}
                   </p>
                 )}
