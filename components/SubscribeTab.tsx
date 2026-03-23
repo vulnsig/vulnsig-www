@@ -35,9 +35,10 @@ export function SubscribeTab() {
     <div className="max-w-2xl mx-auto">
       <h3 className="text-lg font-semibold mb-6">VulnSig Digest</h3>
       <p className="text-sm text-zinc-400 leading-relaxed mb-6">
-        A weekday newsletter highlighting notable recent CVEs and KEVs.
-        Subscribe to get new vulnerability details and glyphs delivered to your
-        inbox.
+        A weekday newsletter of notable recent CVEs and KEVs, accompanied by a
+        concise, LLM-generated summary and trend commentary. Subscribe to get
+        new vulnerability details and glyphs delivered to your inbox.
+        Unsubscribe anytime; no marketing or third-party emails.
       </p>
 
       {status === "success" ? (
