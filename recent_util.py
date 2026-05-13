@@ -106,7 +106,9 @@ def nvd_paginate(params: dict, api_key: Optional[str]) -> Iterator[dict]:
             break
 
 
-def extract_cvss(metrics: Optional[dict], priority=CVSS_PRIORITY_DEFAULT) -> Optional[dict]:
+def extract_cvss(
+    metrics: Optional[dict], priority=CVSS_PRIORITY_DEFAULT
+) -> Optional[dict]:
     """Pick the best CVSS metric block per priority list. Prefers Primary entries.
     Returns {version, vectorString, baseScore} or None if nothing scored.
     """
