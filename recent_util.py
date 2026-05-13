@@ -27,10 +27,151 @@ import json
 import os
 import sys
 import time
+import urllib.parse
 import urllib.request
 import urllib.error
+from decimal import Decimal
 from pathlib import Path
-from typing import Optional, TypedDict
+from typing import Iterator, Optional, TypedDict
+
+
+# ──────────────────────────────────────────────────────────────────────────
+# NVD API helpers
+# ──────────────────────────────────────────────────────────────────────────
+
+NVD_BASE = "https://services.nvd.nist.gov/rest/json/cves/2.0"
+NVD_PAGE_SIZE = 2000
+NVD_REQUEST_DELAY = 0.7  # NVD recommends > 600ms between requests
+NVD_TIMEOUT = 120
+NVD_RETRY_BACKOFF = [5, 15, 45]  # seconds; 3 retries on 429/503/timeout
+
+# Each entry is (NVD metrics key, CVSS version label).
+CVSS_PRIORITY_DEFAULT = (
+    ("cvssMetricV40", "4.0"),
+    ("cvssMetricV31", "3.1"),
+)
+CVSS_PRIORITY_ANY = CVSS_PRIORITY_DEFAULT + (
+    ("cvssMetricV30", "3.0"),
+    ("cvssMetricV2", "2.0"),
+)
+
+
+def nvd_fetch_page(params: dict, start_index: int, api_key: Optional[str]) -> dict:
+    """Fetch one page from NVD with retry on 429/503/timeout."""
+    query = {**params, "startIndex": start_index, "resultsPerPage": NVD_PAGE_SIZE}
+    url = f"{NVD_BASE}?{urllib.parse.urlencode(query)}"
+    req = urllib.request.Request(url)
+    if api_key:
+        req.add_header("apiKey", api_key)
+
+    last_err = None
+    for attempt, backoff in enumerate([0, *NVD_RETRY_BACKOFF]):
+        if backoff:
+            print(f"    retry {attempt} after {backoff}s ({last_err})...", flush=True)
+            time.sleep(backoff)
+        try:
+            with urllib.request.urlopen(req, timeout=NVD_TIMEOUT) as resp:
+                return json.loads(resp.read().decode("utf-8"))
+        except urllib.error.HTTPError as e:
+            last_err = e
+            if e.code in (429, 503):
+                continue
+            body = e.read().decode("utf-8", errors="replace")
+            print(f"  HTTP {e.code} from NVD: {body[:200]}", file=sys.stderr)
+            raise
+        except (urllib.error.URLError, TimeoutError, OSError) as e:
+            last_err = e
+            continue
+    raise RuntimeError(f"NVD fetch failed after retries: {last_err}")
+
+
+def nvd_paginate(params: dict, api_key: Optional[str]) -> Iterator[dict]:
+    """Yield raw NVD vulnerability items across all pages for the given query."""
+    start_index = 0
+    total = None
+    while True:
+        if start_index > 0:
+            time.sleep(NVD_REQUEST_DELAY)
+        page_num = start_index // NVD_PAGE_SIZE + 1
+        data = nvd_fetch_page(params, start_index, api_key)
+        if total is None:
+            total = data.get("totalResults", 0)
+            print(f"  total: {total}", flush=True)
+        items = data.get("vulnerabilities", [])
+        print(f"  page {page_num}: got {len(items)}", flush=True)
+        for item in items:
+            yield item
+        start_index += NVD_PAGE_SIZE
+        if total == 0 or start_index >= total:
+            break
+
+
+def extract_cvss(metrics: Optional[dict], priority=CVSS_PRIORITY_DEFAULT) -> Optional[dict]:
+    """Pick the best CVSS metric block per priority list. Prefers Primary entries.
+    Returns {version, vectorString, baseScore} or None if nothing scored.
+    """
+    if not metrics:
+        return None
+    for key, label in priority:
+        entries = metrics.get(key, [])
+        chosen = next(
+            (m for m in entries if m.get("type") == "Primary"),
+            entries[0] if entries else None,
+        )
+        if not chosen:
+            continue
+        data = chosen.get("cvssData", {})
+        vector = data.get("vectorString")
+        score = data.get("baseScore")
+        if vector and score is not None:
+            return {"version": label, "vectorString": vector, "baseScore": score}
+    return None
+
+
+def transform_cve(item: dict, priority=CVSS_PRIORITY_DEFAULT) -> Optional[dict]:
+    """Transform a raw NVD vulnerability item into the standard CveEntry shape.
+    Returns None when no CVSS vector matching the priority list is present.
+    """
+    cve = item.get("cve", {})
+    cvss = extract_cvss(cve.get("metrics", {}), priority)
+    if not cvss:
+        return None
+    descriptions = cve.get("descriptions", [])
+    en_desc = next((d["value"] for d in descriptions if d.get("lang") == "en"), "")
+    return {
+        "id": cve.get("id"),
+        "published": cve.get("published"),
+        "lastModified": cve.get("lastModified"),
+        "description": en_desc,
+        "cvss": cvss,
+    }
+
+
+# ──────────────────────────────────────────────────────────────────────────
+# DynamoDB item shape
+# ──────────────────────────────────────────────────────────────────────────
+
+
+def cve_to_ddb_item(rec: dict, product: str) -> dict:
+    """Flatten a CveEntry plus a product name into the row stored in DynamoDB.
+    baseScore is converted to Decimal so boto3 will accept it.
+    """
+    cvss = rec["cvss"]
+    return {
+        "id": rec["id"],
+        "published": rec.get("published") or "",
+        "lastModified": rec.get("lastModified") or "",
+        "description": rec.get("description") or "",
+        "version": cvss["version"],
+        "vectorString": cvss["vectorString"],
+        "baseScore": Decimal(str(cvss["baseScore"])),
+        "product": product,
+    }
+
+
+# ──────────────────────────────────────────────────────────────────────────
+# Product-map and JSONL writer (Anthropic-backed)
+# ──────────────────────────────────────────────────────────────────────────
 
 
 class CveEntryCVSS(TypedDict, total=True):
