@@ -168,6 +168,7 @@ def cve_to_ddb_item(rec: dict, product: str) -> dict:
         "vectorString": cvss["vectorString"],
         "baseScore": Decimal(str(cvss["baseScore"])),
         "product": product,
+        "productLower": product.lower(),
     }
 
 
