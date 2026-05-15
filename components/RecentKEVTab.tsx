@@ -78,7 +78,7 @@ export function RecentKEVTab() {
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value as SortMode)}
-            className="bg-zinc-800 border border-zinc-700 rounded px-2 py-1 text-xs font-mono text-zinc-300 cursor-pointer"
+            className="bg-zinc-800 border border-zinc-700 rounded px-2 py-2 text-xs font-mono text-zinc-300 cursor-pointer"
           >
             <option value="date-desc">Date (newest first)</option>
             <option value="date-asc">Date (oldest first)</option>
