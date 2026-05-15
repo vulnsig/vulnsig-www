@@ -7,6 +7,7 @@ import { PackagesTab } from "./PackagesTab";
 import { AboutTab } from "./AboutTab";
 import { RecentCVETab } from "./RecentCVETab";
 import { RecentKEVTab } from "./RecentKEVTab";
+import { SearchTab } from "./SearchTab";
 import { QuizTab } from "./QuizTab";
 import { SubscribeTab } from "./SubscribeTab";
 import { useBuilder } from "./BuilderContext";
@@ -14,6 +15,7 @@ import { useBuilder } from "./BuilderContext";
 const TABS = [
   { id: "cves", label: "CVEs" },
   { id: "kevs", label: "KEVs" },
+  { id: "search", label: "Search" },
   { id: "gallery", label: "Gallery" },
   { id: "legend", label: "Legend" },
   { id: "quiz", label: "Quiz" },
@@ -89,6 +91,7 @@ export function TabbedSection() {
           >
             {tab.id === "cves" && <RecentCVETab />}
             {tab.id === "kevs" && <RecentKEVTab />}
+            {tab.id === "search" && <SearchTab />}
             {tab.id === "gallery" && <GalleryTab />}
             {tab.id === "legend" && <LegendTab />}
             {tab.id === "quiz" && <QuizTab />}
