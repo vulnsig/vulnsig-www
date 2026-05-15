@@ -188,8 +188,13 @@ export function BuilderProvider({
       setSelectedVuln(vuln);
       setVectorRaw(vuln.vector);
       setExpanded(true);
-      // Always navigate to root so landing-page params (v, s, d) are cleared
-      const params = new URLSearchParams();
+      // Preserve existing query params (tab, q, sort, kind, …) so loading a
+      // vector from e.g. the search tab doesn't reset back to the CVEs tab.
+      // Drop only the landing-page params (v, s, d) which we intentionally clear.
+      const params = new URLSearchParams(window.location.search);
+      params.delete("v");
+      params.delete("s");
+      params.delete("d");
       params.set("vector", encodeVector(vuln.vector));
       if (vuln.cve) params.set("cve", vuln.cve);
       router.push(`/?${params}`, { scroll: false });
