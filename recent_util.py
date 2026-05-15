@@ -209,10 +209,11 @@ BATCH_SIZE = 20
 # sort as the very oldest and are evicted first when max_entries is applied.
 EPOCH = "1970-01-01T00:00:00+00:00"
 
-SYSTEM_PROMPT = """You are a CVE analyst. For each CVE provided, extract the primary software product or tool that the vulnerability affects. The best name is often found in the first sentence of the description. Favor returning 1 to 2 words representing the most commonly recognized name for the product. If the name is not obvious or multiple products are referenced, select the most commonly recognized vendor or company name. Retain the ordering of the words in the name as presented in the description.
+SYSTEM_PROMPT = """You are a CVE analyst. For each CVE provided, extract the primary software product or tool that the vulnerability affects. The best name is often found in the first sentence of the description. Favor returning 1 to 3 words representing the most commonly recognized name for the product. If the name is not obvious or multiple products are referenced, select the most commonly recognized vendor or company name. Retain the ordering of the words in the name as presented in the description.
 
 Examples:
 - "Apache httpd 2.4.x" → "Apache httpd"
+- "Multiple local privilege escalation vulnerabilities in the Palo Alto Networks GlobalProtect™ app allow a local user to escalate their privileges to NT AUTHORITY\SYSTEM on Windows and root on macOS and Linux." → "GlobalProtect"
 - "Microsoft Windows Win32k" → "Windows"
 - "OpenSSL libssl" → "OpenSSL"
 - "A vulnerability was identified in D-Link DNS-120, DNR-202L, DNS-315L, DNS-320" → "D-Link"
