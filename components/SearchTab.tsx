@@ -46,11 +46,12 @@ export function SearchTab() {
   const searchParams = useSearchParams();
 
   const initialQ = (searchParams.get("q") ?? "").trim();
-  const initialSort = readSortFromUrl(searchParams.get("sort"));
 
   const [query, setQuery] = useState(initialQ);
-  const [committedQuery, setCommittedQuery] = useState(initialQ);
-  const [sort, setSort] = useState<SortMode>(initialSort);
+  // committedQuery starts empty so the URL-sync effect always fires once on
+  // mount and runs the search for a deep-linked ?q=… URL.
+  const [committedQuery, setCommittedQuery] = useState("");
+  const [sort, setSort] = useState<SortMode>("score");
   const [items, setItems] = useState<SearchItem[]>([]);
   const [total, setTotal] = useState(0);
   const [nextCursor, setNextCursor] = useState<string | null>(null);
@@ -168,10 +169,7 @@ export function SearchTab() {
           className="flex-1 min-w-0 bg-zinc-800 border border-zinc-700 rounded px-3 py-1.5 text-sm font-mono text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-zinc-500"
           autoFocus
         />
-        <button
-          type="submit"
-          className="bg-zinc-700 hover:bg-zinc-600 text-zinc-100 rounded px-3 py-1.5 text-xs font-mono uppercase cursor-pointer transition-colors"
-        >
+        <button type="submit" className="btn-primary">
           Search
         </button>
         <select
@@ -186,7 +184,7 @@ export function SearchTab() {
 
       {status === "idle" && (
         <div className="text-zinc-500 text-sm py-12 text-center">
-          Enter a product name above to search the CVE database.
+          Enter a product name to search CVEs.
         </div>
       )}
 

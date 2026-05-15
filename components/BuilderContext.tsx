@@ -126,6 +126,10 @@ export function BuilderProvider({
       setActiveTabState(tab);
       const params = new URLSearchParams(window.location.search);
       params.set("tab", tab);
+      if (tab !== "search") {
+        params.delete("q");
+        params.delete("sort");
+      }
       router.push(`${window.location.pathname}?${params}`, { scroll: false });
     },
     [router],
