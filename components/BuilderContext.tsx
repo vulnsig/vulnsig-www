@@ -130,7 +130,9 @@ export function BuilderProvider({
         params.delete("q");
         params.delete("sort");
       }
-      router.push(`${window.location.pathname}?${params}`, { scroll: false });
+      // Tabs only exist on the home page; changing tabs from /cve/[id] etc.
+      // should navigate back to "/" rather than appending ?tab= to a deep route.
+      router.push(`/?${params}`, { scroll: false });
     },
     [router],
   );
