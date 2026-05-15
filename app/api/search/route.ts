@@ -13,8 +13,11 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const qs = request.nextUrl.search;
-  const res = await fetch(`${API_BASE}/search${qs}`, {
+  const params = new URLSearchParams(request.nextUrl.searchParams);
+  const kind = params.get("kind") === "id" ? "id" : "product";
+  params.delete("kind");
+  const upstreamPath = kind === "id" ? "/search/id" : "/search/product";
+  const res = await fetch(`${API_BASE}${upstreamPath}?${params}`, {
     headers: { "x-api-key": API_SECRET },
     cache: "no-store",
   });

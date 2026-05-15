@@ -129,6 +129,7 @@ export function BuilderProvider({
       if (tab !== "search") {
         params.delete("q");
         params.delete("sort");
+        params.delete("kind");
       }
       // Tabs only exist on the home page; changing tabs from /cve/[id] etc.
       // should navigate back to "/" rather than appending ?tab= to a deep route.
