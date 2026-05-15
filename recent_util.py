@@ -172,6 +172,71 @@ def cve_to_ddb_item(rec: dict, product: str) -> dict:
     }
 
 
+def tokenize_product(product: Optional[str]) -> list[str]:
+    """Split a product name into searchable tokens for the inverted-index table.
+
+    Lowercased, whitespace-split. Returns [] for None, empty, or "Unknown" —
+    those CVEs are intentionally unsearchable by product.
+    """
+    if not product:
+        return []
+    lower = product.lower()
+    if lower == "unknown":
+        return []
+    return lower.split()
+
+
+# Fields denormalized onto each row of the product-tokens table so /search
+# can answer from a single Query, no second hop to the main table.
+#
+# TRADE-OFF (chosen 2026-05): we duplicate description + vectorString across
+# every token row a CVE produces. With ~1.5 tokens avg per product, the tokens
+# table is ~1.5× the main table (≈300MB for 250K CVEs). Storage cost is
+# trivial (~$0.07/mo on-demand); the win is one DDB round-trip per /search.
+#
+# Drift caveat: if a CVE's description or product later changes, token rows
+# go stale until the next `backfill_cves.py normalize` pass rewrites them.
+# Acceptable because product is cached per-id by build_product_map and rarely
+# changes.
+#
+# To slim later (saves ~250MB, costs ~30ms/search): drop "description" and
+# "vectorString" here, then in api.py handle_search do a single batch_get_item
+# on cves_table for the visible page after the intersect.
+_TOKEN_ROW_FIELDS = (
+    "id", "baseScore", "published", "version",
+    "vectorString", "description", "product", "productLower",
+)
+
+
+def token_rows_for(item: dict) -> list[dict]:
+    """Build the rows that should exist in vulnsig-cve-product-tokens for one CVE.
+
+    One row per unique product token. Caller writes them via batch_writer.
+    """
+    tokens = tokenize_product(item.get("product"))
+    if not tokens:
+        return []
+    base = {k: item[k] for k in _TOKEN_ROW_FIELDS if k in item}
+    return [{**base, "token": tok} for tok in set(tokens)]
+
+
+def put_cve_with_tokens(cves_table, tokens_table, item: dict) -> None:
+    """Write a single CVE row to the main table plus all its token rows.
+
+    For bulk writes, callers should manage their own batch_writers and call
+    token_rows_for() directly — this helper is intended for one-off updates
+    (e.g. the `update` subcommand) where the convenience matters more than
+    throughput.
+    """
+    cves_table.put_item(Item=item)
+    rows = token_rows_for(item)
+    if not rows:
+        return
+    with tokens_table.batch_writer() as bw:
+        for r in rows:
+            bw.put_item(Item=r)
+
+
 # ──────────────────────────────────────────────────────────────────────────
 # Product-map and JSONL writer (Anthropic-backed)
 # ──────────────────────────────────────────────────────────────────────────
@@ -439,6 +504,7 @@ def write_jsonl(
                 d[key] = cvss[key]
 
             d["product"] = cve_to_product.get(d["id"], "Unknown")
+            d["productLower"] = d["product"].lower()
 
             f.write(json.dumps(d) + "\n")
     return out_path
