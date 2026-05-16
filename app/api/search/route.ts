@@ -23,5 +23,22 @@ export async function GET(request: NextRequest) {
   });
 
   const data = await res.json().catch(() => null);
+  // Upstream returns an empty body on 5xx (e.g. lambda timeout for very common
+  // tokens). Surface a clearer message so the UI doesn't render a blank error.
+  if (!res.ok && (!data || typeof data !== "object" || !("error" in data))) {
+    if (res.status === 502 || res.status === 504) {
+      return NextResponse.json(
+        {
+          error:
+            "Search server timed out — try a more specific term or add another word.",
+        },
+        { status: res.status },
+      );
+    }
+    return NextResponse.json(
+      { error: `Search failed (${res.status})` },
+      { status: res.status },
+    );
+  }
   return NextResponse.json(data ?? {}, { status: res.status });
 }

@@ -24,6 +24,7 @@ interface SearchResponse {
   total: number;
   limit: number;
   nextCursor: string | null;
+  truncated?: boolean;
 }
 
 function formatDateTime(iso: string): string {
@@ -68,6 +69,7 @@ export function SearchTab() {
   const [items, setItems] = useState<SearchItem[]>([]);
   const [total, setTotal] = useState(0);
   const [nextCursor, setNextCursor] = useState<string | null>(null);
+  const [truncated, setTruncated] = useState(false);
   const [status, setStatus] = useState<
     "idle" | "loading" | "loadingMore" | "success" | "error"
   >("idle");
@@ -101,6 +103,7 @@ export function SearchTab() {
         setItems((prev) => (cursor ? [...prev, ...data.items] : data.items));
         setTotal(data.total);
         setNextCursor(data.nextCursor);
+        setTruncated(Boolean(data.truncated));
         setStatus("success");
       } catch (e) {
         if ((e as Error).name === "AbortError") return;
@@ -219,7 +222,7 @@ export function SearchTab() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={PLACEHOLDER[kind]}
-          className="flex-1 min-w-0 bg-zinc-800 border border-zinc-700 rounded px-3 py-1.5 text-sm font-mono text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-zinc-500"
+          className="flex-1 min-w-0 bg-zinc-800 border border-zinc-700 rounded px-3 py-1.5 text-sm text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-zinc-500"
           autoFocus
         />
         <button type="submit" className="btn-primary">
@@ -258,10 +261,16 @@ export function SearchTab() {
       {(status === "success" || status === "loadingMore") && (
         <>
           <p className="text-sm text-zinc-400 mb-4">
-            {total} {total === 1 ? "result" : "results"} for{" "}
-            <span className="font-mono text-zinc-200">
+            {total}
+            {truncated ? "+" : ""} {total === 1 ? "result" : "results"} for{" "}
+            <span className="text-zinc-200">
               &quot;{committedQuery}&quot;
             </span>
+            {truncated && (
+              <span className="ml-2 text-xs text-amber-400">
+                Showing a partial set — refine your search to see more matches.
+              </span>
+            )}
           </p>
           {total === 0 ? (
             <div className="text-zinc-500 text-sm py-12 text-center">
