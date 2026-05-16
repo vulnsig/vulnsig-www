@@ -183,14 +183,17 @@ pre code {
   font-weight: 600;
   background-color: var(--color-zinc-700);
   color: var(--color-zinc-200);
+  border: 1px solid var(--color-zinc-600);
   border-radius: 0.25rem;
   cursor: pointer;
   transition:
     background-color 0.15s ease,
+    border-color 0.15s ease,
     color 0.15s ease;
 }
 .btn-primary:hover {
   background-color: var(--color-zinc-600);
+  border-color: var(--color-zinc-500);
 }
 .btn-primary:disabled {
   opacity: 0.5;

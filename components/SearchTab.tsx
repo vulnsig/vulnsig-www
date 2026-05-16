@@ -38,7 +38,7 @@ function formatDateTime(iso: string): string {
 }
 
 function readSortFromUrl(value: string | null): SortMode {
-  return value === "date" ? "date" : "score";
+  return value === "score" ? "score" : "date";
 }
 
 function readKindFromUrl(value: string | null): SearchKind {
@@ -63,7 +63,7 @@ export function SearchTab() {
   // committedQuery starts empty so the URL-sync effect always fires once on
   // mount and runs the search for a deep-linked ?q=… URL.
   const [committedQuery, setCommittedQuery] = useState("");
-  const [sort, setSort] = useState<SortMode>("score");
+  const [sort, setSort] = useState<SortMode>("date");
   const [kind, setKind] = useState<SearchKind>("product");
   const [items, setItems] = useState<SearchItem[]>([]);
   const [total, setTotal] = useState(0);
@@ -157,7 +157,7 @@ export function SearchTab() {
     if (trimmed.length < MIN_LEN[kind]) {
       setErrorMsg(
         kind === "id"
-          ? "Please enter a CVE id"
+          ? "Please enter a CVE ID"
           : "Please enter at least 2 characters",
       );
       setStatus("error");
@@ -209,7 +209,7 @@ export function SearchTab() {
         <select
           value={kind}
           onChange={(e) => handleKindChange(e.target.value as SearchKind)}
-          className="bg-zinc-800 border border-zinc-700 rounded px-2 py-1 text-xs font-mono text-zinc-300 cursor-pointer"
+          className="bg-zinc-800 border border-zinc-700 rounded px-2 py-2 text-xs text-zinc-300 cursor-pointer"
         >
           <option value="product">Product</option>
           <option value="id">CVE ID</option>
@@ -231,8 +231,8 @@ export function SearchTab() {
             onChange={(e) => handleSortChange(e.target.value as SortMode)}
             className="bg-zinc-800 border border-zinc-700 rounded px-2 py-2 text-xs text-zinc-300 cursor-pointer"
           >
-            <option value="score">Score (high → low)</option>
             <option value="date">Date (newest first)</option>
+            <option value="score">Score (high to low)</option>
           </select>
         )}
       </form>
@@ -240,7 +240,7 @@ export function SearchTab() {
       {status === "idle" && (
         <div className="text-zinc-500 text-sm py-12 text-center">
           {kind === "id"
-            ? "Enter a CVE id to look it up."
+            ? "Enter a CVE ID."
             : "Enter a product name to search CVEs."}
         </div>
       )}
