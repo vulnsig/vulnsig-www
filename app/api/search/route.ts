@@ -29,8 +29,7 @@ export async function GET(request: NextRequest) {
     if (res.status === 502 || res.status === 504) {
       return NextResponse.json(
         {
-          error:
-            "Search timed out: try a more narrow search.",
+          error: "Search timed out: try a more narrow search.",
         },
         { status: res.status },
       );

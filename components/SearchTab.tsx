@@ -263,9 +263,7 @@ export function SearchTab() {
           <p className="text-sm text-zinc-400 mb-4">
             {total}
             {truncated ? "+" : ""} {total === 1 ? "result" : "results"} for{" "}
-            <span className="text-zinc-200">
-              &quot;{committedQuery}&quot;
-            </span>
+            <span className="text-zinc-200">&quot;{committedQuery}&quot;</span>
             {truncated && (
               <span className="ml-2 text-xs text-amber-400">
                 Showing a partial set — refine your search to see more matches.
