@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         {
           error:
-            "Search server timed out — try a more specific term or add another word.",
+            "Search timed out: try a more narrow search.",
         },
         { status: res.status },
       );
