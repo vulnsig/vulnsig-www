@@ -50,7 +50,7 @@ const MIN_LEN: Record<SearchKind, number> = { product: 2, id: 1 };
 
 const PLACEHOLDER: Record<SearchKind, string> = {
   product: "Search by product name (e.g. react, openssl, lz4_flex)",
-  id: "Search by CVE id (e.g. CVE-2024-1234 or 2024-1234)",
+  id: "Search by CVE id (e.g. CVE-2024-1234 or 20241234)",
 };
 
 export function SearchTab() {
