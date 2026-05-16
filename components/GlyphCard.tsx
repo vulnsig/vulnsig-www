@@ -7,6 +7,14 @@ import { ScoreBadge } from "./ScoreBadge";
 import { useBuilder } from "./BuilderContext";
 import { ShareButton } from "./ShareButton";
 
+/** vulnsig-react currently only renders CVSS 3.0/3.1/4.0 vectors and throws
+ *  on anything else (notably CVSS 2.0). Guard at the card boundary so a single
+ *  CVSS-2 record doesn't crash the whole list. */
+const SUPPORTED_VECTOR_PREFIXES = ["CVSS:3.0/", "CVSS:3.1/", "CVSS:4.0/"];
+function isSupportedVector(vector: string): boolean {
+  return SUPPORTED_VECTOR_PREFIXES.some((p) => vector.startsWith(p));
+}
+
 /** Highlight the first occurrence of `term` in `text`, case-insensitive,
  *  and link it to the search tab for that product. */
 function highlightFirst(text: string, term: string): ReactNode {
@@ -56,6 +64,7 @@ export function GlyphCard({
   onLoadVector,
 }: GlyphCardProps) {
   const { loadVector: loadVectorCtx, setExpanded } = useBuilder();
+  const supported = isSupportedVector(vector);
 
   return (
     <div className="bg-zinc-900 border border-zinc-800 rounded-lg h-90 px-4 pt-2 pb-4 flex flex-col items-center hover:border-zinc-700 transition-colors">
@@ -63,11 +72,22 @@ export function GlyphCard({
         className="relative"
         aria-label={`${name} vulnerability glyph, score ${score}`}
       >
-        <VulnSig vector={vector} size={100} score={score} />
+        {supported ? (
+          <VulnSig vector={vector} size={100} score={score} />
+        ) : (
+          <div
+            className="flex items-center justify-center text-zinc-600 text-[10px] font-mono border border-dashed border-zinc-700 rounded"
+            style={{ width: 100, height: 100 }}
+            title={`Unsupported CVSS version (${vector.split("/")[0] || "unknown"})`}
+          >
+            no glyph
+          </div>
+        )}
         <button
           onClick={onLoadVector}
           title="Try in builder"
-          className="absolute top-1/2 -translate-y-1/2 right-full mr-2 text-zinc-600 hover:text-zinc-300 transition-colors cursor-pointer"
+          disabled={!supported}
+          className="absolute top-1/2 -translate-y-1/2 right-full mr-2 text-zinc-600 hover:text-zinc-300 transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:text-zinc-600"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -94,7 +114,7 @@ export function GlyphCard({
             <line x1="4" y1="20" x2="11" y2="13" />
           </svg>
         </button>
-        {cveId && (
+        {cveId && supported && (
           <div className="absolute top-1/2 -translate-y-1/2 left-full ml-2">
             <ShareButton
               cveId={cveId}
@@ -137,21 +157,27 @@ export function GlyphCard({
               ? highlightFirst(description, productName)
               : description}
           </p>
-          <button
-            onClick={() => {
-              loadVectorCtx({
-                name: name,
-                cve: cveId ?? null,
-                vector,
-                description,
-              });
-              setExpanded(false);
-            }}
-            title="Set as active vector"
-            className="font-mono text-xs text-zinc-500 hover:text-zinc-300 break-all text-center cursor-pointer transition-colors"
-          >
-            {vector}
-          </button>
+          {supported ? (
+            <button
+              onClick={() => {
+                loadVectorCtx({
+                  name: name,
+                  cve: cveId ?? null,
+                  vector,
+                  description,
+                });
+                setExpanded(false);
+              }}
+              title="Set as active vector"
+              className="font-mono text-xs text-zinc-500 hover:text-zinc-300 break-all text-center cursor-pointer transition-colors"
+            >
+              {vector}
+            </button>
+          ) : (
+            <p className="font-mono text-xs text-zinc-500 break-all text-center">
+              {vector}
+            </p>
+          )}
         </div>
       </div>
     </div>
