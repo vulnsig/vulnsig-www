@@ -6,6 +6,7 @@ import { ScoreBadge } from "./ScoreBadge";
 import { MetricPicker } from "./MetricPicker";
 import { useBuilder } from "./BuilderContext";
 import { calculateScore } from "vulnsig";
+import { normalizeVector } from "@/lib/cvssVersion";
 
 export function BuilderBar() {
   const {
@@ -33,14 +34,17 @@ export function BuilderBar() {
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     const val = e.target.value;
     setInputValue(val);
-    // Only update vector if it looks valid
-    const parts = val.split("/");
+    // Only update vector if it looks valid. Bare CVSS 2.0 vectors are promoted
+    // to the CVSS:2.0/ form so downstream consumers see a single shape.
+    const normalized = normalizeVector(val);
+    const parts = normalized.split("/");
     if (
-      (val.startsWith("CVSS:4.0/") && parts.length >= 12) ||
-      (val.startsWith("CVSS:3.1/") && parts.length >= 9) ||
-      (val.startsWith("CVSS:3.0/") && parts.length >= 9)
+      (normalized.startsWith("CVSS:4.0/") && parts.length >= 12) ||
+      (normalized.startsWith("CVSS:3.1/") && parts.length >= 9) ||
+      (normalized.startsWith("CVSS:3.0/") && parts.length >= 9) ||
+      (normalized.startsWith("CVSS:2.0/") && parts.length >= 7)
     ) {
-      setVector(val);
+      setVector(normalized);
     }
   }
 

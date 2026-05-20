@@ -11,6 +11,7 @@ import {
 } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { encodeVector, decodeVector } from "@/lib/vectorUrl";
+import { normalizeVector } from "@/lib/cvssVersion";
 import { VULNERABILITIES, type Vulnerability } from "@/data/vulnerabilities";
 import { useData, type CveDataset } from "./DataContext";
 
@@ -28,7 +29,7 @@ function findVulnByCve(
     return {
       name: cveId,
       cve: cveId,
-      vector: fromRecent.cvss.vectorString,
+      vector: normalizeVector(fromRecent.cvss.vectorString),
       description: fromRecent.description,
     };
 
@@ -37,11 +38,16 @@ function findVulnByCve(
     return {
       name: cveId,
       cve: cveId,
-      vector: fromKev.cvss.vectorString,
+      vector: normalizeVector(fromKev.cvss.vectorString),
       description: fromKev.description,
     };
 
-  return { name: cveId, cve: cveId, vector: fallbackVector, description: "" };
+  return {
+    name: cveId,
+    cve: cveId,
+    vector: normalizeVector(fallbackVector),
+    description: "",
+  };
 }
 
 interface BuilderContextValue {
@@ -126,7 +132,14 @@ export function BuilderProvider({
       setActiveTabState(tab);
       const params = new URLSearchParams(window.location.search);
       params.set("tab", tab);
-      router.push(`${window.location.pathname}?${params}`, { scroll: false });
+      if (tab !== "search") {
+        params.delete("q");
+        params.delete("sort");
+        params.delete("kind");
+      }
+      // Tabs only exist on the home page; changing tabs from /cve/[id] etc.
+      // should navigate back to "/" rather than appending ?tab= to a deep route.
+      router.push(`/?${params}`, { scroll: false });
     },
     [router],
   );
@@ -147,7 +160,7 @@ export function BuilderProvider({
     const urlVector = searchParams.get("vector");
     const urlCve = searchParams.get("cve");
     if (!urlVector) return;
-    const decoded = decodeVector(urlVector);
+    const decoded = normalizeVector(decodeVector(urlVector));
     if (decoded === vector) return;
     const vuln = urlCve
       ? findVulnByCve(urlCve, decoded, cveData, kevData)
@@ -178,12 +191,20 @@ export function BuilderProvider({
 
   const loadVector = useCallback(
     (vuln: Vulnerability) => {
-      setSelectedVuln(vuln);
-      setVectorRaw(vuln.vector);
+      const normalized = normalizeVector(vuln.vector);
+      const normVuln =
+        normalized === vuln.vector ? vuln : { ...vuln, vector: normalized };
+      setSelectedVuln(normVuln);
+      setVectorRaw(normalized);
       setExpanded(true);
-      // Always navigate to root so landing-page params (v, s, d) are cleared
-      const params = new URLSearchParams();
-      params.set("vector", encodeVector(vuln.vector));
+      // Preserve existing query params (tab, q, sort, kind, …) so loading a
+      // vector from e.g. the search tab doesn't reset back to the CVEs tab.
+      // Drop only the landing-page params (v, s, d) which we intentionally clear.
+      const params = new URLSearchParams(window.location.search);
+      params.delete("v");
+      params.delete("s");
+      params.delete("d");
+      params.set("vector", encodeVector(normalized));
       if (vuln.cve) params.set("cve", vuln.cve);
       router.push(`/?${params}`, { scroll: false });
       // Scroll to the hero glyph

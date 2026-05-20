@@ -2,10 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { renderGlyph } from "vulnsig";
 import sharp from "sharp";
 import { decodeVector } from "@/lib/vectorUrl";
+import { normalizeVector } from "@/lib/cvssVersion";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
-  const vector = decodeVector(searchParams.get("vector") ?? "") || null;
+  const raw = decodeVector(searchParams.get("vector") ?? "");
+  const vector = raw ? normalizeVector(raw) : null;
   const sizeParam = searchParams.get("size");
   const scoreParam = searchParams.get("score");
   const densityParam = searchParams.get("density");

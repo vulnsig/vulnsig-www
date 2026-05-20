@@ -1,6 +1,7 @@
 "use client";
 
 import { MetricTag, metricColor } from "./MetricTag";
+import { detectCvssVersion } from "@/lib/cvssVersion";
 
 interface MetricDef {
   key: string;
@@ -177,6 +178,67 @@ const METRIC_GROUPS_31: {
   },
 ];
 
+const METRIC_GROUPS_20: {
+  title: string;
+  metrics: MetricDef[];
+  className?: string;
+}[] = [
+  {
+    title: "Exploitability",
+    className: "row-span-2 sm:row-span-1",
+    metrics: [
+      {
+        key: "AV",
+        name: "Attack Vector",
+        values: ["N", "A", "L"],
+        labels: ["Network", "Adjacent", "Local"],
+      },
+      {
+        key: "AC",
+        name: "Attack Complexity",
+        values: ["L", "M", "H"],
+        labels: ["Low", "Medium", "High"],
+      },
+      {
+        key: "Au",
+        name: "Authentication",
+        values: ["N", "S", "M"],
+        labels: ["None", "Single", "Multiple"],
+      },
+      {
+        key: "E",
+        name: "Exploit Maturity",
+        values: ["H", "F", "POC", "U", "ND"],
+        labels: ["High", "Functional", "PoC", "Unproven", "Not Defined"],
+        defaultValue: "ND",
+      },
+    ],
+  },
+  {
+    title: "Impact",
+    metrics: [
+      {
+        key: "C",
+        name: "Confidentiality",
+        values: ["N", "P", "C"],
+        labels: ["None", "Partial", "Complete"],
+      },
+      {
+        key: "I",
+        name: "Integrity",
+        values: ["N", "P", "C"],
+        labels: ["None", "Partial", "Complete"],
+      },
+      {
+        key: "A",
+        name: "Availability",
+        values: ["N", "P", "C"],
+        labels: ["None", "Partial", "Complete"],
+      },
+    ],
+  },
+];
+
 function parseVectorMetrics(vector: string): Record<string, string> {
   const metrics: Record<string, string> = {};
   const parts = vector.split("/");
@@ -196,8 +258,13 @@ export function MetricPicker({
   vector: string;
   onChange: (vector: string) => void;
 }) {
-  const is31 = vector.startsWith("CVSS:3.1/") || vector.startsWith("CVSS:3.0/");
-  const groups = is31 ? METRIC_GROUPS_31 : METRIC_GROUPS_40;
+  const version = detectCvssVersion(vector);
+  const groups =
+    version === "2.0"
+      ? METRIC_GROUPS_20
+      : version === "3.0" || version === "3.1"
+        ? METRIC_GROUPS_31
+        : METRIC_GROUPS_40;
   const metrics = parseVectorMetrics(vector);
 
   function handleChange(key: string, value: string) {

@@ -176,6 +176,30 @@ pre code {
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
 }
 
+.btn-primary {
+  padding: 0.375rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+  background-color: var(--color-zinc-700);
+  color: var(--color-zinc-200);
+  border: 1px solid var(--color-zinc-600);
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+.btn-primary:hover {
+  background-color: var(--color-zinc-600);
+  border-color: var(--color-zinc-500);
+}
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* Hide scrollbar for snap-scroll containers */
 .scrollbar-hide {
   -ms-overflow-style: none;

@@ -1,22 +1,45 @@
 "use client";
 
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { VulnSig } from "vulnsig-react";
 import { ScoreBadge } from "./ScoreBadge";
 import { useBuilder } from "./BuilderContext";
 import { ShareButton } from "./ShareButton";
+import { normalizeVector } from "@/lib/cvssVersion";
 
-/** Highlight the first occurrence of `term` in `text`, case-insensitive. */
+/** Guard at the card boundary so a single record with an unrecognized CVSS
+ *  version (e.g. a future 5.x) doesn't crash the whole list. CVSS 2.0 vectors
+ *  arriving bare are promoted to the CVSS:2.0/ prefix before this check. */
+const SUPPORTED_VECTOR_PREFIXES = [
+  "CVSS:2.0/",
+  "CVSS:3.0/",
+  "CVSS:3.1/",
+  "CVSS:4.0/",
+];
+function isSupportedVector(vector: string): boolean {
+  return SUPPORTED_VECTOR_PREFIXES.some((p) => vector.startsWith(p));
+}
+
+/** Highlight the first occurrence of `term` in `text`, case-insensitive,
+ *  and link it to the search tab for that product. */
 function highlightFirst(text: string, term: string): ReactNode {
   const idx = text.toLowerCase().indexOf(term.toLowerCase());
   if (idx === -1) return text;
   const before = text.slice(0, idx);
   const match = text.slice(idx, idx + term.length);
   const after = text.slice(idx + term.length);
+  const href = `/?tab=search&q=${encodeURIComponent(term)}&sort=date`;
   return (
     <>
       {before}
-      <span className="text-zinc-200 font-medium">{match}</span>
+      <Link
+        href={href}
+        title={`Search CVEs for "${term}"`}
+        className="text-zinc-200 font-medium hover:text-white transition-colors"
+      >
+        {match}
+      </Link>
       {after}
     </>
   );
@@ -42,11 +65,13 @@ export function GlyphCard({
   subtitle,
   description,
   productName,
-  vector,
+  vector: rawVector,
   score,
   onLoadVector,
 }: GlyphCardProps) {
   const { loadVector: loadVectorCtx, setExpanded } = useBuilder();
+  const vector = normalizeVector(rawVector);
+  const supported = isSupportedVector(vector);
 
   return (
     <div className="bg-zinc-900 border border-zinc-800 rounded-lg h-90 px-4 pt-2 pb-4 flex flex-col items-center hover:border-zinc-700 transition-colors">
@@ -54,11 +79,22 @@ export function GlyphCard({
         className="relative"
         aria-label={`${name} vulnerability glyph, score ${score}`}
       >
-        <VulnSig vector={vector} size={100} score={score} />
+        {supported ? (
+          <VulnSig vector={vector} size={100} score={score} />
+        ) : (
+          <div
+            className="flex items-center justify-center text-zinc-600 text-[10px] font-mono border border-dashed border-zinc-700 rounded"
+            style={{ width: 100, height: 100 }}
+            title={`Unsupported CVSS version (${vector.split("/")[0] || "unknown"})`}
+          >
+            no glyph
+          </div>
+        )}
         <button
           onClick={onLoadVector}
           title="Try in builder"
-          className="absolute top-1/2 -translate-y-1/2 right-full mr-2 text-zinc-600 hover:text-zinc-300 transition-colors cursor-pointer"
+          disabled={!supported}
+          className="absolute top-1/2 -translate-y-1/2 right-full mr-2 text-zinc-600 hover:text-zinc-300 transition-colors cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:text-zinc-600"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -85,7 +121,7 @@ export function GlyphCard({
             <line x1="4" y1="20" x2="11" y2="13" />
           </svg>
         </button>
-        {cveId && (
+        {cveId && supported && (
           <div className="absolute top-1/2 -translate-y-1/2 left-full ml-2">
             <ShareButton
               cveId={cveId}
@@ -128,21 +164,27 @@ export function GlyphCard({
               ? highlightFirst(description, productName)
               : description}
           </p>
-          <button
-            onClick={() => {
-              loadVectorCtx({
-                name: name,
-                cve: cveId ?? null,
-                vector,
-                description,
-              });
-              setExpanded(false);
-            }}
-            title="Set as active vector"
-            className="font-mono text-xs text-zinc-500 hover:text-zinc-300 break-all text-center cursor-pointer transition-colors"
-          >
-            {vector}
-          </button>
+          {supported ? (
+            <button
+              onClick={() => {
+                loadVectorCtx({
+                  name: name,
+                  cve: cveId ?? null,
+                  vector,
+                  description,
+                });
+                setExpanded(false);
+              }}
+              title="Set as active vector"
+              className="font-mono text-xs text-zinc-500 hover:text-zinc-300 break-all text-center cursor-pointer transition-colors"
+            >
+              {vector}
+            </button>
+          ) : (
+            <p className="font-mono text-xs text-zinc-500 break-all text-center">
+              {vector}
+            </p>
+          )}
         </div>
       </div>
     </div>

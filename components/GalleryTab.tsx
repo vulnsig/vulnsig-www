@@ -44,10 +44,10 @@ export function GalleryTab() {
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value as SortMode)}
-            className="bg-zinc-800 border border-zinc-700 rounded px-2 py-1 text-xs font-mono text-zinc-300 cursor-pointer"
+            className="bg-zinc-800 border border-zinc-700 rounded px-2 py-2 text-xs text-zinc-300 cursor-pointer"
           >
-            <option value="score-desc">Score (high → low)</option>
-            <option value="score-asc">Score (low → high)</option>
+            <option value="score-desc">Score (high to low)</option>
+            <option value="score-asc">Score (low to high)</option>
             <option value="name">Name</option>
           </select>
         </div>

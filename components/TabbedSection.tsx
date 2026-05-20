@@ -7,6 +7,7 @@ import { PackagesTab } from "./PackagesTab";
 import { AboutTab } from "./AboutTab";
 import { RecentCVETab } from "./RecentCVETab";
 import { RecentKEVTab } from "./RecentKEVTab";
+import { SearchTab } from "./SearchTab";
 import { QuizTab } from "./QuizTab";
 import { SubscribeTab } from "./SubscribeTab";
 import { useBuilder } from "./BuilderContext";
@@ -14,6 +15,7 @@ import { useBuilder } from "./BuilderContext";
 const TABS = [
   { id: "cves", label: "CVEs" },
   { id: "kevs", label: "KEVs" },
+  { id: "search", label: "Search" },
   { id: "gallery", label: "Gallery" },
   { id: "legend", label: "Legend" },
   { id: "quiz", label: "Quiz" },
@@ -21,6 +23,13 @@ const TABS = [
   { id: "about", label: "About" },
   { id: "subscribe", label: "Subscribe" },
 ] as const;
+
+// Per-breakpoint row sizing — must match basis-1/3 / sm:basis-1/5 below.
+const COLS_NARROW = 3;
+const COLS_WIDE = 5;
+const padCount = (n: number, cols: number) => (cols - (n % cols)) % cols;
+const NARROW_PADS = padCount(TABS.length, COLS_NARROW);
+const WIDE_PADS = padCount(TABS.length, COLS_WIDE);
 
 export function TabbedSection() {
   const { activeTab, setActiveTab } = useBuilder();
@@ -65,7 +74,7 @@ export function TabbedSection() {
               aria-controls={`panel-${tab.id}`}
               tabIndex={activeTab === tab.id ? 0 : -1}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 basis-1/4 sm:basis-0 px-1 text-sm font-[family-name:var(--font-mono)] font-semibold uppercase transition-colors cursor-pointer ${
+              className={`flex-1 basis-1/3 sm:basis-1/5 px-1 text-sm font-[family-name:var(--font-mono)] font-semibold uppercase transition-colors cursor-pointer ${
                 activeTab === tab.id
                   ? "text-zinc-100"
                   : "text-zinc-500 hover:text-zinc-300"
@@ -74,6 +83,26 @@ export function TabbedSection() {
               {tab.label}
             </button>
           ))}
+          {/* Empty placeholders so the last row matches a full row's column count. */}
+          {Array.from({ length: Math.max(NARROW_PADS, WIDE_PADS) }).map(
+            (_, i) => {
+              const showOnNarrow = i < NARROW_PADS;
+              const showOnWide = i < WIDE_PADS;
+              const visibility =
+                showOnNarrow && showOnWide
+                  ? ""
+                  : showOnNarrow
+                    ? "sm:hidden"
+                    : "hidden sm:block";
+              return (
+                <div
+                  key={`pad-${i}`}
+                  aria-hidden
+                  className={`flex-1 basis-1/3 sm:basis-1/5 px-1 ${visibility}`}
+                />
+              );
+            },
+          )}
         </div>
       </div>
 
@@ -89,6 +118,7 @@ export function TabbedSection() {
           >
             {tab.id === "cves" && <RecentCVETab />}
             {tab.id === "kevs" && <RecentKEVTab />}
+            {tab.id === "search" && <SearchTab />}
             {tab.id === "gallery" && <GalleryTab />}
             {tab.id === "legend" && <LegendTab />}
             {tab.id === "quiz" && <QuizTab />}

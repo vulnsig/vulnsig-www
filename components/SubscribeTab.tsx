@@ -123,7 +123,7 @@ export function SubscribeTab() {
           <button
             type="submit"
             disabled={status === "submitting" || !email.trim()}
-            className="px-4 py-1.5 text-sm font-semibold bg-zinc-700 hover:bg-zinc-600 disabled:opacity-50 disabled:cursor-not-allowed rounded text-zinc-200 transition-colors cursor-pointer"
+            className="btn-primary"
           >
             {status === "submitting" ? "Subscribing\u2026" : "Subscribe"}
           </button>
