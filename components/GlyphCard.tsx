@@ -6,11 +6,17 @@ import { VulnSig } from "vulnsig-react";
 import { ScoreBadge } from "./ScoreBadge";
 import { useBuilder } from "./BuilderContext";
 import { ShareButton } from "./ShareButton";
+import { normalizeVector } from "@/lib/cvssVersion";
 
-/** vulnsig-react currently only renders CVSS 3.0/3.1/4.0 vectors and throws
- *  on anything else (notably CVSS 2.0). Guard at the card boundary so a single
- *  CVSS-2 record doesn't crash the whole list. */
-const SUPPORTED_VECTOR_PREFIXES = ["CVSS:3.0/", "CVSS:3.1/", "CVSS:4.0/"];
+/** Guard at the card boundary so a single record with an unrecognized CVSS
+ *  version (e.g. a future 5.x) doesn't crash the whole list. CVSS 2.0 vectors
+ *  arriving bare are promoted to the CVSS:2.0/ prefix before this check. */
+const SUPPORTED_VECTOR_PREFIXES = [
+  "CVSS:2.0/",
+  "CVSS:3.0/",
+  "CVSS:3.1/",
+  "CVSS:4.0/",
+];
 function isSupportedVector(vector: string): boolean {
   return SUPPORTED_VECTOR_PREFIXES.some((p) => vector.startsWith(p));
 }
@@ -59,11 +65,12 @@ export function GlyphCard({
   subtitle,
   description,
   productName,
-  vector,
+  vector: rawVector,
   score,
   onLoadVector,
 }: GlyphCardProps) {
   const { loadVector: loadVectorCtx, setExpanded } = useBuilder();
+  const vector = normalizeVector(rawVector);
   const supported = isSupportedVector(vector);
 
   return (

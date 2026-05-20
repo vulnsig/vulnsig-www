@@ -9,6 +9,7 @@ import { BuilderBar } from "@/components/BuilderBar";
 import { TabbedSection } from "@/components/TabbedSection";
 import { HeroSectionCve } from "@/components/HeroSectionCve";
 import { Footer } from "@/components/Footer";
+import { normalizeVector } from "@/lib/cvssVersion";
 
 const API_BASE = process.env.NEXT_PUBLIC_VULNSIG_API_URL ?? "";
 
@@ -50,8 +51,9 @@ export async function generateMetadata({
 
   const title = `${cveId}: CVSS ${cve.baseScore}`;
   const description = cve.description;
+  const vectorString = normalizeVector(cve.vectorString);
   const imageUrl = `https://vulnsig.io/api/png?${new URLSearchParams({
-    vector: cve.vectorString,
+    vector: vectorString,
     score: String(cve.baseScore),
     size: "512",
   })}`;
@@ -89,19 +91,18 @@ export default async function CveLandingPage({ params }: PageProps) {
 
   if (!cve) notFound();
 
+  const vectorString = normalizeVector(cve.vectorString);
+
   return (
     <Suspense>
       <DataProvider>
-        <BuilderProvider
-          initialVector={cve.vectorString}
-          initialExpanded={true}
-        >
+        <BuilderProvider initialVector={vectorString} initialExpanded={true}>
           <div className="min-h-screen relative z-2">
             <Masthead />
             <ClientOnly>
               <HeroSectionCve
                 cveId={cveId}
-                vector={cve.vectorString}
+                vector={vectorString}
                 score={cve.baseScore}
                 description={cve.description}
               />

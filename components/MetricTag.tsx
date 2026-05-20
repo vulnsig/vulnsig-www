@@ -5,6 +5,7 @@ const METRIC_COLORS: Record<string, string> = {
   AC: "#ec4899",
   AT: "#ef4444",
   PR: "#f97316",
+  Au: "#f97316",
   UI: "#f97316",
   VC: "#6366f1",
   VI: "#6366f1",
