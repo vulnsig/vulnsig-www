@@ -1,8 +1,17 @@
+"use client";
+
 export function Footer() {
   return (
     <footer className="border-t border-zinc-800 py-8 px-4">
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-600">
-        <p className="font-mono">vulnsig.io</p>
+        <button
+          type="button"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="font-mono hover:text-zinc-400 transition-colors cursor-pointer"
+          aria-label="Scroll to top"
+        >
+          vulnsig.io
+        </button>
         <div className="flex gap-4 font-mono">
           <a
             href="https://github.com/vulnsig"

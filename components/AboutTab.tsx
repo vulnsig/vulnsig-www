@@ -39,8 +39,8 @@ export function AboutTab() {
             legible.
           </p>
           <p>
-            VulnSig supports CVSS 4.0, 3.1, 3.0, and 2.0. It is freely available in
-            TypeScript, Python, and Rust libraries, as well as in a React
+            VulnSig supports CVSS 4.0, 3.1, 3.0, and 2.0. It is freely available
+            in TypeScript, Python, and Rust libraries, as well as in a React
             component (used to build this site), and a REST API that delivers
             SVGs and PNGs.
           </p>
