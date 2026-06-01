@@ -1,0 +1,92 @@
+"use client";
+
+import { useState } from "react";
+import { ScoreDistribution } from "./ScoreDistribution";
+import { VectorDistribution } from "./VectorDistribution";
+import { mergeVectorDistribution } from "@/lib/metricMerge";
+
+export interface SearchMetrics {
+  scoreDistribution: Record<string, number>;
+  vectorDistribution: Record<string, Record<string, number>>;
+}
+
+interface Props {
+  metrics: SearchMetrics;
+  total: number;
+  truncated: boolean;
+}
+
+export function DistributionPanel({ metrics, total, truncated }: Props) {
+  const [open, setOpen] = useState(true);
+  const merged = mergeVectorDistribution(metrics.vectorDistribution);
+
+  const scoreTotal = Object.values(metrics.scoreDistribution).reduce(
+    (a, b) => a + b,
+    0,
+  );
+
+  if (scoreTotal === 0 && merged.length === 0) return null;
+
+  return (
+    <div className="border border-zinc-800 rounded-md mb-4 bg-zinc-900/40">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="w-full flex items-center justify-between px-4 py-2 text-left cursor-pointer hover:bg-zinc-800/40 transition-colors"
+        aria-expanded={open}
+      >
+        <span className="text-xs text-zinc-400">
+          Distribution Overview
+          <span className="text-zinc-600 ml-2 normal-case tracking-normal">
+            across {total}
+            {truncated ? "+" : ""} {total === 1 ? "result" : "results"}
+          </span>
+        </span>
+        <span
+          className="text-zinc-500 text-xs"
+          aria-hidden
+          style={{
+            transform: open ? "rotate(90deg)" : "rotate(0deg)",
+            transition: "transform 120ms",
+          }}
+        >
+          ▸
+        </span>
+      </button>
+      {open && (
+        <div className="px-4 pb-4 pt-1 space-y-5">
+          {scoreTotal > 0 && (
+            <section>
+              <h4 className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 mb-2">
+                Base score
+              </h4>
+              <ScoreDistribution distribution={metrics.scoreDistribution} />
+            </section>
+          )}
+          {merged.length > 0 && (
+            <section>
+              <h4 className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 mb-1">
+                Vector metrics
+              </h4>
+              {(() => {
+                const versions = new Set<string>();
+                for (const m of merged) {
+                  if (m.versionsCovered.length > 1) {
+                    for (const v of m.versionsCovered) versions.add(v);
+                  }
+                }
+                if (versions.size === 0) return null;
+                return (
+                  <p className="text-[10px] text-zinc-600 mb-3">
+                    Merged across CVSS {Array.from(versions).sort().join(", ")}.
+                  </p>
+                );
+              })()}
+              <VectorDistribution metrics={merged} />
+            </section>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}

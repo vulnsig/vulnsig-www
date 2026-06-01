@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { VirtuosoGrid } from "react-virtuoso";
 import { useBuilder } from "./BuilderContext";
 import { GlyphCard } from "./GlyphCard";
+import { DistributionPanel, SearchMetrics } from "./DistributionPanel";
 
 type SortMode = "score" | "date";
 type SearchKind = "product" | "id";
@@ -25,6 +26,7 @@ interface SearchResponse {
   limit: number;
   nextCursor: string | null;
   truncated?: boolean;
+  metrics?: SearchMetrics;
 }
 
 function formatDateTime(iso: string): string {
@@ -70,6 +72,7 @@ export function SearchTab() {
   const [total, setTotal] = useState(0);
   const [nextCursor, setNextCursor] = useState<string | null>(null);
   const [truncated, setTruncated] = useState(false);
+  const [metrics, setMetrics] = useState<SearchMetrics | null>(null);
   const [status, setStatus] = useState<
     "idle" | "loading" | "loadingMore" | "success" | "error"
   >("idle");
@@ -104,6 +107,7 @@ export function SearchTab() {
         setTotal(data.total);
         setNextCursor(data.nextCursor);
         setTruncated(Boolean(data.truncated));
+        if (!cursor) setMetrics(data.metrics ?? null);
         setStatus("success");
       } catch (e) {
         if ((e as Error).name === "AbortError") return;
@@ -132,6 +136,7 @@ export function SearchTab() {
       setItems([]);
       setTotal(0);
       setNextCursor(null);
+      setMetrics(null);
       setStatus("idle");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -188,6 +193,7 @@ export function SearchTab() {
       setItems([]);
       setTotal(0);
       setNextCursor(null);
+      setMetrics(null);
       setStatus("idle");
     }
   }
@@ -260,6 +266,13 @@ export function SearchTab() {
 
       {(status === "success" || status === "loadingMore") && (
         <>
+          {kind === "product" && metrics && total > 0 && (
+            <DistributionPanel
+              metrics={metrics}
+              total={total}
+              truncated={truncated}
+            />
+          )}
           <p className="text-sm text-zinc-400 mb-4">
             {total}
             {truncated ? "+" : ""} {total === 1 ? "result" : "results"} for{" "}
