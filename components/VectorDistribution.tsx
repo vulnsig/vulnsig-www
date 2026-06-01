@@ -13,6 +13,7 @@ import { MergedMetric, valueOpacity } from "@/lib/metricMerge";
 
 interface Props {
   metrics: MergedMetric[];
+  total: number;
 }
 
 interface TooltipPayloadEntry {
@@ -50,6 +51,7 @@ function StackedTooltip({
   if (!active || !payload || payload.length === 0) return null;
   const labelFor = (v: string) =>
     metric.values.find((x) => x.value === v)?.label ?? v;
+  const color = metricColor(metric.key);
   return (
     <div
       style={{
@@ -63,30 +65,37 @@ function StackedTooltip({
         minWidth: 140,
       }}
     >
-      <div style={{ color: metricColor(metric.key), fontWeight: 600, marginBottom: 4 }}>
-        {metric.key} · {metric.title}
+      <div style={{ marginBottom: 4 }}>
+        <span style={{ color, fontWeight: 600 }}>{metric.key}</span>
+        <span> {metric.title}</span>
       </div>
       {payload.map((p) => (
         <div
           key={p.dataKey}
           style={{ display: "flex", justifyContent: "space-between", gap: 12 }}
         >
-          <span style={{ color: p.color }}>
-            {p.dataKey} {labelFor(p.dataKey)}
+          <span>
+            <span style={{ color, fontWeight: 600 }}>{p.dataKey}</span>
+            <span> {labelFor(p.dataKey)}</span>
           </span>
-          <span style={{ color: "#a1a1aa" }}>{p.value}</span>
+          <span>{p.value}</span>
         </div>
       ))}
     </div>
   );
 }
 
-function MetricRow({ metric }: { metric: MergedMetric }) {
+function MetricRow({ metric, total }: { metric: MergedMetric; total: number }) {
   const datum: Record<string, number | string> = { name: metric.key };
   for (const v of metric.values) datum[v.value] = v.count;
+  // Domain is the full result-set size so version-specific metrics like
+  // SC/SI/SA (4.0 only) render their bar relative to all CVEs in the search,
+  // not just the 4.0 subset. Results missing the metric leave the rest of the
+  // bar visually empty.
+  const domainMax = Math.max(total, metric.totalCount);
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 relative hover:z-50">
       <div className="flex items-center gap-2">
         <MetricTag label={metric.key} color={metricColor(metric.key)} />
         <span className="text-xs text-zinc-400 truncate">{metric.title}</span>
@@ -99,12 +108,13 @@ function MetricRow({ metric }: { metric: MergedMetric }) {
             margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
             barCategoryGap={0}
           >
-            <XAxis type="number" hide domain={[0, metric.totalCount]} />
+            <XAxis type="number" hide domain={[0, domainMax]} />
             <YAxis type="category" dataKey="name" hide />
             <Tooltip
               content={<StackedTooltip metric={metric} />}
               cursor={{ fill: "rgba(255,255,255,0.04)" }}
-              wrapperStyle={{ outline: "none" }}
+              wrapperStyle={{ outline: "none", zIndex: 50 }}
+              allowEscapeViewBox={{ x: true, y: true }}
             />
             {metric.values.map((v) => {
               const empty = isEmptyValue(metric.key, v.value, v.label);
@@ -145,12 +155,12 @@ function MetricRow({ metric }: { metric: MergedMetric }) {
   );
 }
 
-export function VectorDistribution({ metrics }: Props) {
+export function VectorDistribution({ metrics, total }: Props) {
   if (metrics.length === 0) return null;
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2">
       {metrics.map((m) => (
-        <MetricRow key={m.key} metric={m} />
+        <MetricRow key={m.key} metric={m} total={total} />
       ))}
     </div>
   );

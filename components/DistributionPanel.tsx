@@ -42,16 +42,20 @@ export function DistributionPanel({ metrics, total, truncated }: Props) {
             {truncated ? "+" : ""} {total === 1 ? "result" : "results"}
           </span>
         </span>
-        <span
-          className="text-zinc-500 text-xs"
+        <svg
+          className={`w-3 h-3 text-zinc-500 transition-transform ${open ? "rotate-180" : ""}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
           aria-hidden
-          style={{
-            transform: open ? "rotate(90deg)" : "rotate(0deg)",
-            transition: "transform 120ms",
-          }}
         >
-          ▸
-        </span>
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 9l-7 7-7-7"
+          />
+        </svg>
       </button>
       {open && (
         <div className="px-4 pb-4">
@@ -65,24 +69,11 @@ export function DistributionPanel({ metrics, total, truncated }: Props) {
           )}
           {merged.length > 0 && (
             <section>
-              <h4 className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 mb-0">
+              <h4 className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 mb-2">
                 Vector Metrics
               </h4>
-              {(() => {
-                const versions = new Set<string>();
-                for (const m of merged) {
-                  if (m.versionsCovered.length > 1) {
-                    for (const v of m.versionsCovered) versions.add(v);
-                  }
-                }
-                if (versions.size === 0) return null;
-                return (
-                  <p className="text-[10px] text-zinc-600 mb-3">
-                    Merged CVSS {Array.from(versions).sort().join(", ")}.
-                  </p>
-                );
-              })()}
-              <VectorDistribution metrics={merged} />
+
+              <VectorDistribution metrics={merged} total={total} />
             </section>
           )}
         </div>

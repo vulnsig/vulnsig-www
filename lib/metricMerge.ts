@@ -290,7 +290,27 @@ export function mergeVectorDistribution(vd: VectorDistribution): MergedMetric[] 
     if (m) out.push(m);
   }
 
-  return out;
+  // Drop metrics whose entire result set sits in their "empty" value(s) —
+  // an impact metric where every result is N (no impact) or E where every
+  // result is X/ND (not defined) carries no signal. The matching segments
+  // already render transparent, so the row would be a blank slot anyway.
+  return out.filter((m) => !isAllEmpty(m));
+}
+
+const ALL_EMPTY_IMPACT_KEYS = new Set([
+  "C", "I", "A",
+  "VC", "VI", "VA",
+  "SC", "SI", "SA",
+]);
+
+function isAllEmpty(metric: MergedMetric): boolean {
+  if (ALL_EMPTY_IMPACT_KEYS.has(metric.key)) {
+    return metric.values.every((v) => v.value === "N");
+  }
+  if (metric.key === "E") {
+    return metric.values.every((v) => v.value === "X" || v.value === "ND");
+  }
+  return false;
 }
 
 // CVSS 2.0 impact uses N/P/C while 3.x uses H/L/N. The presence of "P" or "C"
@@ -328,8 +348,8 @@ const SCARINESS_ORDER: Record<string, string[]> = {
 // — all of AV's bars are the same violet hue but differ in intensity, all of
 // PR's bars are orange but differ in intensity, etc. — so a bar's color
 // visually associates with its tag.
-const OPACITY_MAX = 0.9;
-const OPACITY_MIN = 0.25;
+const OPACITY_MAX = 1.0;
+const OPACITY_MIN = 0.4;
 
 export function valueOpacity(metricKey: string, value: string): number {
   const order = SCARINESS_ORDER[metricKey];

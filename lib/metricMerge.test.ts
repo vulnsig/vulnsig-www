@@ -98,6 +98,46 @@ describe("mergeVectorDistribution", () => {
     const out = mergeVectorDistribution({ AV: { N: 5, A: 0, L: 0 } });
     expect(out[0].values.map((v) => v.value)).toEqual(["N"]);
   });
+
+  it("drops C/I/A/SC/SI/SA when every result is in the N (no impact) bucket", () => {
+    const out = mergeVectorDistribution({
+      AV: { N: 10 },
+      C: { N: 10 },
+      I: { N: 10 },
+      A: { N: 10 },
+      SC: { N: 10 },
+      SI: { N: 10 },
+      SA: { N: 10 },
+    });
+    expect(out.map((m) => m.key)).toEqual(["AV"]);
+  });
+
+  it("keeps C if at least one non-N value appears", () => {
+    const out = mergeVectorDistribution({ C: { N: 10, L: 1 } });
+    expect(out.find((m) => m.key === "C")).toBeDefined();
+  });
+
+  it("drops impact metric even when merged from VC", () => {
+    const out = mergeVectorDistribution({
+      C: { N: 5 },
+      VC: { N: 5 },
+    });
+    expect(out.find((m) => m.key === "C")).toBeUndefined();
+  });
+
+  it("drops E when every result is Not Defined (X or ND)", () => {
+    const onlyX = mergeVectorDistribution({ E: { X: 50 } });
+    expect(onlyX.find((m) => m.key === "E")).toBeUndefined();
+    const onlyND = mergeVectorDistribution({ E: { ND: 50 } });
+    expect(onlyND.find((m) => m.key === "E")).toBeUndefined();
+    const mixed = mergeVectorDistribution({ E: { X: 10, ND: 10 } });
+    expect(mixed.find((m) => m.key === "E")).toBeUndefined();
+  });
+
+  it("keeps E when any non-Not-Defined value appears", () => {
+    const out = mergeVectorDistribution({ E: { X: 10, A: 1 } });
+    expect(out.find((m) => m.key === "E")).toBeDefined();
+  });
 });
 
 describe("valueOpacity", () => {

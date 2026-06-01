@@ -17,7 +17,7 @@ interface Props {
 }
 
 interface Bin {
-  bin: number;
+  label: string;
   count: number;
   color: string;
 }
@@ -26,6 +26,21 @@ function binColor(score: number): string {
   const { hue, sat, light } = scoreToHue(score);
   return `hsl(${hue.toFixed(1)}, ${sat.toFixed(1)}%, ${(52 * light).toFixed(1)}%)`;
 }
+
+// The 0–1 and 9–10 ends of the CVSS scale get collapsed into single bins.
+// 0.x scores are essentially "no severity" and 9–10 are both Critical — both
+// rare tails read better as combined buckets than as two skinny columns.
+const BIN_DEFS: { label: string; floors: number[]; colorScore: number }[] = [
+  { label: "0–1", floors: [0, 1], colorScore: 1 },
+  { label: "2", floors: [2], colorScore: 2.5 },
+  { label: "3", floors: [3], colorScore: 3.5 },
+  { label: "4", floors: [4], colorScore: 4.5 },
+  { label: "5", floors: [5], colorScore: 5.5 },
+  { label: "6", floors: [6], colorScore: 6.5 },
+  { label: "7", floors: [7], colorScore: 7.5 },
+  { label: "8", floors: [8], colorScore: 8.5 },
+  { label: "9–10", floors: [9, 10], colorScore: 10 },
+];
 
 function ScoreTooltip({ active, payload }: { active?: boolean; payload?: unknown[] }) {
   if (!active || !payload || payload.length === 0) return null;
@@ -42,10 +57,12 @@ function ScoreTooltip({ active, payload }: { active?: boolean; payload?: unknown
         fontFamily: "var(--font-mono, ui-monospace)",
       }}
     >
-      <div style={{ color: datum.color, fontWeight: 600 }}>
-        score {datum.bin}–{datum.bin + 1}
+      <div>
+        <span style={{ color: datum.color, fontWeight: 600 }}>
+          score {datum.label}
+        </span>
       </div>
-      <div style={{ color: "#a1a1aa" }}>
+      <div>
         {datum.count} {datum.count === 1 ? "result" : "results"}
       </div>
     </div>
@@ -53,12 +70,11 @@ function ScoreTooltip({ active, payload }: { active?: boolean; payload?: unknown
 }
 
 export function ScoreDistribution({ distribution }: Props) {
-  const data: Bin[] = [];
-  for (let i = 0; i <= 10; i++) {
-    const key = String(i);
-    const count = distribution[key] ?? 0;
-    data.push({ bin: i, count, color: binColor(i) });
-  }
+  const data: Bin[] = BIN_DEFS.map((def) => ({
+    label: def.label,
+    count: def.floors.reduce((s, f) => s + (distribution[String(f)] ?? 0), 0),
+    color: binColor(def.colorScore),
+  }));
   const maxCount = Math.max(...data.map((d) => d.count));
   if (maxCount === 0) return null;
 
@@ -68,6 +84,7 @@ export function ScoreDistribution({ distribution }: Props) {
         <BarChart
           data={data}
           margin={{ top: 8, right: 8, left: 0, bottom: 4 }}
+          barCategoryGap="5%"
         >
           <CartesianGrid
             strokeDasharray="3 3"
@@ -75,7 +92,7 @@ export function ScoreDistribution({ distribution }: Props) {
             vertical={false}
           />
           <XAxis
-            dataKey="bin"
+            dataKey="label"
             tick={{ fill: "#a1a1aa", fontSize: 10 }}
             axisLine={{ stroke: "#52525b" }}
             tickLine={{ stroke: "#52525b" }}
@@ -94,7 +111,7 @@ export function ScoreDistribution({ distribution }: Props) {
           />
           <Bar dataKey="count" stroke="#3f3f46" strokeWidth={0.5}>
             {data.map((d) => (
-              <Cell key={d.bin} fill={d.color} />
+              <Cell key={d.label} fill={d.color} />
             ))}
           </Bar>
         </BarChart>
