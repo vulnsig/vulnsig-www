@@ -160,7 +160,9 @@ function MetricRow({ metric, total }: { metric: MergedMetric; total: number }) {
                   key={v.value}
                   dataKey={v.value}
                   stackId="a"
-                  fill={empty ? "transparent" : shiftedColor(metric.key, v.value)}
+                  fill={
+                    empty ? "transparent" : shiftedColor(metric.key, v.value)
+                  }
                   fillOpacity={empty ? 0 : valueOpacity(metric.key, v.value)}
                   isAnimationActive={false}
                 />

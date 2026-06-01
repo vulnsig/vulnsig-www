@@ -358,7 +358,7 @@ export function valueHueOffset(metricKey: string, value: string): number {
   const idx = order.indexOf(value);
   if (idx < 0) return 0;
   const denom = Math.max(1, order.length - 1);
-  return (-HUE_SPREAD * 0.5) + (idx / denom) * (1.5 * HUE_SPREAD);
+  return -HUE_SPREAD * 0.5 + (idx / denom) * (1.5 * HUE_SPREAD);
 }
 
 // A modest opacity spread layered on top of valueHueOffset — the scariest
@@ -366,7 +366,7 @@ export function valueHueOffset(metricKey: string, value: string): number {
 // the hue offset this gives bars two cues (hue + intensity) without leaning
 // on either one too hard.
 const OPACITY_MAX = 0.95;
-const OPACITY_MIN = 0.40;
+const OPACITY_MIN = 0.4;
 
 export function valueOpacity(metricKey: string, value: string): number {
   const order = SCARINESS_ORDER[metricKey];
