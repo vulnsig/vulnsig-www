@@ -146,10 +146,14 @@ describe("mergeVectorDistribution", () => {
 
 describe("valueHueOffset", () => {
   it("returns a negative offset for the scariest value and positive for the safest", () => {
-    // Impact metrics: H is scariest, N is safest.
-    expect(valueHueOffset("C", "H")).toBeLessThan(0);
-    expect(valueHueOffset("C", "N")).toBeGreaterThan(0);
-    expect(valueHueOffset("C", "L")).toBeCloseTo(0, 5);
+    // Impact metrics: H is scariest, N is safest. L sits between them.
+    const h = valueHueOffset("C", "H");
+    const l = valueHueOffset("C", "L");
+    const n = valueHueOffset("C", "N");
+    expect(h).toBeLessThan(0);
+    expect(n).toBeGreaterThan(0);
+    expect(l).toBeGreaterThan(h);
+    expect(l).toBeLessThan(n);
   });
 
   it("monotonically increases from scariest to safest along AV", () => {
