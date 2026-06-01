@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { mergeVectorDistribution, valueColor } from "./metricMerge";
+import { mergeVectorDistribution, valueOpacity } from "./metricMerge";
 
 describe("mergeVectorDistribution", () => {
   it("returns empty array for empty input", () => {
@@ -100,19 +100,20 @@ describe("mergeVectorDistribution", () => {
   });
 });
 
-describe("valueColor", () => {
-  it("returns an hsl() string", () => {
-    expect(valueColor("AV", "N")).toMatch(/^hsl\(/);
-  });
-
-  it("maps scariest values to red and safest to yellow within a metric", () => {
+describe("valueOpacity", () => {
+  it("returns the highest opacity for the scariest value", () => {
     // Impact metrics: H is scariest, N is safest.
-    const hHue = parseFloat(valueColor("C", "H").match(/hsl\(([-\d.]+)/)![1]);
-    const nHue = parseFloat(valueColor("C", "N").match(/hsl\(([-\d.]+)/)![1]);
-    expect(hHue).toBeLessThan(nHue); // red ~0 < yellow ~55
+    expect(valueOpacity("C", "H")).toBeGreaterThan(valueOpacity("C", "L"));
+    expect(valueOpacity("C", "L")).toBeGreaterThan(valueOpacity("C", "N"));
   });
 
-  it("returns a neutral fallback for unknown keys", () => {
-    expect(valueColor("ZZ", "X")).toBe("hsl(0, 0%, 35%)");
+  it("ranks AV from N (scariest) down to P (safest)", () => {
+    expect(valueOpacity("AV", "N")).toBeGreaterThan(valueOpacity("AV", "A"));
+    expect(valueOpacity("AV", "A")).toBeGreaterThan(valueOpacity("AV", "L"));
+    expect(valueOpacity("AV", "L")).toBeGreaterThan(valueOpacity("AV", "P"));
+  });
+
+  it("returns a neutral fallback for unknown metrics", () => {
+    expect(valueOpacity("ZZ", "X")).toBe(0.5);
   });
 });

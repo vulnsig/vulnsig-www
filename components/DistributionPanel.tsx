@@ -28,7 +28,7 @@ export function DistributionPanel({ metrics, total, truncated }: Props) {
   if (scoreTotal === 0 && merged.length === 0) return null;
 
   return (
-    <div className="border border-zinc-800 rounded-md mb-4 bg-zinc-900/40">
+    <div className="border border-zinc-800 rounded-md mb-4 bg-zinc-900">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -36,7 +36,7 @@ export function DistributionPanel({ metrics, total, truncated }: Props) {
         aria-expanded={open}
       >
         <span className="text-xs text-zinc-400">
-          Distribution Overview
+          CVE Characteristcs
           <span className="text-zinc-600 ml-2 normal-case tracking-normal">
             across {total}
             {truncated ? "+" : ""} {total === 1 ? "result" : "results"}
@@ -54,7 +54,7 @@ export function DistributionPanel({ metrics, total, truncated }: Props) {
         </span>
       </button>
       {open && (
-        <div className="px-4 pb-4 pt-1 space-y-5">
+        <div className="px-4 pb-4">
           {scoreTotal > 0 && (
             <section>
               <h4 className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 mb-2">
@@ -65,8 +65,8 @@ export function DistributionPanel({ metrics, total, truncated }: Props) {
           )}
           {merged.length > 0 && (
             <section>
-              <h4 className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 mb-1">
-                Vector metrics
+              <h4 className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 mb-0">
+                Vector Metrics
               </h4>
               {(() => {
                 const versions = new Set<string>();
@@ -78,7 +78,7 @@ export function DistributionPanel({ metrics, total, truncated }: Props) {
                 if (versions.size === 0) return null;
                 return (
                   <p className="text-[10px] text-zinc-600 mb-3">
-                    Merged across CVSS {Array.from(versions).sort().join(", ")}.
+                    Merged CVSS {Array.from(versions).sort().join(", ")}.
                   </p>
                 );
               })()}

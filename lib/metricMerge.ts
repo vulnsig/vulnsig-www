@@ -1,5 +1,3 @@
-import { scoreToHue } from "vulnsig";
-
 export interface MergedMetricValue {
   value: string;
   label: string;
@@ -324,16 +322,20 @@ const SCARINESS_ORDER: Record<string, string[]> = {
   E: ["A", "H", "F", "P", "POC", "U", "X", "ND"],
 };
 
-export function valueColor(metricKey: string, value: string): string {
+// Map a (metricKey, value) onto a 0..1 opacity. The scariest value for the
+// metric gets the highest opacity; the safest gets the lowest. Paired with
+// the metric's tag color in MetricTag.ts, this produces a per-metric gradient
+// — all of AV's bars are the same violet hue but differ in intensity, all of
+// PR's bars are orange but differ in intensity, etc. — so a bar's color
+// visually associates with its tag.
+const OPACITY_MAX = 0.9;
+const OPACITY_MIN = 0.25;
+
+export function valueOpacity(metricKey: string, value: string): number {
   const order = SCARINESS_ORDER[metricKey];
-  if (!order) return "hsl(0, 0%, 35%)";
+  if (!order) return 0.5;
   const idx = order.indexOf(value);
-  if (idx < 0) return "hsl(0, 0%, 35%)";
-  // Map idx in [0, order.length-1] to a score in [10, 0].
+  if (idx < 0) return 0.5;
   const denom = Math.max(1, order.length - 1);
-  const score = 10 - (idx / denom) * 10;
-  const { hue, sat, light } = scoreToHue(score);
-  // Same base-lightness factor as vulnsig's glyph rendering (`52 * light`),
-  // so distribution bars sit on the same palette as the glyph cards.
-  return `hsl(${hue.toFixed(1)}, ${sat.toFixed(1)}%, ${(52 * light).toFixed(1)}%)`;
+  return OPACITY_MAX - (idx / denom) * (OPACITY_MAX - OPACITY_MIN);
 }

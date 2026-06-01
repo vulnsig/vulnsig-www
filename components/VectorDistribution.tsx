@@ -9,7 +9,7 @@ import {
   YAxis,
 } from "recharts";
 import { MetricTag, metricColor } from "./MetricTag";
-import { MergedMetric, valueColor } from "@/lib/metricMerge";
+import { MergedMetric, valueOpacity } from "@/lib/metricMerge";
 
 interface Props {
   metrics: MergedMetric[];
@@ -20,8 +20,6 @@ interface TooltipPayloadEntry {
   value: number;
   color: string;
 }
-
-const BAR_OPACITY = 0.7;
 
 // Impact metrics use H/L/N where "N" means *no impact*, so that segment is the
 // genuinely empty case and should render as a blank slot. Exploitability
@@ -93,7 +91,7 @@ function MetricRow({ metric }: { metric: MergedMetric }) {
         <MetricTag label={metric.key} color={metricColor(metric.key)} />
         <span className="text-xs text-zinc-400 truncate">{metric.title}</span>
       </div>
-      <div style={{ height: 22 }} className="w-full">
+      <div style={{ height: 12 }} className="w-full">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={[datum]}
@@ -115,8 +113,8 @@ function MetricRow({ metric }: { metric: MergedMetric }) {
                   key={v.value}
                   dataKey={v.value}
                   stackId="a"
-                  fill={empty ? "transparent" : valueColor(metric.key, v.value)}
-                  fillOpacity={empty ? 0 : BAR_OPACITY}
+                  fill={metricColor(metric.key)}
+                  fillOpacity={empty ? 0 : valueOpacity(metric.key, v.value)}
                   isAnimationActive={false}
                 />
               );
@@ -124,14 +122,15 @@ function MetricRow({ metric }: { metric: MergedMetric }) {
           </BarChart>
         </ResponsiveContainer>
       </div>
-      <div className="flex flex-wrap gap-x-3 gap-y-0 text-[10px] font-mono text-zinc-500">
+      <div className="flex flex-wrap gap-x-2 gap-y-0 text-[10px] font-mono text-zinc-500">
         {metric.values.map((v) => {
           const empty = isEmptyValue(metric.key, v.value, v.label);
           return (
             <span key={v.value}>
               <span
                 style={{
-                  color: empty ? "#71717a" : valueColor(metric.key, v.value),
+                  color: empty ? "#71717a" : metricColor(metric.key),
+                  opacity: empty ? 1 : valueOpacity(metric.key, v.value),
                 }}
               >
                 {v.value}
@@ -149,7 +148,7 @@ function MetricRow({ metric }: { metric: MergedMetric }) {
 export function VectorDistribution({ metrics }: Props) {
   if (metrics.length === 0) return null;
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2">
       {metrics.map((m) => (
         <MetricRow key={m.key} metric={m} />
       ))}
