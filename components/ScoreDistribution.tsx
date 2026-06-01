@@ -42,7 +42,13 @@ const BIN_DEFS: { label: string; floors: number[]; colorScore: number }[] = [
   { label: "9–10", floors: [9, 10], colorScore: 10 },
 ];
 
-function ScoreTooltip({ active, payload }: { active?: boolean; payload?: unknown[] }) {
+function ScoreTooltip({
+  active,
+  payload,
+}: {
+  active?: boolean;
+  payload?: unknown[];
+}) {
   if (!active || !payload || payload.length === 0) return null;
   const datum = (payload[0] as { payload: Bin }).payload;
   return (

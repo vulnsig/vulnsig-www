@@ -151,7 +151,9 @@ function collectVersions(
   return Array.from(set).sort();
 }
 
-export function mergeVectorDistribution(vd: VectorDistribution): MergedMetric[] {
+export function mergeVectorDistribution(
+  vd: VectorDistribution,
+): MergedMetric[] {
   const out: MergedMetric[] = [];
 
   // AV — identity, all versions
@@ -180,13 +182,9 @@ export function mergeVectorDistribution(vd: VectorDistribution): MergedMetric[] 
   if (vd.AT) {
     const bucket = emptyBucket(VALUE_ORDER.AT);
     addCounts(bucket, vd.AT);
-    const m = buildMetric(
-      "AT",
-      "Attack Requirements",
-      bucket,
-      VALUE_ORDER.AT,
-      ["4.0"],
-    );
+    const m = buildMetric("AT", "Attack Requirements", bucket, VALUE_ORDER.AT, [
+      "4.0",
+    ]);
     if (m) out.push(m);
   }
 
@@ -298,9 +296,15 @@ export function mergeVectorDistribution(vd: VectorDistribution): MergedMetric[] 
 }
 
 const ALL_EMPTY_IMPACT_KEYS = new Set([
-  "C", "I", "A",
-  "VC", "VI", "VA",
-  "SC", "SI", "SA",
+  "C",
+  "I",
+  "A",
+  "VC",
+  "VI",
+  "VA",
+  "SC",
+  "SI",
+  "SA",
 ]);
 
 function isAllEmpty(metric: MergedMetric): boolean {
@@ -316,9 +320,7 @@ function isAllEmpty(metric: MergedMetric): boolean {
 // CVSS 2.0 impact uses N/P/C while 3.x uses H/L/N. The presence of "P" or "C"
 // in a C/I/A bucket signals a 2.0 payload that needs remapping into the 3.x
 // scheme before being summed.
-function isLikely2Impact(
-  source: Record<string, number> | undefined,
-): boolean {
+function isLikely2Impact(source: Record<string, number> | undefined): boolean {
   if (!source) return false;
   return source.P != null || source.C != null;
 }

@@ -29,12 +29,22 @@ interface TooltipPayloadEntry {
 // and should stay colored. "Not Defined" (E:X, E:ND) is treated as empty
 // across the board.
 const IMPACT_METRICS = new Set([
-  "C", "I", "A",
-  "VC", "VI", "VA",
-  "SC", "SI", "SA",
+  "C",
+  "I",
+  "A",
+  "VC",
+  "VI",
+  "VA",
+  "SC",
+  "SI",
+  "SA",
 ]);
 
-function isEmptyValue(metricKey: string, value: string, label: string): boolean {
+function isEmptyValue(
+  metricKey: string,
+  value: string,
+  label: string,
+): boolean {
   if (label === "Not Defined") return true;
   return IMPACT_METRICS.has(metricKey) && value === "N";
 }
