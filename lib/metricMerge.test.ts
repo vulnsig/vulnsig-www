@@ -1,5 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { mergeVectorDistribution, valueOpacity } from "./metricMerge";
+import {
+  mergeVectorDistribution,
+  valueHueOffset,
+  valueOpacity,
+} from "./metricMerge";
 
 describe("mergeVectorDistribution", () => {
   it("returns empty array for empty input", () => {
@@ -140,20 +144,40 @@ describe("mergeVectorDistribution", () => {
   });
 });
 
-describe("valueOpacity", () => {
-  it("returns the highest opacity for the scariest value", () => {
+describe("valueHueOffset", () => {
+  it("returns a negative offset for the scariest value and positive for the safest", () => {
     // Impact metrics: H is scariest, N is safest.
+    expect(valueHueOffset("C", "H")).toBeLessThan(0);
+    expect(valueHueOffset("C", "N")).toBeGreaterThan(0);
+    expect(valueHueOffset("C", "L")).toBeCloseTo(0, 5);
+  });
+
+  it("monotonically increases from scariest to safest along AV", () => {
+    const n = valueHueOffset("AV", "N");
+    const a = valueHueOffset("AV", "A");
+    const l = valueHueOffset("AV", "L");
+    const p = valueHueOffset("AV", "P");
+    expect(n).toBeLessThan(a);
+    expect(a).toBeLessThan(l);
+    expect(l).toBeLessThan(p);
+  });
+
+  it("returns 0 for unknown metrics or values", () => {
+    expect(valueHueOffset("ZZ", "X")).toBe(0);
+    expect(valueHueOffset("AV", "ZZ")).toBe(0);
+  });
+});
+
+describe("valueOpacity", () => {
+  it("returns higher opacity for scarier values within a metric", () => {
     expect(valueOpacity("C", "H")).toBeGreaterThan(valueOpacity("C", "L"));
     expect(valueOpacity("C", "L")).toBeGreaterThan(valueOpacity("C", "N"));
+    expect(valueOpacity("AV", "N")).toBeGreaterThan(valueOpacity("AV", "P"));
   });
 
-  it("ranks AV from N (scariest) down to P (safest)", () => {
-    expect(valueOpacity("AV", "N")).toBeGreaterThan(valueOpacity("AV", "A"));
-    expect(valueOpacity("AV", "A")).toBeGreaterThan(valueOpacity("AV", "L"));
-    expect(valueOpacity("AV", "L")).toBeGreaterThan(valueOpacity("AV", "P"));
-  });
-
-  it("returns a neutral fallback for unknown metrics", () => {
-    expect(valueOpacity("ZZ", "X")).toBe(0.5);
+  it("returns a value in [0, 1]", () => {
+    const o = valueOpacity("AV", "L");
+    expect(o).toBeGreaterThan(0);
+    expect(o).toBeLessThanOrEqual(1);
   });
 });

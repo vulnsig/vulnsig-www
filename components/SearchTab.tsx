@@ -271,6 +271,7 @@ export function SearchTab() {
               metrics={metrics}
               total={total}
               truncated={truncated}
+              query={committedQuery}
             />
           )}
           <p className="text-sm text-zinc-400 mb-4">

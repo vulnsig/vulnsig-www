@@ -14,9 +14,10 @@ interface Props {
   metrics: SearchMetrics;
   total: number;
   truncated: boolean;
+  query: string;
 }
 
-export function DistributionPanel({ metrics, total, truncated }: Props) {
+export function DistributionPanel({ metrics, total, truncated, query }: Props) {
   const [open, setOpen] = useState(true);
   const merged = mergeVectorDistribution(metrics.vectorDistribution);
 
@@ -36,9 +37,10 @@ export function DistributionPanel({ metrics, total, truncated }: Props) {
         aria-expanded={open}
       >
         <span className="text-xs text-zinc-400">
-          CVE Characteristcs
-          <span className="text-zinc-600 ml-2 normal-case tracking-normal">
-            across {total}
+          CVE Characteristics for{" "}
+          <span className="text-zinc-200">&quot;{query}&quot;</span>
+          <span className="text-zinc-600 ml-2">
+            {total}
             {truncated ? "+" : ""} {total === 1 ? "result" : "results"}
           </span>
         </span>

@@ -344,20 +344,35 @@ const SCARINESS_ORDER: Record<string, string[]> = {
   E: ["A", "H", "F", "P", "POC", "U", "X", "ND"],
 };
 
-// Map a (metricKey, value) onto a 0..1 opacity. The scariest value for the
-// metric gets the highest opacity; the safest gets the lowest. Paired with
-// the metric's tag color in MetricTag.ts, this produces a per-metric gradient
-// — all of AV's bars are the same violet hue but differ in intensity, all of
-// PR's bars are orange but differ in intensity, etc. — so a bar's color
-// visually associates with its tag.
-const OPACITY_MAX = 1.0;
-const OPACITY_MIN = 0.4;
+// Map a (metricKey, value) onto a hue offset in degrees, centered on the
+// metric's tag color. The scariest value sits at -HUE_SPREAD and the safest
+// at +HUE_SPREAD; intermediates are linearly spaced. Paired with the metric's
+// tag color, this lets each metric's bars stay visually associated with its
+// tag while still letting individual values be distinguishable by hue rather
+// than just by intensity.
+const HUE_SPREAD = 10;
+
+export function valueHueOffset(metricKey: string, value: string): number {
+  const order = SCARINESS_ORDER[metricKey];
+  if (!order) return 0;
+  const idx = order.indexOf(value);
+  if (idx < 0) return 0;
+  const denom = Math.max(1, order.length - 1);
+  return (-HUE_SPREAD * 0.5) + (idx / denom) * (1.5 * HUE_SPREAD);
+}
+
+// A modest opacity spread layered on top of valueHueOffset — the scariest
+// value renders at full strength, the safest fades a little. Together with
+// the hue offset this gives bars two cues (hue + intensity) without leaning
+// on either one too hard.
+const OPACITY_MAX = 0.95;
+const OPACITY_MIN = 0.40;
 
 export function valueOpacity(metricKey: string, value: string): number {
   const order = SCARINESS_ORDER[metricKey];
-  if (!order) return 0.5;
+  if (!order) return OPACITY_MAX;
   const idx = order.indexOf(value);
-  if (idx < 0) return 0.5;
+  if (idx < 0) return OPACITY_MAX;
   const denom = Math.max(1, order.length - 1);
   return OPACITY_MAX - (idx / denom) * (OPACITY_MAX - OPACITY_MIN);
 }
