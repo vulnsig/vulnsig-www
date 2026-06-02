@@ -68,18 +68,21 @@ export async function GET(request: NextRequest) {
   const upstreamParams = new URLSearchParams({ q, limit: "1" });
   let data: UpstreamSearchResponse | null = null;
   try {
-    const res = await fetch(
-      `${API_BASE}/search/product?${upstreamParams}`,
-      { headers: { "x-api-key": API_SECRET }, cache: "no-store" },
-    );
+    const res = await fetch(`${API_BASE}/search/product?${upstreamParams}`, {
+      headers: { "x-api-key": API_SECRET },
+      cache: "no-store",
+    });
     if (!res.ok) {
-      return new Response(placeholderSvg(width, "data temporarily unavailable"), {
-        status: 200,
-        headers: {
-          "Content-Type": "image/svg+xml",
-          "Cache-Control": "public, max-age=60",
+      return new Response(
+        placeholderSvg(width, "data temporarily unavailable"),
+        {
+          status: 200,
+          headers: {
+            "Content-Type": "image/svg+xml",
+            "Cache-Control": "public, max-age=60",
+          },
         },
-      });
+      );
     }
     data = (await res.json()) as UpstreamSearchResponse;
   } catch {

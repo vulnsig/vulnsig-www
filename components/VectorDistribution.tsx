@@ -11,11 +11,7 @@ import {
 } from "recharts";
 import { MetricTag } from "./MetricTag";
 import { metricColor, shiftedColor } from "@/lib/distributionColors";
-import {
-  isEmptyValue,
-  MergedMetric,
-  valueOpacity,
-} from "@/lib/metricMerge";
+import { isEmptyValue, MergedMetric, valueOpacity } from "@/lib/metricMerge";
 
 interface Props {
   metrics: MergedMetric[];

@@ -66,10 +66,10 @@ export async function GET(request: NextRequest) {
   const upstreamParams = new URLSearchParams({ q, limit: "1" });
   let data: UpstreamSearchResponse | null = null;
   try {
-    const res = await fetch(
-      `${API_BASE}/search/product?${upstreamParams}`,
-      { headers: { "x-api-key": API_SECRET }, cache: "no-store" },
-    );
+    const res = await fetch(`${API_BASE}/search/product?${upstreamParams}`, {
+      headers: { "x-api-key": API_SECRET },
+      cache: "no-store",
+    });
     if (!res.ok) {
       return NextResponse.json(
         { error: `Upstream search failed (${res.status})` },
