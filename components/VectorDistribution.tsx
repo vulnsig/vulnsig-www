@@ -137,7 +137,7 @@ function MetricRow({ metric, total }: { metric: MergedMetric; total: number }) {
         <MetricTag label={metric.key} color={metricColor(metric.key)} />
         <span className="text-xs text-zinc-400 truncate">{metric.title}</span>
       </div>
-      <div style={{ height: 12 }} className="w-full">
+      <div style={{ height: 14 }} className="w-full">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={[datum]}
@@ -164,6 +164,11 @@ function MetricRow({ metric, total }: { metric: MergedMetric; total: number }) {
                     empty ? "transparent" : shiftedColor(metric.key, v.value)
                   }
                   fillOpacity={empty ? 0 : valueOpacity(metric.key, v.value)}
+                  // 1px stroke matching the surrounding panel background
+                  // (DistributionPanel uses bg-zinc-900) carves a thin gap
+                  // between stacked segments without shrinking them.
+                  stroke={empty ? "transparent" : "#18181b"}
+                  strokeWidth={empty ? 0 : 1}
                   isAnimationActive={false}
                 />
               );
