@@ -9,35 +9,13 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { MetricTag, metricColor } from "./MetricTag";
-import { MergedMetric, valueHueOffset, valueOpacity } from "@/lib/metricMerge";
-
-// Parse "#rrggbb" into HSL components. Used to derive a hue baseline from
-// each metric's tag color so per-value hue offsets (valueHueOffset) can be
-// applied around it.
-function hexToHsl(hex: string): { h: number; s: number; l: number } {
-  const r = parseInt(hex.slice(1, 3), 16) / 255;
-  const g = parseInt(hex.slice(3, 5), 16) / 255;
-  const b = parseInt(hex.slice(5, 7), 16) / 255;
-  const max = Math.max(r, g, b);
-  const min = Math.min(r, g, b);
-  const l = (max + min) / 2;
-  if (max === min) return { h: 0, s: 0, l: l * 100 };
-  const d = max - min;
-  const s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-  let h: number;
-  if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) * 60;
-  else if (max === g) h = ((b - r) / d + 2) * 60;
-  else h = ((r - g) / d + 4) * 60;
-  return { h, s: s * 100, l: l * 100 };
-}
-
-function shiftedColor(metricKey: string, value: string): string {
-  const { h, s, l } = hexToHsl(metricColor(metricKey));
-  const offset = valueHueOffset(metricKey, value);
-  const newH = (((h + offset) % 360) + 360) % 360;
-  return `hsl(${newH.toFixed(1)}, ${s.toFixed(1)}%, ${l.toFixed(1)}%)`;
-}
+import { MetricTag } from "./MetricTag";
+import { metricColor, shiftedColor } from "@/lib/distributionColors";
+import {
+  isEmptyValue,
+  MergedMetric,
+  valueOpacity,
+} from "@/lib/metricMerge";
 
 interface Props {
   metrics: MergedMetric[];
@@ -48,33 +26,6 @@ interface TooltipPayloadEntry {
   dataKey: string;
   value: number;
   color: string;
-}
-
-// Impact metrics use H/L/N where "N" means *no impact*, so that segment is the
-// genuinely empty case and should render as a blank slot. Exploitability
-// metrics like AV/PR/UI/AT also use "None", but there "None" is a meaningful
-// exploit characteristic (no privileges required, no user interaction needed)
-// and should stay colored. "Not Defined" (E:X, E:ND) is treated as empty
-// across the board.
-const IMPACT_METRICS = new Set([
-  "C",
-  "I",
-  "A",
-  "VC",
-  "VI",
-  "VA",
-  "SC",
-  "SI",
-  "SA",
-]);
-
-function isEmptyValue(
-  metricKey: string,
-  value: string,
-  label: string,
-): boolean {
-  if (label === "Not Defined") return true;
-  return IMPACT_METRICS.has(metricKey) && value === "N";
 }
 
 // Renders each stacked segment with a 1px right-edge inset to create a gap

@@ -10,7 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { scoreToHue } from "vulnsig";
+import { binColor } from "@/lib/distributionColors";
 
 interface Props {
   distribution: Record<string, number>;
@@ -20,11 +20,6 @@ interface Bin {
   label: string;
   count: number;
   color: string;
-}
-
-function binColor(score: number): string {
-  const { hue, sat, light } = scoreToHue(score);
-  return `hsl(${hue.toFixed(1)}, ${sat.toFixed(1)}%, ${(52 * light).toFixed(1)}%)`;
 }
 
 // The 0–1 and 9–10 ends of the CVSS scale get collapsed into single bins.

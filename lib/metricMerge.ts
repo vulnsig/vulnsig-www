@@ -1,3 +1,30 @@
+// Impact metrics use H/L/N where "N" means *no impact*, so that segment is the
+// genuinely empty case and should render as a blank slot. Exploitability
+// metrics like AV/PR/UI/AT also use "None", but there "None" is a meaningful
+// exploit characteristic (no privileges required, no user interaction needed)
+// and should stay colored. "Not Defined" (E:X, E:ND) is treated as empty
+// across the board.
+export const IMPACT_METRICS = new Set([
+  "C",
+  "I",
+  "A",
+  "VC",
+  "VI",
+  "VA",
+  "SC",
+  "SI",
+  "SA",
+]);
+
+export function isEmptyValue(
+  metricKey: string,
+  value: string,
+  label: string,
+): boolean {
+  if (label === "Not Defined") return true;
+  return IMPACT_METRICS.has(metricKey) && value === "N";
+}
+
 export interface MergedMetricValue {
   value: string;
   label: string;
@@ -295,20 +322,8 @@ export function mergeVectorDistribution(
   return out.filter((m) => !isAllEmpty(m));
 }
 
-const ALL_EMPTY_IMPACT_KEYS = new Set([
-  "C",
-  "I",
-  "A",
-  "VC",
-  "VI",
-  "VA",
-  "SC",
-  "SI",
-  "SA",
-]);
-
 function isAllEmpty(metric: MergedMetric): boolean {
-  if (ALL_EMPTY_IMPACT_KEYS.has(metric.key)) {
+  if (IMPACT_METRICS.has(metric.key)) {
     return metric.values.every((v) => v.value === "N");
   }
   if (metric.key === "E") {
