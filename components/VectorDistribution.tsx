@@ -109,7 +109,7 @@ function SegmentShape(rawProps: unknown): React.ReactElement {
   if (!fill || fill === "transparent" || count === 0 || width <= 0) {
     return <g />;
   }
-  const GAP = 1;
+  const GAP = 2;
   const MIN = 2;
   const drawn = width > GAP + MIN ? width - GAP : Math.max(MIN, width);
   return (
@@ -185,7 +185,7 @@ function MetricRow({ metric, total }: { metric: MergedMetric; total: number }) {
         <MetricTag label={metric.key} color={metricColor(metric.key)} />
         <span className="text-xs text-zinc-400 truncate">{metric.title}</span>
       </div>
-      <div style={{ height: 14 }} className="w-full">
+      <div style={{ height: 12 }} className="w-full">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={[datum]}
