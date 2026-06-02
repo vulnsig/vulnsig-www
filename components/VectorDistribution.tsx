@@ -1,5 +1,6 @@
 "use client";
 
+import type React from "react";
 import {
   Bar,
   BarChart,
@@ -74,6 +75,53 @@ function isEmptyValue(
 ): boolean {
   if (label === "Not Defined") return true;
   return IMPACT_METRICS.has(metricKey) && value === "N";
+}
+
+// Renders each stacked segment with a 1px right-edge inset to create a gap
+// between adjacent segments. For very thin slices (e.g. 1 result out of 400+),
+// the inset would consume the whole segment, so we fall back to drawing the
+// full width with a 1px minimum so a single-result value still shows as a
+// hairline rather than disappearing.
+interface SegmentShapeProps {
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
+  fill?: string;
+  fillOpacity?: number;
+  payload?: Record<string, number | string>;
+  dataKey?: string;
+}
+function SegmentShape(rawProps: unknown): React.ReactElement {
+  const props = rawProps as SegmentShapeProps;
+  const {
+    x = 0,
+    y = 0,
+    width = 0,
+    height = 0,
+    fill,
+    fillOpacity,
+    payload,
+    dataKey,
+  } = props;
+  const count =
+    typeof dataKey === "string" ? Number(payload?.[dataKey] ?? 0) : 0;
+  if (!fill || fill === "transparent" || count === 0 || width <= 0) {
+    return <g />;
+  }
+  const GAP = 1;
+  const MIN = 2;
+  const drawn = width > GAP + MIN ? width - GAP : Math.max(MIN, width);
+  return (
+    <rect
+      x={x}
+      y={y}
+      width={drawn}
+      height={height}
+      fill={fill}
+      fillOpacity={fillOpacity}
+    />
+  );
 }
 
 function StackedTooltip({
@@ -164,11 +212,7 @@ function MetricRow({ metric, total }: { metric: MergedMetric; total: number }) {
                     empty ? "transparent" : shiftedColor(metric.key, v.value)
                   }
                   fillOpacity={empty ? 0 : valueOpacity(metric.key, v.value)}
-                  // 1px stroke matching the surrounding panel background
-                  // (DistributionPanel uses bg-zinc-900) carves a thin gap
-                  // between stacked segments without shrinking them.
-                  stroke={empty ? "transparent" : "#18181b"}
-                  strokeWidth={empty ? 0 : 1}
+                  shape={SegmentShape}
                   isAnimationActive={false}
                 />
               );
