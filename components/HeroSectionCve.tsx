@@ -4,12 +4,15 @@ import { VulnSig } from "vulnsig-react";
 import { calculateScore } from "vulnsig";
 import { useBuilder } from "./BuilderContext";
 import { ShareButton } from "./ShareButton";
+import { highlightFirst } from "@/lib/highlightFirst";
 
 interface HeroSectionCveProps {
   cveId: string;
   vector: string;
   score: number | undefined;
   description: string | undefined;
+  /** When set, the first occurrence of this product name in the description is highlighted. */
+  productName?: string;
 }
 
 export function HeroSectionCve({
@@ -17,6 +20,7 @@ export function HeroSectionCve({
   vector: vectorProp,
   score: scoreProp,
   description,
+  productName,
 }: HeroSectionCveProps) {
   const { heroRef, vector } = useBuilder();
 
@@ -55,12 +59,15 @@ export function HeroSectionCve({
                       vector={activeVector}
                       score={score}
                       description={description}
+                      productName={productName}
                     />
                   )}
                 </div>
                 {description && (
                   <p className="text-sm text-zinc-400 mt-4 leading-relaxed [overflow-wrap:anywhere]">
-                    {description}
+                    {productName
+                      ? highlightFirst(description, productName)
+                      : description}
                   </p>
                 )}
               </div>
