@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://vulnsig.io/</loc>
+  </url>
+  <url>
+    <loc>https://vulnsig.io/?tab=kevs</loc>
+  </url>
+  <url>
+    <loc>https://vulnsig.io/?tab=search</loc>
+  </url>
+  <url>
+    <loc>https://vulnsig.io/?tab=gallery</loc>
+  </url>
+  <url>
+    <loc>https://vulnsig.io/?tab=legend</loc>
+  </url>
+  <url>
+    <loc>https://vulnsig.io/?tab=quiz</loc>
+  </url>
+  <url>
+    <loc>https://vulnsig.io/?tab=tools</loc>
+  </url>
+  <url>
+    <loc>https://vulnsig.io/?tab=about</loc>
+  </url>
+  <url>
+    <loc>https://vulnsig.io/?tab=subscribe</loc>
+  </url>
+</urlset>

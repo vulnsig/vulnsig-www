@@ -1,0 +1,111 @@
+# VulnSig
+
+> VulnSig encodes CVSS metrics into a compact visual glyph. Each shape, characteristic, and color maps to a specific metric: attack vector, complexity, privileges; impact on confidentiality, integrity, and availability; scope change, and more. VulnSig supports CVSS 4.0, 3.1, 3.0, and 2.0, and is available as a REST API (SVG and PNG), TypeScript, Python, and Rust libraries, and a React component.
+
+While a CVSS vector provides rich information, many applications only report the CVSS score. VulnSig makes vulnerability characteristics beyond severity immediately legible. Glyphs are rendered from a CVSS vector string such as `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H`; the score is calculated from the vector unless provided.
+
+## REST API
+
+Both endpoints are `GET` requests that return an image (cached as immutable). Errors return HTTP 400 with JSON: `{ "error": "Invalid CVSS vector", "detail": "..." }`.
+
+- `https://vulnsig.io/api/svg`: returns `image/svg+xml`
+- `https://vulnsig.io/api/png`: returns `image/png`
+
+Query parameters:
+
+- `vector` (required): CVSS 4.0, 3.x, or 2.0 vector string, percent-encoded or in compact form (see below)
+- `size` (optional): rendered size in pixels, 16 to 1024 (default: 120)
+- `score` (optional): override the calculated score, 0 to 10
+- `density` (optional, PNG only): render density in DPI, 72 to 600 (default: 72)
+
+Compact vector form avoids percent-encoding: replace `:` with `.` and `/` with `-`. For example, `CVSS:3.1/AV:N/AC:L` becomes `CVSS.3.1-AV.N-AC.L`.
+
+Examples:
+
+```html
+<img src="https://vulnsig.io/api/svg?vector=CVSS.3.1-AV.N-AC.L-PR.N-UI.N-S.U-C.H-I.H-A.H" />
+```
+
+```markdown
+![vulnsig](https://vulnsig.io/api/png?vector=CVSS.3.1-AV.N-AC.L-PR.N-UI.N-S.U-C.H-I.H-A.H&size=64)
+```
+
+```bash
+curl "https://vulnsig.io/api/svg?vector=CVSS.3.1-AV.N-AC.L-PR.N-UI.N-S.U-C.H-I.H-A.H" -o glyph.svg
+```
+
+## Libraries
+
+TypeScript (`npm install vulnsig`):
+
+```ts
+import { renderGlyph } from "vulnsig";
+
+const svg = renderGlyph({
+  vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+  size: 120,
+});
+// svg is an SVG string
+```
+
+React (`npm install vulnsig-react`):
+
+```tsx
+import { VulnSig } from "vulnsig-react";
+
+<VulnSig
+  vector="CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+  size={120}
+  score={9.8} // optional; calculated if omitted
+/>;
+```
+
+Python (`pip install vulnsig`):
+
+```python
+from vulnsig import render_glyph
+
+svg = render_glyph(
+    vector="CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+    size=120,
+)
+```
+
+Rust (`cargo add vulnsig`):
+
+```rust
+use vulnsig::render_glyph;
+
+let svg = render_glyph(
+    "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+    None,      // score: calculated if None
+    Some(120), // size in pixels
+);
+```
+
+## Source and packages
+
+- [vulnsig-ts](https://github.com/vulnsig/vulnsig-ts): TypeScript library source
+- [vulnsig-react](https://github.com/vulnsig/vulnsig-react): React component source
+- [vulnsig-py](https://github.com/vulnsig/vulnsig-py): Python library source
+- [vulnsig-rs](https://github.com/vulnsig/vulnsig-rs): Rust library source
+- [npm: vulnsig](https://www.npmjs.com/package/vulnsig)
+- [npm: vulnsig-react](https://www.npmjs.com/package/vulnsig-react)
+- [PyPI: vulnsig](https://pypi.org/project/vulnsig)
+- [crates.io: vulnsig](https://crates.io/crates/vulnsig)
+
+## Site
+
+- [Recent CVEs](https://vulnsig.io/): glyphs for recently published CVEs
+- [Known exploited vulnerabilities](https://vulnsig.io/?tab=kevs): glyphs for recent CISA KEV entries
+- [Search](https://vulnsig.io/?tab=search): search CVEs by product or ID
+- [Gallery](https://vulnsig.io/?tab=gallery): glyphs for well-known vulnerabilities
+- [Legend](https://vulnsig.io/?tab=legend): how each CVSS metric maps to the glyph
+- [Tools](https://vulnsig.io/?tab=tools): API and library usage
+- [About](https://vulnsig.io/?tab=about): background on VulnSig and CVSS
+- CVE pages: `https://vulnsig.io/cve/{CVE-ID}` (for example, `https://vulnsig.io/cve/CVE-2021-44228`) shows the glyph, score, and description for a CVE
+- Any vector: `https://vulnsig.io/?vector={compact-vector}` loads a vector into the glyph builder
+
+## Optional
+
+- [CVSS (FIRST)](https://www.first.org/cvss/): the CVSS specification and calculator
