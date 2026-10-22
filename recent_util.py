@@ -266,7 +266,7 @@ class CveEntry(TypedDict, total=False):
 #     baseScore: float
 
 ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages"
-ANTHROPIC_MODEL = "claude-haiku-4-5"
+ANTHROPIC_MODEL = "claude-haiku-5-5"
 ANTHROPIC_VERSION = "2023-06-01"
 BATCH_SIZE = 20
 
@@ -325,7 +325,10 @@ def call_anthropic(batch: list, api_key: str) -> dict:
 
     payload = {
         "model": ANTHROPIC_MODEL,
-        "max_tokens": 1024,
+        "max_tokens": 4096,
+        # Haiku 5.5 thinks by default; this is simple extraction, so keep
+        # thinking off to match Haiku 4.5 behavior and preserve the token budget.
+        "thinking": {"type": "disabled"},
         "system": SYSTEM_PROMPT,
         "messages": [{"role": "user", "content": user_content}],
     }
